@@ -1,0 +1,11 @@
+{
+  "errors": [],
+  "warnings": [],
+  "pass": true,
+  "node": {
+    "theme.js": {"pass": true,"stderr": ""},
+    "cart-drawer.js": {"pass": true,"stderr": ""},
+    "analytics.js": {"pass": true,"stderr": ""},
+    "storefront-events.js": {"pass": true,"stderr": ""}
+  }
+}

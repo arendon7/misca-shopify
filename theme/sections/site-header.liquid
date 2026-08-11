@@ -1,0 +1,38 @@
+<header class="site-header">
+  <div class="page-width site-header__inner">
+    <details class="mobile-nav">
+      <summary class="text-button mobile-nav__trigger">Menú</summary>
+      <div class="mobile-nav__panel">
+        <nav aria-label="Principal móvil">
+          {% for link in section.settings.menu.links %}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {% endfor %}
+          <a href="{{ routes.search_url }}">Buscar</a>
+        </nav>
+      </div>
+    </details>
+
+    <a class="wordmark" href="{{ routes.root_url }}">{{ settings.brand_wordmark | default: shop.name }}</a>
+
+    <nav class="desktop-nav" aria-label="Principal">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+
+    <div class="site-header__actions">
+      <a href="{{ routes.search_url }}" class="text-button desktop-search">Buscar</a>
+      <button type="button" class="text-button" data-cart-open aria-haspopup="dialog">
+        Bolsa <span data-cart-count>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {"type":"link_list","id":"menu","label":"Menú principal","default":"main-menu"}
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1 @@
+{"sections":{"hero":{"type":"home-hero","settings":{}},"products":{"type":"featured-products","settings":{}},"artist":{"type":"artist-feature","settings":{}},"archive":{"type":"archive-feature","settings":{}},"creators":{"type":"creators-cta","settings":{}}},"order":["hero","products","artist","archive","creators"]}

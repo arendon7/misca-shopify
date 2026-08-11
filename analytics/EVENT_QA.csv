@@ -1,0 +1,13 @@
+﻿ID,Priority,Event,Layer,Action,Expected,Status,Blocks Launch,Evidence
+AN-001,P1,product_viewed,Shopify standard,Open PDP,Exactly one product_viewed with product/variant data,TODO,YES,
+AN-002,P1,misca:size_selected,Miscas custom,Choose M on clean PDP,One event; handle + variant + selectedOptions,TODO,YES,
+AN-003,P1,product_added_to_cart,Shopify standard,Add selected variant,One event with correct variant/cart line,TODO,YES,
+AN-004,P1,misca:cart_drawer_opened,Miscas custom,Drawer opens after add,One event per explicit drawer open,TODO,NO,
+AN-005,P1,checkout_started,Shopify standard,Click Finalizar compra,Checkout start event appears,TODO,YES,
+AN-006,P1,checkout_completed,Shopify standard,Complete test purchase,One purchase event with checkout data,TODO,YES,
+AN-007,P2,misca:size_guide_opened,Miscas custom,Open validated size guide,One event with product handle,TODO,NO,
+AN-008,P2,misca:product_card_selected,Miscas custom,Click Raíz from Prendas,One event before PDP navigation,TODO,NO,
+AN-009,P2,collection_viewed,Shopify standard,Open Prendas,One event with collection data,TODO,NO,
+AN-010,P2,search_submitted,Shopify standard,Search 'Raíz',One event with search payload,TODO,NO,
+AN-011,P2,misca:artist_viewed,Miscas custom,Open/scroll Alma page,One event after visibility threshold,TODO,NO,
+AN-012,P2,misca:source_artwork_viewed,Miscas custom,Reach provenance section,One event after visibility threshold,TODO,NO,

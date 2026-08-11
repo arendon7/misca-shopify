@@ -1,0 +1,10 @@
+{
+  "repository": "arendon7/misca-shopify",
+  "release": "SHOPIFY-DEV-INTEGRATION-V4",
+  "updated": "2026-08-11",
+  "live_publish_automation": false,
+  "github_repository_created": true,
+  "github_visibility_observed": "public",
+  "recommended_visibility_during_build": "private",
+  "next_external_gate": "Push baseline, execute Theme Check workflow, then configure Shopify preview access."
+}

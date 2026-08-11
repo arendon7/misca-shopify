@@ -1,0 +1,14 @@
+{
+  "release_id": "SHOPIFY-DEV-INTEGRATION-V2",
+  "theme_files": 52,
+  "qa_checks": 40,
+  "structural_errors": [],
+  "node_checks": {
+    "theme.js": {"ok": true,"stderr": ""},
+    "cart-drawer.js": {"ok": true,"stderr": ""}
+  },
+  "asset_bytes": {"cart-drawer.js": 6854,"theme.js": 4975,"base.css": 13893},
+  "theme_check_executed": false,
+  "real_store_preview_executed": false,
+  "shopify_writes_executed": false
+}

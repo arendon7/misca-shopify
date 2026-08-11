@@ -1,0 +1,265 @@
+{% liquid
+  assign deep_link_variant = product.selected_variant
+  assign display_variant = deep_link_variant | default: product.selected_or_first_available_variant
+  assign artist = product.metafields.custom.artist.value
+  assign selection_required = false
+
+  unless product.has_only_default_variant
+    if deep_link_variant == blank
+      assign selection_required = true
+    endif
+  endunless
+%}
+
+<s-view-event view-event-payload='{{ product | standard_event_data: "view", context: "page" | escape }}'>
+<section
+  class="main-product"
+  data-product-root
+  data-product-url="{{ product.url }}"
+  data-product-handle="{{ product.handle | escape }}"
+  data-product-title="{{ product.title | escape }}"
+  data-selection-required="{{ selection_required }}"
+>
+  <div class="product-gallery">
+    {% for media in product.media %}
+      <div class="product-gallery__item">
+        {% if media.media_type == 'image' %}
+          {% if forloop.first %}
+            {{ media
+              | image_url: width: 1600
+              | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                widths: '540, 750, 1100, 1600',
+                sizes: '(min-width: 990px) 36vw, 100vw',
+                alt: media.alt | default: product.title
+            }}
+          {% else %}
+            {{ media
+              | image_url: width: 1600
+              | image_tag:
+                loading: 'lazy',
+                widths: '540, 750, 1100, 1600',
+                sizes: '(min-width: 990px) 36vw, 100vw',
+                alt: media.alt | default: product.title
+            }}
+          {% endif %}
+        {% else %}
+          {{ media | media_tag }}
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="product-gallery__item"><div class="media-placeholder"></div></div>
+    {% endfor %}
+  </div>
+
+  <div class="product-buybox">
+    {% if artist != blank %}
+      <p class="eyebrow">
+        <a href="{{ artist.system.url }}">{{ artist.name.value }}</a>
+        {% if product.metafields.custom.primary_collection.value %}
+          · <a href="{{ product.metafields.custom.primary_collection.value.url }}">{{ product.metafields.custom.primary_collection.value.title }}</a>
+        {% endif %}
+      </p>
+    {% endif %}
+
+    <h1>{{ product.title }}</h1>
+    <div class="product-price" data-product-price>{{ display_variant.price | money }}</div>
+
+    {% if settings.show_product_truth_notice %}
+      <p class="truth-notice">{{ settings.product_truth_notice }}</p>
+    {% endif %}
+
+    {% form 'product', product, data-product-form: '' %}
+      <input
+        type="hidden"
+        name="id"
+        {% if product.has_only_default_variant %}
+          value="{{ display_variant.id }}"
+        {% elsif deep_link_variant != blank %}
+          value="{{ deep_link_variant.id }}"
+        {% else %}
+          value=""
+        {% endif %}
+        data-variant-id
+      >
+
+      {% unless product.has_only_default_variant %}
+        {% for option in product.options_with_values %}
+          <fieldset class="variant-fieldset" data-option-position="{{ option.position }}">
+            <legend>
+              <span>{{ option.name }}</span>
+              {% if option.name == 'Talla' or option.name == 'Size' %}
+                {% if product.metafields.custom.fit_notes != blank %}
+                  <button type="button" class="text-button" data-size-guide-open>Guía de tallas</button>
+                {% endif %}
+              {% endif %}
+            </legend>
+
+            <div class="variant-buttons">
+              {% for option_value in option.values %}
+                <label class="variant-chip{% unless option_value.available %} is-unavailable{% endunless %}">
+                  <input
+                    type="radio"
+                    name="options[{{ option.name | escape }}]"
+                    value="{{ option_value.name | escape }}"
+                    data-option-value
+                    {% if deep_link_variant != blank and option_value.selected %}checked{% endif %}
+                    {% unless option_value.available %}disabled{% endunless %}
+                  >
+                  <span>
+                    {{ option_value.name }}
+                    {% unless option_value.available %}<span class="visually-hidden"> — agotado</span>{% endunless %}
+                  </span>
+                </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+        {% endfor %}
+      {% endunless %}
+
+      <p class="form-status" data-product-status role="status" aria-live="polite"></p>
+
+      <button
+        class="button button--full"
+        type="submit"
+        data-add-to-cart
+        {% if product.has_only_default_variant and display_variant.available == false %}disabled{% endif %}
+        {% if deep_link_variant != blank and deep_link_variant.available == false %}disabled{% endif %}
+      >
+        {% if product.has_only_default_variant %}
+          {% if display_variant.available %}Agregar a la bolsa{% else %}Agotado{% endif %}
+        {% elsif deep_link_variant != blank %}
+          {% if deep_link_variant.available %}Agregar a la bolsa{% else %}Agotado{% endif %}
+        {% else %}
+          Elegir talla
+        {% endif %}
+      </button>
+    {% endform %}
+
+    <div class="product-accordions">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'details' %}
+            <details {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.heading }}</summary>
+              <div class="rte">
+                {% if product.metafields.custom.product_details != blank %}
+                  {{ product.metafields.custom.product_details | metafield_tag }}
+                {% else %}
+                  {{ block.settings.fallback_text }}
+                {% endif %}
+              </div>
+            </details>
+
+          {% when 'fit' %}
+            <details {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.heading }}</summary>
+              <div class="rte">
+                {% if product.metafields.custom.fit_notes != blank %}
+                  {{ product.metafields.custom.fit_notes | metafield_tag }}
+                {% else %}
+                  {{ block.settings.fallback_text }}
+                {% endif %}
+              </div>
+            </details>
+
+          {% when 'shipping' %}
+            <details {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.heading }}</summary>
+              <div class="rte">{{ block.settings.text }}</div>
+            </details>
+
+          {% when 'care' %}
+            <details {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.heading }}</summary>
+              <div class="rte">
+                {% if product.metafields.custom.care != blank %}
+                  {{ product.metafields.custom.care | metafield_tag }}
+                {% else %}
+                  {{ block.settings.fallback_text }}
+                {% endif %}
+              </div>
+            </details>
+        {% endcase %}
+      {% endfor %}
+    </div>
+
+    <script type="application/json" data-product-json>
+      {{ product.variants | json }}
+    </script>
+  </div>
+
+  <div class="mobile-buybar" data-mobile-buybar>
+    <div class="mobile-buybar__meta">
+      <span class="mobile-buybar__title">{{ product.title }}</span>
+      <strong data-mobile-price>{{ display_variant.price | money }}</strong>
+    </div>
+    <button type="button" class="button" data-mobile-add>
+      {% if product.has_only_default_variant %}
+        {% if display_variant.available %}Agregar{% else %}Agotado{% endif %}
+      {% elsif deep_link_variant != blank %}
+        {% if deep_link_variant.available %}Agregar{% else %}Agotado{% endif %}
+      {% else %}
+        Elegir talla
+      {% endif %}
+    </button>
+  </div>
+
+  {% if product.metafields.custom.fit_notes != blank %}
+    <dialog class="size-guide-dialog" data-size-guide>
+      <div class="size-guide-dialog__header">
+        <h2>Guía de tallas</h2>
+        <button type="button" class="text-button" data-size-guide-close>Cerrar</button>
+      </div>
+      <div class="rte">{{ product.metafields.custom.fit_notes | metafield_tag }}</div>
+    </dialog>
+  {% endif %}
+</section>
+</s-view-event>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name":"Producto principal",
+  "settings":[],
+  "blocks":[
+    {
+      "type":"details",
+      "name":"Detalles",
+      "settings":[
+        {"type":"text","id":"heading","label":"Título","default":"Detalles"},
+        {"type":"richtext","id":"fallback_text","label":"Fallback","default":"<p>Las especificaciones finales de esta prenda se publicarán una vez concluya su validación de producto.</p>"}
+      ]
+    },
+    {
+      "type":"fit",
+      "name":"Talla y fit",
+      "settings":[
+        {"type":"text","id":"heading","label":"Título","default":"Talla y fit"},
+        {"type":"richtext","id":"fallback_text","label":"Fallback","default":"<p>La guía de talla y fit se publica únicamente después de validar medidas y caída sobre la prenda real.</p>"}
+      ]
+    },
+    {
+      "type":"shipping",
+      "name":"Envíos y cambios",
+      "settings":[
+        {"type":"text","id":"heading","label":"Título","default":"Envíos y cambios"},
+        {"type":"richtext","id":"text","label":"Texto","default":"<p>La promesa de preparación, envío y cambios se mostrará aquí con la información operativa vigente.</p>"}
+      ]
+    },
+    {
+      "type":"care",
+      "name":"Cuidados",
+      "settings":[
+        {"type":"text","id":"heading","label":"Título","default":"Cuidados"},
+        {"type":"richtext","id":"fallback_text","label":"Fallback","default":"<p>Los cuidados finales se publican después de validar tejido, técnica de impresión y pruebas de lavado.</p>"}
+      ]
+    }
+  ],
+  "presets":[{"name":"Producto principal"}]
+}
+{% endschema %}

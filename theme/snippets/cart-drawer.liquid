@@ -1,0 +1,11 @@
+<aside class="cart-drawer" data-cart-drawer aria-hidden="true">
+  <button class="cart-drawer__overlay" type="button" data-cart-close aria-label="Cerrar bolsa"></button>
+  <div class="cart-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle">
+    <header class="cart-drawer__header"><h2 id="CartDrawerTitle">Tu bolsa</h2><button type="button" class="text-button" data-cart-close>Cerrar</button></header>
+    <p class="form-status" data-cart-status role="status" aria-live="polite"></p>
+    <div class="cart-drawer__items" data-cart-items>
+      {% if cart.empty? %}<p class="muted">Tu bolsa está vacía.</p>{% else %}{% for item in cart.items %}<div class="cart-line" data-cart-line data-line-key="{{ item.key }}"><a href="{{ item.url }}" class="cart-line__image">{% if item.image %}{{ item.image | image_url: width: 180 | image_tag: loading: 'lazy', alt: item.product.title }}{% endif %}</a><div><a href="{{ item.url }}"><strong>{{ item.product.title }}</strong></a><p class="muted">{{ item.variant.title }}</p><div class="cart-quantity" aria-label="Cantidad de {{ item.product.title }}"><button type="button" data-cart-quantity="{{ item.key }}" data-quantity="{{ item.quantity | minus: 1 }}" aria-label="Reducir cantidad">−</button><span>{{ item.quantity }}</span><button type="button" data-cart-quantity="{{ item.key }}" data-quantity="{{ item.quantity | plus: 1 }}" aria-label="Aumentar cantidad">+</button></div><button type="button" class="text-button" data-cart-remove="{{ item.key }}">Eliminar</button></div><span>{{ item.final_line_price | money }}</span></div>{% endfor %}{% endif %}
+    </div>
+    <footer class="cart-drawer__footer"><div class="cart-drawer__total"><span>Subtotal</span><strong data-cart-total>{{ cart.total_price | money }}</strong></div><form action="{{ routes.cart_url }}" method="post"><button class="button button--full" type="submit" name="checkout" data-cart-checkout {% if cart.empty? %}disabled{% endif %}>Finalizar compra</button></form><a href="{{ routes.cart_url }}" class="text-link cart-drawer__view-cart">Ver bolsa completa</a><p class="fineprint">Impuestos y envío se calculan según la configuración de checkout.</p></footer>
+  </div>
+</aside>
