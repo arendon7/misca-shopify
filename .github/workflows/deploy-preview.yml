@@ -3,32 +3,99 @@ name: Deploy Shopify preview theme
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: shopify-preview
+  cancel-in-progress: false
+
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
     environment: shopify-preview
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
         with:
-          node-version: 20
+          persist-credentials: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
 
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli
 
-      - name: Strict push to existing unpublished preview theme
+      - name: Validate preview configuration
         env:
           SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
           SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
           SHOPIFY_PREVIEW_THEME_ID: ${{ vars.SHOPIFY_PREVIEW_THEME_ID }}
+        shell: bash
         run: |
-          test -n "$SHOPIFY_PREVIEW_THEME_ID"
+          set -euo pipefail
+          test -n "$SHOPIFY_FLAG_STORE"
+          test -n "$SHOPIFY_CLI_THEME_TOKEN"
+          [[ "$SHOPIFY_PREVIEW_THEME_ID" =~ ^[0-9]+$ ]]
+
+      - name: Verify target is unpublished
+        env:
+          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+          SHOPIFY_PREVIEW_THEME_ID: ${{ vars.SHOPIFY_PREVIEW_THEME_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopify theme list \
+            --path theme \
+            --store "$SHOPIFY_FLAG_STORE" \
+            --password "$SHOPIFY_CLI_THEME_TOKEN" \
+            --id "$SHOPIFY_PREVIEW_THEME_ID" \
+            --role unpublished \
+            --json > target-theme.json
+
+          jq -e --arg id "$SHOPIFY_PREVIEW_THEME_ID" '
+            if type == "array" then
+              any(.[]; ((.id | tostring) == $id) and (.role == "unpublished"))
+            elif type == "object" and has("themes") then
+              any(.themes[]; ((.id | tostring) == $id) and (.role == "unpublished"))
+            else
+              false
+            end
+          ' target-theme.json > /dev/null
+
+      - name: Strict push to verified unpublished theme
+        env:
+          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+          SHOPIFY_PREVIEW_THEME_ID: ${{ vars.SHOPIFY_PREVIEW_THEME_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
           shopify theme push \
             --path theme \
             --theme "$SHOPIFY_PREVIEW_THEME_ID" \
             --strict \
             --json \
             --store "$SHOPIFY_FLAG_STORE" \
-            --password "$SHOPIFY_CLI_THEME_TOKEN"
+            --password "$SHOPIFY_CLI_THEME_TOKEN" > preview-result.json
+
+          jq -e --arg id "$SHOPIFY_PREVIEW_THEME_ID" '
+            (.theme.id | tostring) == $id and .theme.role == "unpublished"
+          ' preview-result.json > /dev/null
+
+          PREVIEW_URL="$(jq -r '.theme.preview_url' preview-result.json)"
+          EDITOR_URL="$(jq -r '.theme.editor_url' preview-result.json)"
+          THEME_NAME="$(jq -r '.theme.name' preview-result.json)"
+
+          {
+            echo "## Shopify unpublished preview"
+            echo ""
+            echo "- Theme: $THEME_NAME"
+            echo "- Theme ID: $SHOPIFY_PREVIEW_THEME_ID"
+            echo "- Preview: $PREVIEW_URL"
+            echo "- Editor: $EDITOR_URL"
+            echo "- Commit: $GITHUB_SHA"
+          } >> "$GITHUB_STEP_SUMMARY"
