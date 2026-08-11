@@ -6,5 +6,10 @@
   "github_repository_created": true,
   "github_visibility_observed": "public",
   "recommended_visibility_during_build": "private",
-  "next_external_gate": "Push baseline, execute Theme Check workflow, then configure Shopify preview access."
+  "pull_request_import": 1,
+  "theme_check_pr": "PASS",
+  "theme_check_main": "PASS",
+  "main_commit_after_import": "034d629297a4023d5a94fe024054a36a42140169",
+  "preview_gate_issue": 2,
+  "next_external_gate": "Configure Shopify unpublished preview access, then run storefront and analytics QA."
 }
