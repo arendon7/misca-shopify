@@ -1,4 +1,4 @@
-name: Deploy MISCA progress dashboard
+name: Deploy MISCA web preview
 
 on:
   push:
@@ -22,14 +22,20 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Build dashboard artifact
+      - name: Build storefront preview + status artifact
         shell: bash
         run: |
           set -euo pipefail
           rm -rf _site
-          mkdir -p _site
-          cp -R status/site/. _site/
-          cp status/project-status.json _site/project-status.json
+          mkdir -p _site/status
+
+          # The customer-facing review surface lives at the Pages root.
+          cp -R preview/site/. _site/
+
+          # The project dashboard remains available as a secondary route.
+          cp -R status/site/. _site/status/
+          cp status/project-status.json _site/status/project-status.json
+
           python - <<'PY'
           import json, os
           from datetime import datetime, timezone
@@ -45,7 +51,9 @@ jobs:
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
-          with open('_site/runtime.json', 'w', encoding='utf-8') as fh:
+          with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
+              json.dump(payload, fh, ensure_ascii=False, indent=2)
+          with open('_site/preview-runtime.json', 'w', encoding='utf-8') as fh:
               json.dump(payload, fh, ensure_ascii=False, indent=2)
           PY
 
