@@ -1,0 +1,20 @@
+<section class="section">
+  <div class="page-width">
+    <p class="eyebrow">Compra</p><h1>Tu bolsa</h1>
+    {% if cart.empty? %}
+      <p class="empty-state">Tu bolsa está vacía.</p><a class="button" href="{{ routes.all_products_collection_url }}">Ver prendas</a>
+    {% else %}
+      <form action="{{ routes.cart_url }}" method="post">
+        {% for item in cart.items %}
+          <div class="cart-page__line">
+            <a class="cart-page__image" href="{{ item.url }}">{% if item.image %}{{ item.image | image_url: width: 220 | image_tag: loading: 'lazy' }}{% endif %}</a>
+            <div><a href="{{ item.url }}"><strong>{{ item.product.title }}</strong></a><p class="muted">{{ item.variant.title }}</p><label>Cantidad <input type="number" name="updates[]" value="{{ item.quantity }}" min="0"></label></div>
+            <span>{{ item.final_line_price | money }}</span>
+          </div>
+        {% endfor %}
+        <div class="cart-page__summary"><div class="cart-drawer__total"><span>Subtotal</span><strong>{{ cart.total_price | money }}</strong></div><button class="button button--full" name="checkout" type="submit">Finalizar compra</button><button class="button button--secondary button--full" name="update" type="submit">Actualizar bolsa</button></div>
+      </form>
+    {% endif %}
+  </div>
+</section>
+{% schema %}{"name":"Carrito","settings":[]}{% endschema %}

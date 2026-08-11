@@ -1,0 +1,34 @@
+name: Deploy Shopify preview theme
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    environment: shopify-preview
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Shopify CLI
+        run: npm install -g @shopify/cli
+
+      - name: Strict push to existing unpublished preview theme
+        env:
+          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_FLAG_STORE }}
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+          SHOPIFY_PREVIEW_THEME_ID: ${{ vars.SHOPIFY_PREVIEW_THEME_ID }}
+        run: |
+          test -n "$SHOPIFY_PREVIEW_THEME_ID"
+          shopify theme push \
+            --path theme \
+            --theme "$SHOPIFY_PREVIEW_THEME_ID" \
+            --strict \
+            --json \
+            --store "$SHOPIFY_FLAG_STORE" \
+            --password "$SHOPIFY_CLI_THEME_TOKEN"

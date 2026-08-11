@@ -1,0 +1,27 @@
+{
+  "release_id": "SHOPIFY-DEV-INTEGRATION-V4",
+  "created": "2026-08-11",
+  "theme_files": 55,
+  "analytics_custom_events": 8,
+  "analytics_qa_checks": 12,
+  "ci_workflows": 2,
+  "hardening_pass": true,
+  "hardening_errors": [],
+  "hardening_warnings": [],
+  "checks": {
+    "standard_events_module": true,
+    "custom_analytics_asset": true,
+    "product_standard_view_payload": true,
+    "collection_standard_view_payload": true,
+    "customer_event_publish": true,
+    "event_prefix_misca": true,
+    "theme_check_workflow": true,
+    "preview_workflow": true,
+    "preview_no_publish_flag": true,
+    "preview_strict_push": true
+  },
+  "all_checks_pass": true,
+  "official_theme_check_executed_here": false,
+  "real_store_preview_executed": false,
+  "shopify_writes_executed": false
+}

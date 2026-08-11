@@ -1,0 +1,15 @@
+{
+  "release_id": "SHOPIFY-DEV-INTEGRATION-V1",
+  "errors": [],
+  "features": {
+    "product_form": true,
+    "ajax_add": true,
+    "ajax_change": true,
+    "artist_metaobjects": true,
+    "dynamic_css_in_layout": true
+  },
+  "theme_files": 51,
+  "qa_checks": 30,
+  "shopify_cli_theme_check_executed": false,
+  "shopify_writes_executed": false
+}

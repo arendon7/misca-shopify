@@ -1,0 +1,29 @@
+{% assign artist = product.metafields.custom.artist.value %}
+<section class="section product-story">
+  <div class="page-width prose-grid">
+    <div>
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="rte">
+      {% if product.metafields.custom.artwork_story != blank %}
+        {{ product.metafields.custom.artwork_story | metafield_tag }}
+      {% elsif artist != blank %}
+        {{ artist.story.value | metafield_tag }}
+      {% else %}
+        {{ section.settings.fallback_text }}
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Historia del producto",
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Del dibujo a la prenda"},
+    {"type":"text","id":"heading","label":"Título","default":"La historia aparece después de que la compra está clara."},
+    {"type":"richtext","id":"fallback_text","label":"Fallback","default":"<p>Esta sección reúne la relación entre diseño, obra, artista y prenda cuando ese contenido está disponible.</p>"}
+  ],
+  "presets":[{"name":"Historia del producto"}]
+}
+{% endschema %}

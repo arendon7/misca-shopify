@@ -1,0 +1,17 @@
+{
+  "release_id": "SHOPIFY-DEV-INTEGRATION-V3",
+  "created": "2026-08-11",
+  "theme_files": 53,
+  "hardening_audit_pass": true,
+  "hardening_errors": [],
+  "hardening_warnings": [],
+  "node_checks": {
+    "theme.js": {"pass": true,"stderr": ""},
+    "cart-drawer.js": {"pass": true,"stderr": ""}
+  },
+  "official_theme_check_executed": false,
+  "official_theme_check_blocker": "Shopify CLI installation unavailable in current runtime",
+  "real_store_preview_executed": false,
+  "shopify_writes_executed": false,
+  "dynamic_theme_css": "Liquid {% style %} in layout/theme.liquid"
+}

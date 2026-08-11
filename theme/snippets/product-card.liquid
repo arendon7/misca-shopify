@@ -1,0 +1,17 @@
+{% liquid
+  assign card_product = product
+  assign artist = card_product.metafields.custom.artist.value
+  assign secondary_image = card_product.images[1]
+%}
+<article class="product-card" data-analytics-product-card data-product-handle="{{ card_product.handle | escape }}" data-product-title="{{ card_product.title | escape }}" data-artist-handle="{% if artist != blank %}{{ artist.system.handle | escape }}{% endif %}" data-collection-handle="{% if collection %}{{ collection.handle | escape }}{% endif %}" data-surface="{{ request.page_type | escape }}">
+  <a href="{{ card_product.url }}" class="product-card__link">
+    <div class="product-card__media">
+      {% if card_product.featured_image %}
+        {{ card_product.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 990px) 25vw, 50vw', alt: card_product.featured_image.alt | default: card_product.title, class: 'product-card__image product-card__image--primary' }}
+        {% if secondary_image %}{{ secondary_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 990px) 25vw, 50vw', alt: secondary_image.alt | default: card_product.title, class: 'product-card__image product-card__image--secondary' }}{% endif %}
+      {% else %}<div class="media-placeholder" aria-hidden="true"></div>{% endif %}
+      {% if card_product.available == false %}<span class="product-card__badge">Agotado</span>{% elsif card_product.tags contains 'proximamente' %}<span class="product-card__badge">Próximamente</span>{% elsif card_product.metafields.custom.artwork.value != blank %}<span class="product-card__badge">Archivo Abierto</span>{% endif %}
+    </div>
+    <div class="product-card__meta"><p class="eyebrow">{% if artist != blank %}{{ artist.name.value | default: artist.system.handle }}{% else %}{{ card_product.vendor }}{% endif %}</p><div class="product-card__row"><h3>{{ card_product.title }}</h3><span>{{ card_product.price | money }}</span></div></div>
+  </a>
+</article>
