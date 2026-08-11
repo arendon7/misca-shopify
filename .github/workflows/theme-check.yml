@@ -11,18 +11,27 @@ on:
       - 'theme/**'
       - '.github/workflows/theme-check.yml'
 
+permissions:
+  contents: read
+
 jobs:
   theme-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
         with:
-          node-version: 20
+          persist-credentials: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
 
       - name: Install Shopify CLI
         run: npm install -g @shopify/cli
+
+      - name: Shopify CLI version
+        run: shopify version
 
       - name: Theme Check
         run: shopify theme check --path theme --fail-level error --no-color
