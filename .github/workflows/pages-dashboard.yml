@@ -22,6 +22,17 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Validate storefront preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f preview/site/index.html
+          test -f preview/site/styles.css
+          test -f preview/site/app.js
+          node --check preview/site/app.js
+          grep -q 'id="app"' preview/site/index.html
+          grep -q 'GitHub Pages' preview/site/index.html
+
       - name: Build storefront preview + status artifact
         shell: bash
         run: |
