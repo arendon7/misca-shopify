@@ -29,7 +29,9 @@ jobs:
           test -f preview/site/index.html
           test -f preview/site/styles.css
           test -f preview/site/app.js
+          test -f preview/site/fixes.js
           node --check preview/site/app.js
+          node --check preview/site/fixes.js
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
 
