@@ -1,0 +1,69 @@
+name: Deploy MISCA progress dashboard
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Build dashboard artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          cp -R status/site/. _site/
+          cp status/project-status.json _site/project-status.json
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+
+          sha = os.environ.get('GITHUB_SHA', '')
+          payload = {
+              'sha': sha,
+              'shortSha': sha[:8],
+              'runId': os.environ.get('GITHUB_RUN_ID', ''),
+              'runNumber': os.environ.get('GITHUB_RUN_NUMBER', ''),
+              'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
+              'refName': os.environ.get('GITHUB_REF_NAME', ''),
+              'repository': os.environ.get('GITHUB_REPOSITORY', ''),
+              'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
+          }
+          with open('_site/runtime.json', 'w', encoding='utf-8') as fh:
+              json.dump(payload, fh, ensure_ascii=False, indent=2)
+          PY
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
