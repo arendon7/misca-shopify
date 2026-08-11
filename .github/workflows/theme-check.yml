@@ -4,12 +4,12 @@ on:
   pull_request:
     paths:
       - 'theme/**'
-      - '.github/workflows/theme-check.yml'
+      - '.github/workflows/**'
   push:
     branches: [main]
     paths:
       - 'theme/**'
-      - '.github/workflows/theme-check.yml'
+      - '.github/workflows/**'
 
 permissions:
   contents: read
