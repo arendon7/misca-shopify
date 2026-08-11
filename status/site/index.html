@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#11110f">
+  <title>MISCA — Estado del proyecto</title>
+  <style>
+    :root{--bg:#f2efe7;--surface:#fffdf8;--ink:#151515;--muted:#706b62;--line:#d8d2c5;--dark:#11110f;--green:#2f6b4f;--amber:#946b20;--red:#8b3a33;--blue:#405d78}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a{color:inherit}.wrap{width:min(1180px,calc(100% - 32px));margin:auto}.top{padding:28px 0 22px;border-bottom:1px solid var(--line)}
+    .brand{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 9px}
+    h1{font:500 clamp(30px,5vw,60px)/.98 Georgia,serif;margin:0;max-width:760px}.sub{max-width:680px;color:var(--muted);margin:16px 0 0;font-size:16px}
+    .nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.nav a,.pill{border:1px solid var(--line);background:rgba(255,255,255,.48);padding:8px 11px;border-radius:999px;text-decoration:none;font-size:13px}
+    main{padding:26px 0 72px}.grid{display:grid;gap:12px}.metrics{grid-template-columns:repeat(4,1fr);margin-bottom:28px}.metric{background:var(--surface);border:1px solid var(--line);padding:18px;min-height:132px}
+    .metric .label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.metric .value{font:500 30px/1 Georgia,serif;margin:18px 0 8px}.metric .detail{font-size:13px;color:var(--muted)}
+    .section{margin-top:34px}.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:13px}.section h2{font:500 27px/1.1 Georgia,serif;margin:0}.section-note{color:var(--muted);max-width:620px;margin:0;font-size:13px}
+    .gate{background:var(--dark);color:#f7f1e6;padding:24px;display:grid;grid-template-columns:1fr 1.2fr;gap:28px}.gate h3{font:500 30px/1 Georgia,serif;margin:8px 0 10px}.gate p{color:#c9c2b7;margin:0}.gate ol{margin:0;padding-left:20px}.gate li{margin:0 0 8px}
+    .roadmap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stage{background:var(--surface);border:1px solid var(--line);padding:17px;display:grid;grid-template-columns:32px 1fr auto;gap:12px;align-items:start}.num{font:500 18px Georgia,serif;color:var(--muted)}.stage h3{font-size:15px;margin:0 0 5px}.stage p{font-size:13px;color:var(--muted);margin:0}.badge{white-space:nowrap;font-size:11px;border-radius:999px;padding:5px 8px;border:1px solid currentColor}.pass{color:var(--green)}.ready{color:var(--blue)}.pending{color:var(--amber)}.blocked{color:var(--red)}
+    .qa-grid{grid-template-columns:repeat(3,1fr)}.qa{background:var(--surface);border:1px solid var(--line);padding:18px}.qa-top{display:flex;justify-content:space-between;gap:10px}.qa h3{font-size:14px;margin:0}.track{height:8px;background:#e3ded4;margin-top:18px;overflow:hidden}.track span{display:block;height:100%;background:var(--ink)}.qa small{display:block;margin-top:9px;color:var(--muted)}
+    .timeline{border-top:1px solid var(--line)}.event{display:grid;grid-template-columns:120px 1fr;gap:18px;border-bottom:1px solid var(--line);padding:15px 0}.event time{color:var(--muted);font-size:13px}.event h3{font-size:14px;margin:0 0 4px}.event p{margin:0;color:var(--muted);font-size:13px}
+    .runtime{margin-top:38px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .error{background:#fff3f0;border:1px solid #d9aea8;padding:18px;color:#6e2f29}
+    @media(max-width:850px){.metrics{grid-template-columns:repeat(2,1fr)}.roadmap{grid-template-columns:1fr}.qa-grid{grid-template-columns:1fr}.gate{grid-template-columns:1fr}.brand{display:block}.nav{justify-content:flex-start;margin-top:20px}}
+    @media(max-width:520px){.wrap{width:min(100% - 22px,1180px)}.metrics{grid-template-columns:1fr}.event{grid-template-columns:1fr;gap:5px}.stage{grid-template-columns:26px 1fr}.stage .badge{grid-column:2;justify-self:start}}
+  </style>
+</head>
+<body>
+  <header class="top"><div class="wrap brand">
+    <div><p class="kicker">MISCA / Commerce build</p><h1>Estado del proyecto</h1><p class="sub">Una vista ejecutiva del avance digital, los gates de Shopify, QA y Product Ready. El dashboard se publica desde <span class="mono">main</span> mediante GitHub Actions.</p></div>
+    <nav class="nav" id="links"></nav>
+  </div></header>
+  <main class="wrap">
+    <div id="app"><p>Cargando estado…</p></div>
+  </main>
+<script>
+const cls=s=>['PASS','ACTIVE'].includes(s)?'pass':['READY','PASS_CODE'].includes(s)?'ready':['PENDING','NOT_READY'].includes(s)?'pending':'blocked';
+const label=s=>({PASS:'PASS',ACTIVE:'ACTIVO',PASS_CODE:'CÓDIGO LISTO',READY:'LISTO',PENDING:'PENDIENTE',NOT_READY:'NO LISTO',BLOCKED_EXTERNAL:'BLOQUEO EXTERNO',BLOCKED_DEPENDENCY:'DEPENDENCIA',BLOCKED_PHYSICAL:'BLOQUEO FÍSICO'}[s]||s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function metric(labelText,value,detail){return `<article class="metric"><div class="label">${esc(labelText)}</div><div class="value">${esc(value)}</div><div class="detail">${esc(detail)}</div></article>`}
+function render(data,runtime){
+  const s=data.summary;
+  document.getElementById('links').innerHTML=`<a href="${data.links.repository}">Repositorio</a><a href="${data.links.actions}">Actions</a><a href="${data.links.previewIssue}">Gate Shopify #2</a>`;
+  const stages=data.stages.map((x,i)=>`<article class="stage"><div class="num">${String(i+1).padStart(2,'0')}</div><div><h3>${esc(x.name)}</h3><p>${esc(x.detail)}</p></div><span class="badge ${cls(x.status)}">${label(x.status)}</span></article>`).join('');
+  const qa=data.qa.map(x=>{const pct=x.total?Math.round(x.done/x.total*100):0;return `<article class="qa"><div class="qa-top"><h3>${esc(x.name)}</h3><span class="badge ${cls(x.status)}">${label(x.status)}</span></div><div class="track" aria-label="${pct}%"><span style="width:${pct}%"></span></div><small>${x.done}/${x.total} controles cerrados</small></article>`}).join('');
+  const timeline=data.timeline.map(x=>`<div class="event"><time>${esc(x.date)}</time><div><h3>${esc(x.title)}</h3><p>${esc(x.detail)}</p></div></div>`).join('');
+  const actions=data.nextGate.actions.map(x=>`<li>${esc(x)}</li>`).join('');
+  const rt=runtime||{};
+  document.getElementById('app').innerHTML=`
+    <section class="grid metrics">
+      ${metric('Código + CI',`${s.codeCiControls.closed}/${s.codeCiControls.total}`,'Controles técnicos cerrados')}
+      ${metric('Theme Check',label(s.themeCheck.status),s.themeCheck.detail)}
+      ${metric('QA storefront',`${s.storefrontQa.closed}/${s.storefrontQa.total}`,'Empieza después del preview real')}
+      ${metric('QA analytics',`${s.analyticsQa.closed}/${s.analyticsQa.total}`,'Customer Events + misca:*')}
+    </section>
+    <section class="gate"><div><p class="kicker">Siguiente gate</p><h3>${esc(data.nextGate.name)}</h3><p>${esc(s.shopifyRuntime.detail)}</p></div><ol>${actions}</ol></section>
+    <section class="section"><div class="section-head"><h2>Roadmap operativo</h2><p class="section-note">El avance de código no se mezcla con Product Ready. Una web técnicamente verde no significa que Raíz u Ola estén autorizadas para venderse.</p></div><div class="roadmap">${stages}</div></section>
+    <section class="section"><div class="section-head"><h2>Calidad y validación</h2><p class="section-note">Theme Check está cerrado. Los 52 checks runtime empiezan cuando exista MISCA Preview sobre Shopify real.</p></div><div class="grid qa-grid">${qa}</div></section>
+    <section class="section"><div class="section-head"><h2>Product Ready</h2><p class="section-note">Gate independiente del desarrollo web.</p></div><article class="stage"><div class="num">PR</div><div><h3>Raíz + Ola</h3><p>${esc(s.productReady.detail)}</p></div><span class="badge ${cls(s.productReady.status)}">${label(s.productReady.status)}</span></article></section>
+    <section class="section"><div class="section-head"><h2>Últimos avances</h2><p class="section-note">Hitos materializados en GitHub/CI.</p></div><div class="timeline">${timeline}</div></section>
+    <footer class="runtime"><span>Release: <b>${esc(data.project.storefrontRelease)}</b> · Operating System ${esc(data.project.operatingSystemVersion)}</span><span>Dashboard commit: <span class="mono">${esc(rt.shortSha||'pendiente')}</span> · Run #${esc(rt.runNumber||'—')} · ${esc(rt.builtAt||data.project.updatedAt)}</span></footer>`;
+}
+Promise.all([
+  fetch('./project-status.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('project-status');return r.json()}),
+  fetch('./runtime.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)
+]).then(([data,runtime])=>render(data,runtime)).catch(()=>{document.getElementById('app').innerHTML='<div class="error">No se pudo cargar el estado del proyecto. Revisa el último deployment de GitHub Pages en Actions.</div>'});
+</script>
+</body>
+</html>
