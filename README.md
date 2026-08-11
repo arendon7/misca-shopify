@@ -2,23 +2,33 @@
 
 Repository baseline for the artist-apparel ecommerce platform.
 
-## Project dashboard
+## Visual storefront preview
 
-**Live status:** https://arendon7.github.io/misca-shopify/
+**Live preview:** https://arendon7.github.io/misca-shopify/
 
-The GitHub Pages dashboard is deployed from `main` by GitHub Actions and shows the current implementation gates, Shopify preview blockers, QA state, Product Ready separation and recent milestones.
+GitHub Pages is the visual review surface for the storefront while the real Shopify unpublished theme is not yet connected. It includes a navigable Home, Prendas, product pages, artists, collections, Archivo Abierto, stories, Para Creadores and a functional preview cart.
+
+**Project status dashboard:** https://arendon7.github.io/misca-shopify/status/
+
+The `/status/` route remains the executive progress dashboard. The storefront preview and the status dashboard are intentionally separate.
 
 ## Current release
 `SHOPIFY-DEV-INTEGRATION-V4`
 
 ## Contents
 - `theme/` — Shopify Theme 2.0 storefront
+- `preview/` — high-fidelity static storefront review surface for GitHub Pages
 - `setup/` — Shopify Admin custom-data setup
 - `analytics/` — event model + QA pixel template
 - `qa/` — integration, CRO and production-hardening evidence
-- `status/` — project-status data and Pages dashboard
+- `status/` — project-status data and secondary Pages dashboard
 - `docs/` — runbooks and architecture
-- `.github/workflows/` — Theme Check, Pages dashboard and unpublished Shopify preview workflows
+- `.github/workflows/` — Theme Check, Pages preview and unpublished Shopify preview workflows
+
+## Important distinction
+The GitHub Pages storefront is a **review preview**, not the production store and not a replacement for Shopify runtime QA.
+
+It intentionally shows the current merchandising, narrative, product UX and interaction model while preserving Product Ready gates. Prices may be provisional; final material, GSM, fit, technique, care, inventory and shipping facts remain blocked until physical validation.
 
 ## Status
 **Not live.**
@@ -28,6 +38,7 @@ Validated on GitHub:
 - Official Shopify Theme Check passes on PR and `main`.
 - Safe unpublished-preview deployment pipeline is merged.
 - One-time bootstrap can create `MISCA Preview` without a pre-existing theme ID.
+- GitHub Pages automatically deploys the visual storefront preview from `main`.
 - No automatic live-publish workflow exists.
 
 Remaining external gates:
@@ -38,7 +49,7 @@ Remaining external gates:
 5. Product Ready for factual product claims/media.
 6. E2E payment/shipping/refund.
 
-Operational tracking for the preview gate lives in GitHub issue #2.
+Operational tracking for the Shopify runtime gate lives in GitHub issue #2.
 
 ## Local Theme Check
 ```bash
@@ -54,4 +65,4 @@ shopify theme dev --path theme --store YOUR-STORE.myshopify.com
 ## Release policy
 There is intentionally no automatic live deployment.
 
-> Repository visibility is currently public. Private visibility is recommended while the storefront is under construction. The Pages dashboard contains project status only and no credentials.
+> Repository visibility is currently public. Private visibility is recommended while the storefront is under construction. Never put Shopify credentials, customer data or private financial data into the Pages preview.
