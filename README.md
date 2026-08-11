@@ -16,12 +16,20 @@ Repository baseline for the artist-apparel ecommerce platform.
 ## Status
 **Not live.**
 
+Validated on GitHub:
+- PR #1 merged to `main`.
+- Official Shopify Theme Check passed on the PR.
+- Official Shopify Theme Check passed again on `main` after merge.
+- No automatic live-publish workflow exists.
+
 Remaining external gates:
-1. Official Shopify Theme Check.
-2. Unpublished/development-theme preview with real store data.
-3. Product Ready for factual product claims/media.
-4. E2E payment/shipping/refund.
-5. Analytics QA.
+1. Configure unpublished/development-theme preview access to the real Shopify store.
+2. Execute the 40-check storefront QA matrix with real Shopify resources.
+3. Execute the 12-check analytics QA matrix.
+4. Product Ready for factual product claims/media.
+5. E2E payment/shipping/refund.
+
+Operational tracking for the preview gate lives in GitHub issue #2.
 
 ## Local Theme Check
 ```bash
@@ -36,3 +44,5 @@ shopify theme dev --path theme --store YOUR-STORE.myshopify.com
 
 ## Release policy
 There is intentionally no automatic live deployment.
+
+> Repository visibility is currently public. Private visibility is recommended while the storefront is under construction.
