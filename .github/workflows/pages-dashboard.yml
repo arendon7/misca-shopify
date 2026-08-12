@@ -39,6 +39,7 @@ jobs:
           test -f preview/site/v13.css
           test -f preview/site/v14.css
           test -f preview/site/v15.css
+          test -f preview/site/v16.css
           test -f preview/site/app.js
           test -f preview/site/fixes.js
           test -f preview/site/v5.js
@@ -52,6 +53,7 @@ jobs:
           test -f preview/site/v13.js
           test -f preview/site/v14.js
           test -f preview/site/v15.js
+          test -f preview/site/v16.js
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/raiz/$f.svg"; done
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/ola/$f.svg"; done
           test -f preview/site/assets/universes/alma-rios-entre-grietas.svg
@@ -77,11 +79,14 @@ jobs:
           node --check preview/site/v13.js
           node --check preview/site/v14.js
           node --check preview/site/v15.js
+          node --check preview/site/v16.js
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
           grep -q 'v15.css' preview/site/index.html
           grep -q 'v15.js' preview/site/index.html
-          grep -q 'WEB-COMMERCE V15' preview/site/index.html
+          grep -q 'v16.css' preview/site/index.html
+          grep -q 'v16.js' preview/site/index.html
+          grep -q 'WEB-COMMERCE V16' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
           ! grep -q 'v4.css' preview/site/index.html
@@ -101,6 +106,12 @@ jobs:
           grep -q 'Decisiones que no necesita ver el comprador.' preview/site/v15.js
           grep -q 'Talla requerida' preview/site/v15.js
           grep -q 'v15-development-open' preview/site/v15.css
+          grep -q 'repairNewRoute' preview/site/v16.js
+          grep -q 'No encontramos coincidencias.' preview/site/v16.js
+          grep -q 'v16-cart-empty-state' preview/site/v16.js
+          grep -q 'aria-current' preview/site/v16.js
+          grep -q 'prefers-reduced-motion' preview/site/v16.css
+          grep -q 'v16-search-discovery' preview/site/v16.css
           grep -q 'raiz/cover.svg' preview/site/v14.js
           grep -q 'ola/cover.svg' preview/site/v14.js
           grep -q 'RC-SCR-01 / RC-DTF-01' preview/site/assets/products/raiz/spec-card.svg
@@ -133,7 +144,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'WEB-COMMERCE V15',
+              'previewVersion': 'WEB-COMMERCE V16',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
