@@ -1,0 +1,38 @@
+{% liquid
+  assign asset_name = ''
+  case handle
+    when 'alma-rios'
+      assign asset_name = 'misca-universe-alma-rios.svg'
+    when 'tomas-muro'
+      assign asset_name = 'misca-universe-tomas-muro.svg'
+    when 'nina-cobalto'
+      assign asset_name = 'misca-universe-nina-cobalto.svg'
+    when 'simon-bestiario'
+      assign asset_name = 'misca-universe-simon-bestiario.svg'
+    when 'vera-montana'
+      assign asset_name = 'misca-universe-vera-montana.svg'
+    when 'hokusai'
+      assign asset_name = 'misca-universe-hokusai.svg'
+    when 'katsushika-hokusai'
+      assign asset_name = 'misca-universe-hokusai.svg'
+    when 'william-morris'
+      assign asset_name = 'misca-universe-william-morris.svg'
+    when 'mucha'
+      assign asset_name = 'misca-universe-mucha.svg'
+    when 'alphonse-mucha'
+      assign asset_name = 'misca-universe-mucha.svg'
+    when 'van-gogh'
+      assign asset_name = 'misca-universe-van-gogh.svg'
+    when 'vincent-van-gogh'
+      assign asset_name = 'misca-universe-van-gogh.svg'
+    when 'monet'
+      assign asset_name = 'misca-universe-monet.svg'
+    when 'claude-monet'
+      assign asset_name = 'misca-universe-monet.svg'
+  endcase
+%}
+{% if asset_name != blank %}
+  <img class="misca-universe-fallback" src="{{ asset_name | asset_url }}" alt="{{ alt | escape }}" loading="{{ loading | default: 'lazy' }}">
+{% else %}
+  <div class="media-placeholder{% if hero %} media-placeholder--hero{% endif %}"></div>
+{% endif %}
