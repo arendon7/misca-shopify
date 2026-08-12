@@ -62,10 +62,21 @@ jobs:
           ! grep -q 'v3.js' preview/site/index.html
           ! grep -q 'v4.js' preview/site/index.html
 
+          grep -q 'v6-mobile-buybar' preview/site/v6.js
+          grep -q 'activeHandles' preview/site/v7.js
           grep -q 'customerLayerActive' preview/site/v7.js
           grep -q 'setText(add, label)' preview/site/v7.js
+          grep -q 'garmentSVG' preview/site/v8.js
+          grep -q 'Dirección A' preview/site/v9.js
+          grep -q 'data-v10-workshop-spec' preview/site/v10.js
+          grep -q 'data-asset-slot' preview/site/v11.js
+          grep -q '10 universos / 2 en lanzamiento' preview/site/v12.js
+          grep -q 'static-master-v1' preview/site/v13.js
+          grep -q 'Campaña conceptual' preview/site/v14.js
+          grep -q 'Dos prendas. Ninguna distracción.' preview/site/v15.js
           grep -q 'customerLayerActive' preview/site/v15.js
           grep -q 'setHtml(boundary' preview/site/v15.js
+          grep -q 'v15-development-open' preview/site/v15.css
           grep -q 'brandLayerActive' preview/site/v17.js
           grep -q 'guardProductRoute' preview/site/v17.js
           grep -q 'developmentHandles' preview/site/v17.js
