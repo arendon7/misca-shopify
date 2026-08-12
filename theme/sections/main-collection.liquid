@@ -7,6 +7,16 @@
       {% if collection.description != blank %}<div class="lede rte">{{ collection.description }}</div>{% endif %}
     </header>
 
+    <div class="collection-hero-media">
+      {% if collection.featured_image %}
+        {{ collection.featured_image | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1500, 1800', sizes: '100vw', alt: collection.title }}
+      {% elsif collection.products.first.featured_image %}
+        {{ collection.products.first.featured_image | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1500, 1800', sizes: '100vw', alt: collection.title }}
+      {% else %}
+        {% render 'misca-universe-fallback', handle: collection.handle, alt: collection.title, loading: 'eager' %}
+      {% endif %}
+    </div>
+
     <div class="collection-toolbar">
       <span>{{ collection.products_count }} productos</span>
       <form>
