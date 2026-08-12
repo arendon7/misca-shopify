@@ -37,6 +37,7 @@ jobs:
           test -f preview/site/v11.css
           test -f preview/site/v12.css
           test -f preview/site/v13.css
+          test -f preview/site/v14.css
           test -f preview/site/app.js
           test -f preview/site/fixes.js
           test -f preview/site/v5.js
@@ -48,6 +49,9 @@ jobs:
           test -f preview/site/v11.js
           test -f preview/site/v12.js
           test -f preview/site/v13.js
+          test -f preview/site/v14.js
+          for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/raiz/$f.svg"; done
+          for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/ola/$f.svg"; done
           test -f preview/site/assets/universes/alma-rios-entre-grietas.svg
           test -f preview/site/assets/universes/tomas-muro-muros-que-hablan.svg
           test -f preview/site/assets/universes/nina-cobalto-frecuencia.svg
@@ -69,11 +73,12 @@ jobs:
           node --check preview/site/v11.js
           node --check preview/site/v12.js
           node --check preview/site/v13.js
+          node --check preview/site/v14.js
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
-          grep -q 'v13.css' preview/site/index.html
-          grep -q 'v13.js' preview/site/index.html
-          grep -q 'WEB-COMMERCE V13' preview/site/index.html
+          grep -q 'v14.css' preview/site/index.html
+          grep -q 'v14.js' preview/site/index.html
+          grep -q 'WEB-COMMERCE V14' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
           ! grep -q 'v4.css' preview/site/index.html
@@ -88,13 +93,14 @@ jobs:
           grep -q 'data-asset-slot' preview/site/v11.js
           grep -q '10 universos / 2 en lanzamiento' preview/site/v12.js
           grep -q 'static-master-v1' preview/site/v13.js
-          grep -q 'assets/universes/alma-rios-entre-grietas.svg' preview/site/v13.js
-          grep -q 'assets/universes/hokusai-la-fuerza-del-agua.svg' preview/site/v13.js
-          grep -q 'assets/universes/alphonse-mucha-las-estaciones.svg' preview/site/v13.js
-          grep -q 'Biblioteca visual V1' preview/site/v13.js
-          grep -q 'MISCA · DIRECCIÓN VISUAL DE ESTUDIO' preview/site/assets/universes/alma-rios-entre-grietas.svg
-          grep -q 'THE MET · JP1847' preview/site/assets/universes/hokusai-la-fuerza-del-agua.svg
-          grep -q 'AIC · CC0' preview/site/assets/universes/alphonse-mucha-las-estaciones.svg
+          grep -q 'Campaña conceptual' preview/site/v14.js
+          grep -q 'raiz/cover.svg' preview/site/v14.js
+          grep -q 'ola/cover.svg' preview/site/v14.js
+          grep -q 'RC-SCR-01 / RC-DTF-01' preview/site/assets/products/raiz/spec-card.svg
+          grep -q 'OLA-DTG-01 / OLA-DTF-01' preview/site/assets/products/ola/spec-card.svg
+          grep -q 'The Met · JP1847' preview/site/assets/products/ola/spec-card.svg
+          grep -q 'T265 hipótesis master' preview/site/assets/products/raiz/spec-card.svg
+          grep -q 'T265 hipótesis master' preview/site/assets/products/ola/spec-card.svg
 
       - name: Build storefront preview + status artifact
         shell: bash
@@ -120,7 +126,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'WEB-COMMERCE V13',
+              'previewVersion': 'WEB-COMMERCE V14',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
