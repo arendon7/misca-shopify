@@ -29,8 +29,8 @@
         {{ card_product.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 990px) 25vw, 50vw', alt: card_product.featured_image.alt | default: card_product.title, class: 'product-card__image product-card__image--primary' }}
         {% if secondary_image %}{{ secondary_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 990px) 25vw, 50vw', alt: secondary_image.alt | default: card_product.title, class: 'product-card__image product-card__image--secondary' }}{% endif %}
       {% elsif concept_primary != blank %}
-        <img class="product-card__image product-card__image--primary" src="{{ concept_primary | asset_url }}" alt="Campaña conceptual de {{ card_product.title | escape }}" loading="lazy">
-        <img class="product-card__image product-card__image--secondary" src="{{ concept_secondary | asset_url }}" alt="Contexto conceptual de {{ card_product.title | escape }}" loading="lazy">
+        <img class="product-card__image product-card__image--primary" src="{{ concept_primary | asset_url }}" width="1200" height="1500" alt="Campaña conceptual de {{ card_product.title | escape }}" loading="lazy">
+        <img class="product-card__image product-card__image--secondary" src="{{ concept_secondary | asset_url }}" width="1200" height="900" alt="Contexto conceptual de {{ card_product.title | escape }}" loading="lazy">
         <span class="misca-concept-badge">Estudio conceptual</span>
       {% else %}
         <div class="media-placeholder" aria-hidden="true"></div>
