@@ -28,10 +28,10 @@ jobs:
           set -euo pipefail
           test -f preview/site/index.html
           test -f preview/site/styles.css
-          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17; do test -f "preview/site/v${v}.css"; done
+          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do test -f "preview/site/v${v}.css"; done
           test -f preview/site/app.js
           test -f preview/site/fixes.js
-          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17; do test -f "preview/site/v${v}.js"; done
+          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do test -f "preview/site/v${v}.js"; done
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/raiz/$f.svg"; done
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/ola/$f.svg"; done
           test -f preview/site/assets/universes/alma-rios-entre-grietas.svg
@@ -47,13 +47,13 @@ jobs:
 
           node --check preview/site/app.js
           node --check preview/site/fixes.js
-          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17; do node --check "preview/site/v${v}.js"; done
+          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do node --check "preview/site/v${v}.js"; done
 
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
-          grep -q 'v17.css' preview/site/index.html
-          grep -q 'v17.js' preview/site/index.html
-          grep -q 'WEB-COMMERCE V17' preview/site/index.html
+          grep -q 'v18.css' preview/site/index.html
+          grep -q 'v18.js' preview/site/index.html
+          grep -q 'WEB-COMMERCE V18' preview/site/index.html
           ! grep -q '<script src="./v16.js"></script>' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
@@ -74,12 +74,16 @@ jobs:
           grep -q 'Dos prendas. Ninguna distracción.' preview/site/v15.js
           grep -q 'v15-development-open' preview/site/v15.css
           grep -q 'guardProductRoute' preview/site/v17.js
-          grep -q 'v16-search-discovery' preview/site/v17.js
-          grep -q 'v16-cart-empty-state' preview/site/v17.js
           grep -q 'developmentHandles' preview/site/v17.js
           grep -q 'No encontramos esta pieza.' preview/site/v17.js
-          grep -q 'v14-pdp-boundary{display:none' preview/site/v17.css
-          grep -q 'Hecho desde Medellín' preview/site/index.html
+
+          grep -q 'Dos piezas para empezar.' preview/site/v18.js
+          grep -q 'Cada colección empieza con una voz.' preview/site/v18.js
+          grep -q 'Dos colecciones abren MISCA.' preview/site/v18.js
+          grep -q 'Una división simple del trabajo.' preview/site/v18.js
+          grep -q 'La ficha final tiene que responder lo importante.' preview/site/v18.js
+          grep -q 'v15-development-access{display:none}' preview/site/v18.css
+          grep -q 'v18-story-grid' preview/site/v18.css
 
           grep -q 'raiz/cover.svg' preview/site/v14.js
           grep -q 'ola/cover.svg' preview/site/v14.js
@@ -113,7 +117,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'WEB-COMMERCE V17',
+              'previewVersion': 'WEB-COMMERCE V18',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
