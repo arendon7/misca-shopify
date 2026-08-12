@@ -1,31 +1,67 @@
+{% assign launch_handles = 'entre-grietas,la-fuerza-del-agua' | split: ',' %}
 <section class="section">
   <div class="page-width">
     <header class="section-heading">
-      <div><p class="eyebrow">Colecciones</p><h1>{{ section.settings.heading }}</h1></div>
+      <div><p class="eyebrow">Lanzamiento 01</p><h1>{{ section.settings.heading }}</h1></div>
       <div class="section-intro rte">{{ section.settings.text }}</div>
     </header>
-    <div class="list-grid">
-      {% for collection in collections %}
-        {% unless collection.handle == 'frontpage' %}
-          <a class="collection-tile" href="{{ collection.url }}">
-            <div class="collection-tile__media">
-              {% if collection.featured_image %}
-                {{ collection.featured_image | image_url: width: 900 | image_tag: loading: 'lazy' }}
-              {% elsif collection.products.first.featured_image %}
-                {{ collection.products.first.featured_image | image_url: width: 900 | image_tag: loading: 'lazy' }}
+
+    <div class="v22-artist-feature-grid">
+      {% assign launch_count = 0 %}
+      {% for handle in launch_handles %}
+        {% assign launch_collection = collections[handle] %}
+        {% if launch_collection != blank %}
+          {% assign launch_count = launch_count | plus: 1 %}
+          <a class="v22-artist-tile" href="{{ launch_collection.url }}">
+            <div class="v22-artist-tile__media">
+              {% if launch_collection.featured_image %}
+                {{ launch_collection.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '540, 750, 1000, 1200', sizes: '(min-width: 990px) 38vw, 100vw', alt: launch_collection.title }}
+              {% elsif launch_collection.products.first.featured_image %}
+                {{ launch_collection.products.first.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '540, 750, 1000, 1200', sizes: '(min-width: 990px) 38vw, 100vw', alt: launch_collection.title }}
               {% else %}
-                {% render 'misca-universe-fallback', handle: collection.handle, alt: collection.title %}
+                {% render 'misca-universe-fallback', handle: launch_collection.handle, alt: launch_collection.title %}
               {% endif %}
             </div>
-            <div class="collection-tile__body"><p class="eyebrow">Colección</p><h3>{{ collection.title }}</h3><p>{{ collection.products_count }} productos</p></div>
+            <div class="v22-artist-tile__copy">
+              <span class="v22-artist-status">Colección activa</span>
+              <p class="eyebrow">{% if launch_collection.handle == 'entre-grietas' %}Alma Ríos · Artista de la Casa{% else %}Archivo Abierto · Hokusai{% endif %}</p>
+              <h2>{{ launch_collection.title }}</h2>
+              <p>{{ launch_collection.products_count }} {% if launch_collection.products_count == 1 %}pieza{% else %}piezas{% endif %}</p>
+              <span class="v22-story-card__link">Entrar a la colección →</span>
+            </div>
           </a>
-        {% endunless %}
-      {% else %}
-        <p class="empty-state">Las colecciones aparecerán aquí cuando estén publicadas.</p>
+        {% endif %}
       {% endfor %}
+      {% if launch_count == 0 %}<p class="empty-state">Las colecciones del lanzamiento aparecerán aquí cuando estén publicadas en Shopify.</p>{% endif %}
     </div>
+
+    {% assign other_count = 0 %}
+    {% for collection in collections %}{% unless collection.handle == 'frontpage' or collection.handle == 'entre-grietas' or collection.handle == 'la-fuerza-del-agua' %}{% assign other_count = other_count | plus: 1 %}{% endunless %}{% endfor %}
+    {% if other_count > 0 %}
+      <div class="v22-artists-study">
+        <div class="section-heading"><div><p class="eyebrow">Otras colecciones publicadas</p><h2>Más allá del lanzamiento.</h2></div><p class="section-intro">Solo aparecen aquí colecciones que ya existen en Shopify. Los universos conceptuales sin producto permanecen en Artistas y Archivo.</p></div>
+        <div class="list-grid">
+          {% for collection in collections %}
+            {% unless collection.handle == 'frontpage' or collection.handle == 'entre-grietas' or collection.handle == 'la-fuerza-del-agua' %}
+              <a class="collection-tile" href="{{ collection.url }}">
+                <div class="collection-tile__media">
+                  {% if collection.featured_image %}{{ collection.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: collection.title }}{% elsif collection.products.first.featured_image %}{{ collection.products.first.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: collection.title }}{% else %}{% render 'misca-universe-fallback', handle: collection.handle, alt: collection.title %}{% endif %}
+                </div>
+                <div class="collection-tile__body"><p class="eyebrow">Colección publicada</p><h3>{{ collection.title }}</h3><p>{{ collection.products_count }} productos</p></div>
+              </a>
+            {% endunless %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
   </div>
 </section>
 {% schema %}
-{"name":"Lista de colecciones","settings":[{"type":"text","id":"heading","label":"Título","default":"Colecciones"},{"type":"richtext","id":"text","label":"Texto","default":"<p>Universos creativos organizados como colecciones pequeñas.</p>"}]}
+{
+  "name":"Lista de colecciones",
+  "settings":[
+    {"type":"text","id":"heading","label":"Título","default":"Dos colecciones abren MISCA."},
+    {"type":"richtext","id":"text","label":"Texto","default":"<p>Entre grietas y La fuerza del agua muestran dos caminos: una voz original de la Casa y una obra histórica con procedencia visible.</p>"}
+  ]
+}
 {% endschema %}
