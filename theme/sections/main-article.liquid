@@ -1,2 +1,41 @@
-<article class="section"><div class="page-width article-prose"><p class="eyebrow">{{ article.published_at | date: '%d.%m.%Y' }}</p><h1>{{ article.title }}</h1>{% if article.image %}{{ article.image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high' }}{% endif %}<div class="rte">{{ article.content }}</div><p><a class="text-link" href="{{ blog.url }}">← Volver a {{ blog.title }}</a></p></div></article><script type="application/ld+json">{{ article | structured_data }}</script>
+{% liquid
+  assign signal = article.handle | append: ' ' | append: article.title | downcase
+  assign visual_key = 'stories'
+  if signal contains 'raiz' or signal contains 'grieta'
+    assign visual_key = 'raiz'
+  elsif signal contains 'ola' or signal contains 'hokusai' or signal contains 'agua'
+    assign visual_key = 'ola'
+  elsif signal contains 'calidad' or signal contains 'producto' or signal contains 'camiseta'
+    assign visual_key = 'quality'
+  elsif signal contains 'creador' or signal contains 'artista'
+    assign visual_key = 'creators'
+  elsif signal contains 'archivo' or signal contains 'procedencia'
+    assign visual_key = 'archive'
+  endif
+%}
+<article>
+  <div class="page-width v22-article-shell">
+    <header class="v22-article-header">
+      <p class="eyebrow">Historia · {{ article.published_at | date: '%d.%m.%Y' }}</p>
+      <h1>{{ article.title }}</h1>
+      {% if article.excerpt != blank %}<div class="lede">{{ article.excerpt }}</div>{% endif %}
+    </header>
+
+    <div class="v22-article-media">
+      {% if article.image %}
+        {{ article.image | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1500, 1800', sizes: '(min-width: 990px) 900px, 100vw', alt: article.image.alt | default: article.title }}
+      {% else %}
+        {% render 'misca-editorial-fallback', key: visual_key, label: article.title, loading: 'eager', eager: true %}
+      {% endif %}
+    </div>
+
+    <div class="rte v22-article-body">{{ article.content }}</div>
+
+    <footer class="v22-article-footer">
+      <a class="text-link" href="{{ blog.url }}">← Volver a {{ blog.title }}</a>
+      <span class="fineprint">MISCA · Arte que puedes llevar.</span>
+    </footer>
+  </div>
+</article>
+<script type="application/ld+json">{{ article | structured_data }}</script>
 {% schema %}{"name":"Artículo","settings":[]}{% endschema %}
