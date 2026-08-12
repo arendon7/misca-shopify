@@ -9,6 +9,18 @@
     }
   };
 
+  const commerceReady = (root) => root?.dataset.commerceReady === 'true';
+  const commerceLabel = (root) => root?.dataset.commerceStatus === 'validation' ? 'En validación' : 'Próximamente';
+
+  const publishBlocked = (root, surface) => {
+    document.dispatchEvent(new CustomEvent('misca:commerce-blocked', { detail: {
+      productHandle: root?.dataset.productHandle || '',
+      productTitle: root?.dataset.productTitle || '',
+      commerceStatus: root?.dataset.commerceStatus || 'draft',
+      surface: surface || 'pdp',
+    }}));
+  };
+
   const getProductState = (root) => {
     const variantsScript = root.querySelector('[data-product-json]');
     const idInput = root.querySelector('[data-variant-id]');
@@ -29,26 +41,43 @@
     const addButton = root.querySelector('[data-add-to-cart]');
     const mobileButton = root.querySelector('[data-mobile-add]');
     const status = root.querySelector('[data-product-status]');
+    const ready = commerceReady(root);
+    const blockedLabel = commerceLabel(root);
+
     if (!variant) {
       if (idInput) idInput.value = '';
-      if (addButton) { addButton.disabled = false; addButton.textContent = 'Elegir talla'; }
-      if (mobileButton) { mobileButton.disabled = false; mobileButton.textContent = 'Elegir talla'; }
+      if (addButton) { addButton.disabled = !ready; addButton.textContent = ready ? 'Elegir talla' : blockedLabel; }
+      if (mobileButton) { mobileButton.disabled = !ready; mobileButton.textContent = ready ? 'Elegir talla' : blockedLabel; }
       if (status) status.textContent = '';
       return;
     }
+
     if (idInput) idInput.value = variant.id;
     const formatted = formatMoney(variant.price);
-    if (price) price.textContent = formatted;
-    if (mobilePrice) mobilePrice.textContent = formatted;
-    if (addButton) { addButton.disabled = !variant.available; addButton.textContent = variant.available ? 'Agregar a la bolsa' : 'Agotado'; }
-    if (mobileButton) { mobileButton.disabled = !variant.available; mobileButton.textContent = variant.available ? 'Agregar' : 'Agotado'; }
-    if (status) status.textContent = variant.available ? '' : 'Esta talla no está disponible.';
-    const url = new URL(window.location.href); url.searchParams.set('variant', variant.id); window.history.replaceState({}, '', url);
+    if (price && price.dataset.priceHidden !== 'true') price.textContent = formatted;
+    if (mobilePrice && mobilePrice.dataset.priceHidden !== 'true') mobilePrice.textContent = formatted;
+
+    if (addButton) {
+      addButton.disabled = !ready || !variant.available;
+      addButton.textContent = !ready ? blockedLabel : (variant.available ? 'Agregar a la bolsa' : 'Agotado');
+    }
+    if (mobileButton) {
+      mobileButton.disabled = !ready || !variant.available;
+      mobileButton.textContent = !ready ? blockedLabel : (variant.available ? 'Agregar' : 'Agotado');
+    }
+    if (status) status.textContent = ready && !variant.available ? 'Esta talla no está disponible.' : '';
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('variant', variant.id);
+    window.history.replaceState({}, '', url);
+
     document.dispatchEvent(new CustomEvent('misca:variant-change', { detail: { productUrl: root.dataset.productUrl, variant } }));
     const selectedSize = [...root.querySelectorAll('[data-option-value]:checked')].map((radio) => radio.value).join(' / ');
     document.dispatchEvent(new CustomEvent('misca:variant-selected', { detail: {
-      productHandle: root.dataset.productHandle || '', productTitle: root.dataset.productTitle || '', variantId: String(variant.id || ''), variantTitle: variant.title || selectedSize, selectedOptions: variant.options || [], available: Boolean(variant.available),
+      productHandle: root.dataset.productHandle || '', productTitle: root.dataset.productTitle || '', variantId: String(variant.id || ''), variantTitle: variant.title || selectedSize, selectedOptions: variant.options || [], available: Boolean(variant.available), commerceStatus: root.dataset.commerceStatus || 'draft', commerceReady: ready,
     }}));
+
+    if (!ready) publishBlocked(root, 'variant_selection');
   };
 
   document.addEventListener('change', (event) => {
@@ -64,6 +93,12 @@
     const mobileAdd = event.target.closest('[data-mobile-add]');
     if (mobileAdd) {
       const root = mobileAdd.closest('[data-product-root]'); if (!root) return;
+      if (!commerceReady(root)) {
+        const status = root.querySelector('[data-product-status]');
+        if (status) status.textContent = 'Esta pieza todavía no está habilitada para compra.';
+        publishBlocked(root, 'mobile_buybar');
+        return;
+      }
       const idInput = root.querySelector('[data-variant-id]'); const form = root.querySelector('[data-product-form]');
       if (!idInput?.value) {
         const firstOption = root.querySelector('.variant-fieldset'); firstOption?.scrollIntoView({ behavior: 'smooth', block: 'center' }); firstOption?.querySelector('input:not(:disabled)')?.focus({ preventScroll: true }); return;
@@ -74,9 +109,17 @@
 
   document.addEventListener('submit', (event) => {
     const form = event.target.closest('[data-product-form]'); if (!form) return;
+    const root = form.closest('[data-product-root]');
+    if (!commerceReady(root)) {
+      event.preventDefault();
+      const status = root?.querySelector('[data-product-status]');
+      if (status) status.textContent = 'Esta pieza todavía no está habilitada para compra.';
+      publishBlocked(root, 'product_form');
+      return;
+    }
     const idInput = form.querySelector('[data-variant-id]');
     if (!idInput?.value) {
-      event.preventDefault(); const root = form.closest('[data-product-root]'); const status = root?.querySelector('[data-product-status]');
+      event.preventDefault(); const status = root?.querySelector('[data-product-status]');
       if (status) status.textContent = 'Elige una talla antes de agregar.';
       const firstOption = root?.querySelector('.variant-fieldset'); firstOption?.scrollIntoView({ behavior: 'smooth', block: 'center' }); firstOption?.querySelector('input:not(:disabled)')?.focus({ preventScroll: true });
     }
