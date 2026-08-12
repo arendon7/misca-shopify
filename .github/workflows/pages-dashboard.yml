@@ -31,42 +31,43 @@ jobs:
           test -f preview/site/v5.css
           test -f preview/site/v6.css
           test -f preview/site/v7.css
+          test -f preview/site/v8.css
           test -f preview/site/app.js
           test -f preview/site/fixes.js
           test -f preview/site/v5.js
           test -f preview/site/v6.js
           test -f preview/site/v7.js
-          test -f preview/site/assets/raiz-campaign-study.svg
-          test -f preview/site/assets/ola-garment-study.svg
+          test -f preview/site/v8.js
           node --check preview/site/app.js
           node --check preview/site/fixes.js
           node --check preview/site/v5.js
           node --check preview/site/v6.js
           node --check preview/site/v7.js
+          node --check preview/site/v8.js
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
           grep -q 'v5.css' preview/site/index.html
           grep -q 'v6.css' preview/site/index.html
           grep -q 'v7.css' preview/site/index.html
+          grep -q 'v8.css' preview/site/index.html
           grep -q 'v5.js' preview/site/index.html
           grep -q 'v6.js' preview/site/index.html
           grep -q 'v7.js' preview/site/index.html
+          grep -q 'v8.js' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
           ! grep -q 'v4.css' preview/site/index.html
           ! grep -q 'v2.js' preview/site/index.html
           ! grep -q 'v3.js' preview/site/index.html
           ! grep -q 'v4.js' preview/site/index.html
-          grep -q 'WEB-COMMERCE V7' preview/site/index.html
+          grep -q 'WEB-COMMERCE V8' preview/site/index.html
           grep -q 'v6-mobile-buybar' preview/site/v6.js
-          grep -q 'v6-size-guide-trigger' preview/site/v6.js
-          grep -q 'aria-pressed' preview/site/v6.js
           grep -q 'activeHandles' preview/site/v7.js
-          grep -q 'v7-assortment-note' preview/site/v7.js
           grep -q 'v7-development-pdp' preview/site/v7.js
-          grep -q 'v7-gallery-progress' preview/site/v7.js
-          grep -q 'raiz-campaign-study.svg' preview/site/v5.js
-          grep -q 'ola-garment-study.svg' preview/site/v5.js
+          grep -q 'garmentSVG' preview/site/v8.js
+          grep -q 'detailSVG' preview/site/v8.js
+          grep -q 'ESTUDIO CONCEPTUAL' preview/site/v8.js
+          grep -q 'PRODUCT READY PENDIENTE' preview/site/v8.js
 
       - name: Build storefront preview + status artifact
         shell: bash
@@ -75,10 +76,7 @@ jobs:
           rm -rf _site
           mkdir -p _site/status
 
-          # Customer-facing review surface lives at the Pages root.
           cp -R preview/site/. _site/
-
-          # Project dashboard remains available as a secondary route.
           cp -R status/site/. _site/status/
           cp status/project-status.json _site/status/project-status.json
 
@@ -95,7 +93,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'WEB-COMMERCE V7',
+              'previewVersion': 'WEB-COMMERCE V8',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
