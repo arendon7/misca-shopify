@@ -18,7 +18,7 @@
         {{ card_product.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 990px) 25vw, 50vw', alt: card_product.featured_image.alt | default: card_product.title, class: 'product-card__image product-card__image--primary' }}
         {% if secondary_image %}{{ secondary_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 990px) 25vw, 50vw', alt: secondary_image.alt | default: card_product.title, class: 'product-card__image product-card__image--secondary' }}{% endif %}
       {% else %}<div class="media-placeholder" aria-hidden="true"></div>{% endif %}
-      {% unless commerce_ready %}
+      {% if commerce_ready == false %}
         <span class="product-card__badge">{% if commerce_status == 'validation' %}En validación{% else %}Próximamente{% endif %}</span>
       {% elsif card_product.available == false %}
         <span class="product-card__badge">Agotado</span>
