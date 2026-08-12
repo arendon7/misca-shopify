@@ -38,6 +38,7 @@ jobs:
           test -f preview/site/v12.css
           test -f preview/site/v13.css
           test -f preview/site/v14.css
+          test -f preview/site/v15.css
           test -f preview/site/app.js
           test -f preview/site/fixes.js
           test -f preview/site/v5.js
@@ -50,6 +51,7 @@ jobs:
           test -f preview/site/v12.js
           test -f preview/site/v13.js
           test -f preview/site/v14.js
+          test -f preview/site/v15.js
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/raiz/$f.svg"; done
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/ola/$f.svg"; done
           test -f preview/site/assets/universes/alma-rios-entre-grietas.svg
@@ -74,11 +76,12 @@ jobs:
           node --check preview/site/v12.js
           node --check preview/site/v13.js
           node --check preview/site/v14.js
+          node --check preview/site/v15.js
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
-          grep -q 'v14.css' preview/site/index.html
-          grep -q 'v14.js' preview/site/index.html
-          grep -q 'WEB-COMMERCE V14' preview/site/index.html
+          grep -q 'v15.css' preview/site/index.html
+          grep -q 'v15.js' preview/site/index.html
+          grep -q 'WEB-COMMERCE V15' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
           ! grep -q 'v4.css' preview/site/index.html
@@ -94,6 +97,10 @@ jobs:
           grep -q '10 universos / 2 en lanzamiento' preview/site/v12.js
           grep -q 'static-master-v1' preview/site/v13.js
           grep -q 'Campaña conceptual' preview/site/v14.js
+          grep -q 'Dos prendas. Ninguna distracción.' preview/site/v15.js
+          grep -q 'Decisiones que no necesita ver el comprador.' preview/site/v15.js
+          grep -q 'Talla requerida' preview/site/v15.js
+          grep -q 'v15-development-open' preview/site/v15.css
           grep -q 'raiz/cover.svg' preview/site/v14.js
           grep -q 'ola/cover.svg' preview/site/v14.js
           grep -q 'RC-SCR-01 / RC-DTF-01' preview/site/assets/products/raiz/spec-card.svg
@@ -126,7 +133,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'WEB-COMMERCE V14',
+              'previewVersion': 'WEB-COMMERCE V15',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
