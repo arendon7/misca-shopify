@@ -29,9 +29,11 @@ jobs:
           test -f preview/site/index.html
           test -f preview/site/styles.css
           for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do test -f "preview/site/v${v}.css"; done
+          test -f preview/site/v23.css
           test -f preview/site/app.js
           test -f preview/site/fixes.js
           for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do test -f "preview/site/v${v}.js"; done
+          test -f preview/site/v23.js
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/raiz/$f.svg"; done
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/ola/$f.svg"; done
           test -f preview/site/assets/universes/alma-rios-entre-grietas.svg
@@ -48,12 +50,15 @@ jobs:
           node --check preview/site/app.js
           node --check preview/site/fixes.js
           for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do node --check "preview/site/v${v}.js"; done
+          node --check preview/site/v23.js
 
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
           grep -q 'v19.css' preview/site/index.html
           grep -q 'v19.js' preview/site/index.html
-          grep -q 'WEB-COMMERCE V19' preview/site/index.html
+          grep -q 'v23.css' preview/site/index.html
+          grep -q 'v23.js' preview/site/index.html
+          grep -q 'PUBLIC-VISUAL V23' preview/site/index.html
           ! grep -q '<script src="./v16.js"></script>' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
@@ -96,6 +101,16 @@ jobs:
           grep -q 'v19-preview-note' preview/site/v19.css
           grep -q 'v16-overlay-open .v6-mobile-buybar' preview/site/v19.css
 
+          grep -q 'v23-home-hero' preview/site/v23.js
+          grep -q 'v23-product-duo' preview/site/v23.js
+          grep -q 'v23-collection-spread' preview/site/v23.js
+          grep -q 'v23-creators-collage' preview/site/v23.js
+          grep -q 'v23-pdp-editorial' preview/site/v23.js
+          grep -q 'body.v23-live' preview/site/v23.css
+          grep -q 'v23-hero-collage' preview/site/v23.css
+          grep -q 'v23-product-card__media' preview/site/v23.css
+          grep -q 'v23-archive-hero' preview/site/v23.css
+
           grep -q 'raiz/cover.svg' preview/site/v14.js
           grep -q 'ola/cover.svg' preview/site/v14.js
           grep -q 'RC-SCR-01 / RC-DTF-01' preview/site/assets/products/raiz/spec-card.svg
@@ -128,7 +143,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'WEB-COMMERCE V19',
+              'previewVersion': 'PUBLIC-VISUAL V23',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
