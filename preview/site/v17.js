@@ -12,6 +12,10 @@
     'ola-hokusai': { title:'Ola', price:'$139.900', color:'Navy', origin:'Archivo Abierto', thumb:`${A}ola/front.svg` }
   };
 
+  const setText = (el, text) => {
+    if (el && el.textContent !== text) el.textContent = text;
+  };
+
   function ensureSkipLink() {
     if (document.querySelector('.v16-skip-link')) return;
     const link = document.createElement('a');
@@ -52,26 +56,22 @@
 
   function polishHome() {
     if (route() !== '/') return;
-    document.querySelectorAll('.v15-shop-card__media > span').forEach(el => { el.textContent = 'Lanzamiento 01'; });
+    document.querySelectorAll('.v15-shop-card__media > span').forEach(el => setText(el, 'Lanzamiento 01'));
     const proof = document.querySelector('.v15-shop-proof');
     if (proof && proof.dataset.v17 !== '1') {
       proof.dataset.v17 = '1';
       proof.innerHTML = '<span>2 piezas</span><span>Tallas S–XL</span><span>Producción local</span><span>Colecciones pequeñas</span>';
     }
-    const head = document.querySelector('.v15-section-head > p');
-    if (head) head.textContent = 'Dos piezas para comprar primero. Artistas, archivo e historias amplían el universo sin distraer del producto.';
+    setText(document.querySelector('.v15-section-head > p'), 'Dos piezas para comprar primero. Artistas, archivo e historias amplían el universo sin distraer del producto.');
   }
 
   function polishCards() {
     document.querySelectorAll('.product-card[data-product]').forEach(card => {
       const handle = card.dataset.product || '';
       if (!activeHandles.has(handle)) return;
-      const meta = card.querySelector('.v6-card-meta');
-      if (meta) {
-        const labels = meta.querySelectorAll('span');
-        if (labels[0]) labels[0].textContent = 'Lanzamiento 01';
-        if (labels[1]) labels[1].textContent = 'Ver producto';
-      }
+      const labels = card.querySelectorAll('.v6-card-meta span');
+      setText(labels[0], 'Lanzamiento 01');
+      setText(labels[1], 'Ver producto');
     });
   }
 
@@ -79,10 +79,8 @@
     const r = route();
     if (r !== '/prendas' && r !== '/nuevo') return;
     const hero = app.querySelector('.page-hero');
-    const h1 = hero?.querySelector('h1');
-    const lede = hero?.querySelector('.lede');
-    if (r === '/prendas' && h1) h1.textContent = 'Prendas';
-    if (lede) lede.textContent = 'Dos piezas activas. Entra al producto para ver campaña, talla, historia y detalles de compra.';
+    if (r === '/prendas') setText(hero?.querySelector('h1'), 'Prendas');
+    setText(hero?.querySelector('.lede'), 'Dos piezas activas. Entra al producto para ver campaña, talla, historia y detalles de compra.');
     const summary = app.querySelector('.v15-plp-summary');
     if (summary && summary.dataset.v17 !== '1') {
       summary.dataset.v17 = '1';
@@ -98,8 +96,7 @@
     if (!page || !buybox) return;
 
     page.querySelector('.buy-status')?.setAttribute('aria-live','polite');
-    const preview = buybox.querySelector('.preview-note');
-    if (preview) preview.textContent = 'Vista previa de lanzamiento. La venta pública se habilitará después de aprobar muestra, fit y operación.';
+    setText(buybox.querySelector('.preview-note'), 'Vista previa de lanzamiento. La venta pública se habilitará después de aprobar muestra, fit y operación.');
 
     const add = buybox.querySelector('.add-cart');
     const purchaseLine = buybox.querySelector('.v15-purchase-line');
@@ -112,12 +109,9 @@
     const details = buybox.querySelectorAll('.accordions details');
     if (details.length >= 4 && buybox.dataset.v17Accordions !== '1') {
       buybox.dataset.v17Accordions = '1';
-      const fit = details[1].querySelector('.detail-body');
-      const shipping = details[2].querySelector('.detail-body');
-      const care = details[3].querySelector('.detail-body');
-      if (fit) fit.textContent = 'Tallas S, M, L y XL en esta vista. La tabla definitiva de medidas se publicará antes de habilitar la venta.';
-      if (shipping) shipping.textContent = 'Tiempos, cobertura y condiciones de cambio aparecerán antes de la compra pública y dentro del checkout.';
-      if (care) care.textContent = 'Las instrucciones definitivas de lavado y cuidado se publicarán con la ficha final de cada prenda.';
+      setText(details[1].querySelector('.detail-body'), 'Tallas S, M, L y XL en esta vista. La tabla definitiva de medidas se publicará antes de habilitar la venta.');
+      setText(details[2].querySelector('.detail-body'), 'Tiempos, cobertura y condiciones de cambio aparecerán antes de la compra pública y dentro del checkout.');
+      setText(details[3].querySelector('.detail-body'), 'Las instrucciones definitivas de lavado y cuidado se publicarán con la ficha final de cada prenda.');
     }
 
     buybox.querySelectorAll('.sizes .size').forEach(button => {
@@ -134,8 +128,7 @@
     const dev = app.querySelector('.v15-development-card');
     if (dev && dev.dataset.v17 !== '1') {
       dev.dataset.v17 = '1';
-      const p = dev.querySelector('p:not(.eyebrow)');
-      if (p) p.textContent = 'A/B de dirección, IDs de impresión, ficha de taller, supuestos físicos y evidencia Product Ready permanecen aquí para el equipo.';
+      setText(dev.querySelector('p:not(.eyebrow)'), 'A/B de dirección, IDs de impresión, ficha de taller, supuestos físicos y evidencia Product Ready permanecen aquí para el equipo.');
     }
   }
 
@@ -165,18 +158,23 @@
 
     const list = results.querySelector('.search-results');
     if (!list) return;
-    list.querySelector('.v16-search-count')?.remove();
     const links = list.querySelectorAll('.search-result').length;
-    const legacyEmpty = list.querySelector(':scope > p');
+    const legacyEmpty = list.querySelector(':scope > p:not(.v16-search-count)');
+    const count = list.querySelector('.v16-search-count');
+
     if (!links) {
-      if (legacyEmpty) legacyEmpty.remove();
+      legacyEmpty?.remove();
+      count?.remove();
       if (!list.querySelector('.v16-search-empty')) {
         list.innerHTML = '<div class="v16-search-empty"><strong>No encontramos coincidencias.</strong><p>Prueba con Raíz, Ola, Alma, Hokusai o explora las dos piezas activas.</p><a class="button secondary" href="#/prendas">Ver prendas</a></div>';
       }
       return;
     }
+
     legacyEmpty?.remove();
-    list.insertAdjacentHTML('afterbegin', `<p class="v16-search-count">${links} ${links === 1 ? 'resultado' : 'resultados'}</p>`);
+    const label = `${links} ${links === 1 ? 'resultado' : 'resultados'}`;
+    if (count) setText(count, label);
+    else list.insertAdjacentHTML('afterbegin', `<p class="v16-search-count">${label}</p>`);
   }
 
   function bindSearch() {
@@ -210,7 +208,7 @@
     const cart = readCart();
     drawer.classList.toggle('v16-cart-empty', cart.length === 0);
     checkout.disabled = cart.length === 0;
-    checkout.textContent = cart.length ? 'Continuar al checkout' : 'Tu bolsa está vacía';
+    setText(checkout, cart.length ? 'Continuar al checkout' : 'Tu bolsa está vacía');
 
     if (!cart.length) {
       if (!items.querySelector('.v16-cart-empty-state')) {
@@ -248,12 +246,13 @@
     const eyebrow = app.querySelector('.page-hero .eyebrow');
     if (!eyebrow || eyebrow.textContent.trim() !== '404') return;
     const hero = eyebrow.closest('.page-hero');
-    const h1 = hero?.querySelector('h1');
-    const lede = hero?.querySelector('.lede');
+    setText(hero?.querySelector('h1'), 'No encontramos esta página.');
+    setText(hero?.querySelector('.lede'), 'Puedes volver al inicio o entrar directamente a las piezas del lanzamiento.');
     const link = hero?.querySelector('.button');
-    if (h1) h1.textContent = 'No encontramos esta página.';
-    if (lede) lede.textContent = 'Puedes volver al inicio o entrar directamente a las piezas del lanzamiento.';
-    if (link) { link.href = '#/prendas'; link.textContent = 'Ver prendas'; }
+    if (link) {
+      if (link.getAttribute('href') !== '#/prendas') link.href = '#/prendas';
+      setText(link, 'Ver prendas');
+    }
   }
 
   function syncOverlays() {
@@ -272,8 +271,7 @@
     });
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape') return;
-      const menu = document.getElementById('mobileMenu');
-      menu?.setAttribute('aria-hidden','true');
+      document.getElementById('mobileMenu')?.setAttribute('aria-hidden','true');
       setTimeout(syncOverlays, 0);
     });
     document.getElementById('mobileMenu')?.addEventListener('click', e => {
