@@ -35,6 +35,7 @@ jobs:
           test -f preview/site/v9.css
           test -f preview/site/v10.css
           test -f preview/site/v11.css
+          test -f preview/site/v12.css
           test -f preview/site/app.js
           test -f preview/site/fixes.js
           test -f preview/site/v5.js
@@ -44,6 +45,7 @@ jobs:
           test -f preview/site/v9.js
           test -f preview/site/v10.js
           test -f preview/site/v11.js
+          test -f preview/site/v12.js
           node --check preview/site/app.js
           node --check preview/site/fixes.js
           node --check preview/site/v5.js
@@ -53,11 +55,12 @@ jobs:
           node --check preview/site/v9.js
           node --check preview/site/v10.js
           node --check preview/site/v11.js
+          node --check preview/site/v12.js
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
-          grep -q 'v11.css' preview/site/index.html
-          grep -q 'v11.js' preview/site/index.html
-          grep -q 'WEB-COMMERCE V11' preview/site/index.html
+          grep -q 'v12.css' preview/site/index.html
+          grep -q 'v12.js' preview/site/index.html
+          grep -q 'WEB-COMMERCE V12' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
           ! grep -q 'v4.css' preview/site/index.html
@@ -70,16 +73,13 @@ jobs:
           grep -q 'Dirección A' preview/site/v9.js
           grep -q 'data-v10-workshop-spec' preview/site/v10.js
           grep -q 'data-asset-slot' preview/site/v11.js
-          grep -q 'alma-rios' preview/site/v11.js
-          grep -q 'tomas-muro' preview/site/v11.js
-          grep -q 'nina-cobalto' preview/site/v11.js
-          grep -q 'simon-bestiario' preview/site/v11.js
-          grep -q 'vera-montana' preview/site/v11.js
-          grep -q 'hokusai' preview/site/v11.js
-          grep -q 'william-morris' preview/site/v11.js
-          grep -q 'van-gogh' preview/site/v11.js
-          grep -q 'monet' preview/site/v11.js
-          grep -q 'DIRECCIÓN VISUAL DEL PROYECTO' preview/site/v11.js
+          grep -q 'data-v12-campaign-hero' preview/site/v12.js
+          grep -q '10 universos / 2 en lanzamiento' preview/site/v12.js
+          grep -q 'mucha' preview/site/v12.js
+          grep -q 'Una imagen no basta' preview/site/v12.js
+          grep -q 'La fuente permanece visible' preview/site/v12.js
+          grep -q 'raiz-campaign-study.svg' preview/site/v12.js
+          grep -q 'ola-garment-study.svg' preview/site/v12.js
 
       - name: Build storefront preview + status artifact
         shell: bash
@@ -105,7 +105,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'WEB-COMMERCE V11',
+              'previewVersion': 'WEB-COMMERCE V12',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
