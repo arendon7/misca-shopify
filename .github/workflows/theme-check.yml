@@ -5,12 +5,14 @@ on:
     paths:
       - 'theme/**'
       - 'docs/SHOPIFY_COMMERCE_READINESS_V1.md'
+      - 'docs/VISUAL_ASSET_INVENTORY_V2.md'
       - '.github/workflows/**'
   push:
     branches: [main]
     paths:
       - 'theme/**'
       - 'docs/SHOPIFY_COMMERCE_READINESS_V1.md'
+      - 'docs/VISUAL_ASSET_INVENTORY_V2.md'
       - '.github/workflows/**'
 
 permissions:
@@ -58,3 +60,31 @@ jobs:
           grep -q 'data-cart-commerce-ready' theme/snippets/cart-drawer.liquid
           grep -q 'commerceLocked' theme/assets/cart-drawer.js
           grep -q 'cart_commerce_ready' theme/sections/main-cart.liquid
+
+      - name: Visual asset library guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f docs/VISUAL_ASSET_INVENTORY_V2.md
+          test -f theme/assets/visual-fallbacks.css
+          test -f theme/assets/visual-fallbacks.js
+          node --check theme/assets/visual-fallbacks.js
+          for product in raiz ola; do
+            for frame in cover front back detail context art-crop spec-card; do
+              test -f "theme/assets/misca-${product}-${frame}.svg"
+            done
+          done
+          for universe in alma-rios tomas-muro nina-cobalto simon-bestiario vera-montana hokusai william-morris mucha van-gogh monet; do
+            test -f "theme/assets/misca-universe-${universe}.svg"
+          done
+          grep -q 'misca-raiz-cover.svg' theme/sections/home-hero.liquid
+          grep -q 'misca-ola-cover.svg' theme/sections/home-hero.liquid
+          grep -q 'misca-concept-badge' theme/snippets/product-card.liquid
+          grep -q 'misca-universe-fallback' theme/sections/artists-index.liquid
+          grep -q 'misca-universe-fallback' theme/sections/main-artist.liquid
+          grep -q 'misca-universe-fallback' theme/sections/main-list-collections.liquid
+          grep -q 'collection-hero-media' theme/sections/main-collection.liquid
+          grep -q 'visual-fallbacks.css' theme/layout/theme.liquid
+          grep -q 'MiscaVisualAssets' theme/layout/theme.liquid
+          grep -q 'visual-fallbacks.js' theme/layout/theme.liquid
+          grep -q 'EXACT_CAMPAIGN_FILES_PENDING_IMPORT' docs/VISUAL_ASSET_INVENTORY_V2.md
