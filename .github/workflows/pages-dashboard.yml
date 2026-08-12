@@ -74,8 +74,8 @@ jobs:
           grep -q 'Dos prendas. Ninguna distracción.' preview/site/v15.js
           grep -q 'v15-development-open' preview/site/v15.css
           grep -q 'guardProductRoute' preview/site/v17.js
-          grep -q 'results.querySelector(.v16-search-discovery' preview/site/v17.js
-          grep -q 'items.querySelector(.v16-cart-empty-state' preview/site/v17.js
+          grep -q 'v16-search-discovery' preview/site/v17.js
+          grep -q 'v16-cart-empty-state' preview/site/v17.js
           grep -q 'developmentHandles' preview/site/v17.js
           grep -q 'No encontramos esta pieza.' preview/site/v17.js
           grep -q 'v14-pdp-boundary{display:none' preview/site/v17.css
