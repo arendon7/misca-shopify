@@ -83,14 +83,13 @@
       const handle = card.dataset.product;
       const p = products[handle];
       if (!p || card.dataset.v15 === '1') return;
-      card.dataset.v15 = '1';
       const media = card.querySelector('.product-media');
       const main = media?.querySelector('.v14-card-image');
-      if (media && main) {
-        const altSrc = handle === 'raiz-de-concreto' ? p.front : p.back;
-        main.classList.add('v15-card-main');
-        main.insertAdjacentHTML('afterend', image(altSrc, `Vista alternativa conceptual de ${p.title}`, 'v15-card-alt'));
-      }
+      if (!media || !main) return;
+      card.dataset.v15 = '1';
+      const altSrc = handle === 'raiz-de-concreto' ? p.front : p.back;
+      main.classList.add('v15-card-main');
+      main.insertAdjacentHTML('afterend', image(altSrc, `Vista alternativa conceptual de ${p.title}`, 'v15-card-alt'));
       const actions = card.querySelector('.v6-card-actions');
       if (actions) {
         const primary = actions.querySelector('.v6-card-link');
