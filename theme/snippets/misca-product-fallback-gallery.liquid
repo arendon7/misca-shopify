@@ -1,0 +1,26 @@
+{% liquid
+  assign visual_prefix = ''
+  case product.handle
+    when 'raiz-de-concreto'
+      assign visual_prefix = 'raiz'
+    when 'ola-hokusai'
+      assign visual_prefix = 'ola'
+  endcase
+  assign frame_keys = 'front,back,detail,context,art-crop' | split: ','
+  assign frame_labels = 'Frente|Espalda|Detalle|Contexto|Obra / crop' | split: '|'
+%}
+{% if visual_prefix != blank %}
+  {% for frame_key in frame_keys %}
+    {% capture asset_name %}misca-{{ visual_prefix }}-{{ frame_key }}.svg{% endcapture %}
+    <figure class="product-gallery__item product-gallery__item--concept" data-concept-frame="{{ frame_key }}">
+      <img
+        src="{{ asset_name | strip | asset_url }}"
+        alt="{{ frame_labels[forloop.index0] }} conceptual de {{ product.title | escape }}"
+        {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
+      >
+      <figcaption><span>Estudio conceptual</span><strong>{{ frame_labels[forloop.index0] }}</strong></figcaption>
+    </figure>
+  {% endfor %}
+{% else %}
+  <div class="product-gallery__item"><div class="media-placeholder"></div></div>
+{% endif %}
