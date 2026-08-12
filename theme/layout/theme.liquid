@@ -13,10 +13,32 @@
     {% style %}:root{--bg: {{ settings.color_bg | default: '#F5F2EA' }};--surface: {{ settings.color_surface | default: '#FFFDF8' }};--ink: {{ settings.color_ink | default: '#151515' }};--muted: {{ settings.color_muted | default: '#6D6A64' }};}{% endstyle %}
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'commerce-readiness.css' | asset_url | stylesheet_tag }}
+    {{ 'visual-fallbacks.css' | asset_url | stylesheet_tag }}
+    <script>
+      window.MiscaVisualAssets = Object.freeze({
+        products: {
+          'raiz-de-concreto': {
+            front: {{ 'misca-raiz-front.svg' | asset_url | json }},
+            back: {{ 'misca-raiz-back.svg' | asset_url | json }},
+            detail: {{ 'misca-raiz-detail.svg' | asset_url | json }},
+            context: {{ 'misca-raiz-context.svg' | asset_url | json }},
+            artCrop: {{ 'misca-raiz-art-crop.svg' | asset_url | json }}
+          },
+          'ola-hokusai': {
+            front: {{ 'misca-ola-front.svg' | asset_url | json }},
+            back: {{ 'misca-ola-back.svg' | asset_url | json }},
+            detail: {{ 'misca-ola-detail.svg' | asset_url | json }},
+            context: {{ 'misca-ola-context.svg' | asset_url | json }},
+            artCrop: {{ 'misca-ola-art-crop.svg' | asset_url | json }}
+          }
+        }
+      });
+    </script>
     <script type="module" src="{{ 'storefront-events.js' | asset_url }}"></script>
     <script src="{{ 'analytics.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'visual-fallbacks.js' | asset_url }}" defer="defer"></script>
   </head>
   <body>
     <a class="skip-link" href="#MainContent">Saltar al contenido</a>

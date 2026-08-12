@@ -13,7 +13,9 @@
                 {{ collection.featured_image | image_url: width: 900 | image_tag: loading: 'lazy' }}
               {% elsif collection.products.first.featured_image %}
                 {{ collection.products.first.featured_image | image_url: width: 900 | image_tag: loading: 'lazy' }}
-              {% else %}<div class="media-placeholder"></div>{% endif %}
+              {% else %}
+                {% render 'misca-universe-fallback', handle: collection.handle, alt: collection.title %}
+              {% endif %}
             </div>
             <div class="collection-tile__body"><p class="eyebrow">Colección</p><h3>{{ collection.title }}</h3><p>{{ collection.products_count }} productos</p></div>
           </a>
