@@ -4,11 +4,13 @@ on:
   pull_request:
     paths:
       - 'theme/**'
+      - 'docs/SHOPIFY_COMMERCE_READINESS_V1.md'
       - '.github/workflows/**'
   push:
     branches: [main]
     paths:
       - 'theme/**'
+      - 'docs/SHOPIFY_COMMERCE_READINESS_V1.md'
       - '.github/workflows/**'
 
 permissions:
@@ -35,3 +37,24 @@ jobs:
 
       - name: Theme Check
         run: shopify theme check --path theme --fail-level error --no-color
+
+      - name: Commerce readiness guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f docs/SHOPIFY_COMMERCE_READINESS_V1.md
+          test -f theme/assets/commerce-readiness.css
+          grep -q 'custom.commerce_status' theme/sections/main-product.liquid
+          grep -q 'data-commerce-ready' theme/sections/main-product.liquid
+          grep -q 'show_prelaunch_price' theme/sections/main-product.liquid
+          grep -q 'if commerce_ready' theme/sections/main-product.liquid
+          grep -q 'custom.commerce_status' theme/snippets/product-card.liquid
+          grep -q 'enforce_commerce_readiness' theme/config/settings_schema.json
+          grep -q 'theme_version":"0.3.0"' theme/config/settings_schema.json
+          grep -q 'commerce-readiness.css' theme/layout/theme.liquid
+          grep -q 'commerceReady' theme/assets/theme.js
+          grep -q 'misca:commerce-blocked' theme/assets/theme.js
+          grep -q "publish('commerce_blocked'" theme/assets/analytics.js
+          grep -q 'data-cart-commerce-ready' theme/snippets/cart-drawer.liquid
+          grep -q 'commerceLocked' theme/assets/cart-drawer.js
+          grep -q 'cart_commerce_ready' theme/sections/main-cart.liquid

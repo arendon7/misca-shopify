@@ -2,7 +2,15 @@
   assign deep_link_variant = product.selected_variant
   assign display_variant = deep_link_variant | default: product.selected_or_first_available_variant
   assign artist = product.metafields.custom.artist.value
+  assign commerce_status = product.metafields.custom.commerce_status.value | default: 'draft'
+  assign commerce_ready = true
   assign selection_required = false
+
+  if settings.enforce_commerce_readiness
+    unless commerce_status == 'ready'
+      assign commerce_ready = false
+    endunless
+  endif
 
   unless product.has_only_default_variant
     if deep_link_variant == blank
@@ -19,6 +27,8 @@
   data-product-handle="{{ product.handle | escape }}"
   data-product-title="{{ product.title | escape }}"
   data-selection-required="{{ selection_required }}"
+  data-commerce-status="{{ commerce_status | escape }}"
+  data-commerce-ready="{{ commerce_ready }}"
 >
   <div class="product-gallery">
     {% for media in product.media %}
@@ -64,7 +74,24 @@
     {% endif %}
 
     <h1>{{ product.title }}</h1>
-    <div class="product-price" data-product-price>{{ display_variant.price | money }}</div>
+    {% if commerce_ready or settings.show_prelaunch_price %}
+      <div class="product-price" data-product-price>{{ display_variant.price | money }}</div>
+    {% else %}
+      <div class="product-price product-price--pending" data-product-price data-price-hidden="true">Precio por confirmar</div>
+    {% endif %}
+
+    {% unless commerce_ready %}
+      <div class="commerce-readiness commerce-readiness--{{ commerce_status | escape }}" data-commerce-readiness>
+        <strong>{% if commerce_status == 'validation' %}En validación{% else %}Próximamente{% endif %}</strong>
+        <span>
+          {% if commerce_status == 'validation' %}
+            {{ settings.commerce_validation_message }}
+          {% else %}
+            {{ settings.commerce_draft_message }}
+          {% endif %}
+        </span>
+      </div>
+    {% endunless %}
 
     {% if settings.show_product_truth_notice %}
       <p class="truth-notice">{{ settings.product_truth_notice }}</p>
@@ -124,16 +151,21 @@
         class="button button--full"
         type="submit"
         data-add-to-cart
+        {% unless commerce_ready %}disabled{% endunless %}
         {% if product.has_only_default_variant and display_variant.available == false %}disabled{% endif %}
         {% if deep_link_variant != blank and deep_link_variant.available == false %}disabled{% endif %}
       >
-        {% if product.has_only_default_variant %}
-          {% if display_variant.available %}Agregar a la bolsa{% else %}Agotado{% endif %}
-        {% elsif deep_link_variant != blank %}
-          {% if deep_link_variant.available %}Agregar a la bolsa{% else %}Agotado{% endif %}
+        {% unless commerce_ready %}
+          {% if commerce_status == 'validation' %}En validación{% else %}Próximamente{% endif %}
         {% else %}
-          Elegir talla
-        {% endif %}
+          {% if product.has_only_default_variant %}
+            {% if display_variant.available %}Agregar a la bolsa{% else %}Agotado{% endif %}
+          {% elsif deep_link_variant != blank %}
+            {% if deep_link_variant.available %}Agregar a la bolsa{% else %}Agotado{% endif %}
+          {% else %}
+            Elegir talla
+          {% endif %}
+        {% endunless %}
       </button>
     {% endform %}
 
@@ -193,16 +225,20 @@
   <div class="mobile-buybar" data-mobile-buybar>
     <div class="mobile-buybar__meta">
       <span class="mobile-buybar__title">{{ product.title }}</span>
-      <strong data-mobile-price>{{ display_variant.price | money }}</strong>
+      <strong data-mobile-price{% unless commerce_ready or settings.show_prelaunch_price %} data-price-hidden="true"{% endunless %}>{% if commerce_ready or settings.show_prelaunch_price %}{{ display_variant.price | money }}{% else %}Precio por confirmar{% endif %}</strong>
     </div>
-    <button type="button" class="button" data-mobile-add>
-      {% if product.has_only_default_variant %}
-        {% if display_variant.available %}Agregar{% else %}Agotado{% endif %}
-      {% elsif deep_link_variant != blank %}
-        {% if deep_link_variant.available %}Agregar{% else %}Agotado{% endif %}
+    <button type="button" class="button" data-mobile-add {% unless commerce_ready %}disabled{% endunless %}>
+      {% unless commerce_ready %}
+        {% if commerce_status == 'validation' %}En validación{% else %}Próximamente{% endif %}
       {% else %}
-        Elegir talla
-      {% endif %}
+        {% if product.has_only_default_variant %}
+          {% if display_variant.available %}Agregar{% else %}Agotado{% endif %}
+        {% elsif deep_link_variant != blank %}
+          {% if deep_link_variant.available %}Agregar{% else %}Agotado{% endif %}
+        {% else %}
+          Elegir talla
+        {% endif %}
+      {% endunless %}
     </button>
   </div>
 
@@ -218,9 +254,11 @@
 </section>
 </s-view-event>
 
-<script type="application/ld+json">
-  {{ product | structured_data }}
-</script>
+{% if commerce_ready %}
+  <script type="application/ld+json">
+    {{ product | structured_data }}
+  </script>
+{% endif %}
 
 {% schema %}
 {
