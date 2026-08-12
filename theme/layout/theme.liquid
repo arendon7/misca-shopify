@@ -13,6 +13,7 @@
     {% style %}:root{--bg: {{ settings.color_bg | default: '#F5F2EA' }};--surface: {{ settings.color_surface | default: '#FFFDF8' }};--ink: {{ settings.color_ink | default: '#151515' }};--muted: {{ settings.color_muted | default: '#6D6A64' }};}{% endstyle %}
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'commerce-readiness.css' | asset_url | stylesheet_tag }}
+    {{ 'visual-fallbacks.css' | asset_url | stylesheet_tag }}
     <script type="module" src="{{ 'storefront-events.js' | asset_url }}"></script>
     <script src="{{ 'analytics.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
