@@ -1,0 +1,61 @@
+{% liquid
+  assign visual_key = key | default: 'stories'
+  assign one = 'misca-raiz-cover.svg'
+  assign one_w = 1200
+  assign one_h = 1500
+  assign two = 'misca-ola-cover.svg'
+  assign two_w = 1200
+  assign two_h = 1500
+  assign three = ''
+  assign three_w = 1200
+  assign three_h = 1500
+
+  case visual_key
+    when 'raiz'
+      assign one = 'misca-raiz-art-crop.svg'
+      assign one_w = 900
+      assign one_h = 1200
+      assign two = 'misca-raiz-context.svg'
+      assign two_w = 1200
+      assign two_h = 900
+    when 'ola'
+      assign one = 'misca-ola-art-crop.svg'
+      assign one_w = 900
+      assign one_h = 1200
+      assign two = 'misca-ola-context.svg'
+      assign two_w = 1200
+      assign two_h = 900
+    when 'quality'
+      assign one = 'misca-raiz-detail.svg'
+      assign one_w = 1000
+      assign one_h = 1000
+      assign two = 'misca-ola-detail.svg'
+      assign two_w = 1000
+      assign two_h = 1000
+    when 'creators'
+      assign one = 'misca-universe-alma-rios.svg'
+      assign two = 'misca-universe-tomas-muro.svg'
+      assign three = 'misca-universe-nina-cobalto.svg'
+    when 'archive'
+      assign one = 'misca-universe-hokusai.svg'
+      assign two = 'misca-universe-william-morris.svg'
+    when 'stories'
+      assign one = 'misca-raiz-art-crop.svg'
+      assign one_w = 900
+      assign one_h = 1200
+      assign two = 'misca-ola-art-crop.svg'
+      assign two_w = 900
+      assign two_h = 1200
+  endcase
+
+  assign frame_count = 2
+  if three != blank
+    assign frame_count = 3
+  endif
+%}
+<div class="misca-editorial-fallback misca-editorial-fallback--{{ visual_key | handleize }}" style="--misca-frames:{{ frame_count }}" aria-label="{{ label | default: 'Composición editorial conceptual MISCA' | escape }}">
+  <figure><img src="{{ one | asset_url }}" width="{{ one_w }}" height="{{ one_h }}" alt="{{ alt_one | default: label | default: 'Estudio editorial conceptual MISCA' | escape }}" loading="{{ loading | default: 'lazy' }}"{% if eager %} fetchpriority="high"{% endif %}></figure>
+  <figure><img src="{{ two | asset_url }}" width="{{ two_w }}" height="{{ two_h }}" alt="{{ alt_two | default: label | default: 'Estudio editorial conceptual MISCA' | escape }}" loading="{{ loading | default: 'lazy' }}"></figure>
+  {% if three != blank %}<figure><img src="{{ three | asset_url }}" width="{{ three_w }}" height="{{ three_h }}" alt="{{ alt_three | default: label | default: 'Estudio editorial conceptual MISCA' | escape }}" loading="{{ loading | default: 'lazy' }}"></figure>{% endif %}
+  <span class="misca-editorial-fallback__label">Estudio editorial conceptual</span>
+</div>

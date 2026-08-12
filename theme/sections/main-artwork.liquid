@@ -1,2 +1,42 @@
-<section class="section" data-misca-view-event="source_artwork_viewed" data-handle="{{ metaobject.system.handle | escape }}" data-title="{{ metaobject.title.value | escape }}"><div class="page-width prose-grid"><div><p class="eyebrow">Archivo Abierto · obra fuente</p><h1>{{ metaobject.title.value }}</h1><p class="lede">{{ metaobject.creator.value }} · {{ metaobject.date_text.value }}</p></div><div>{% if metaobject.source_image.value %}{{ metaobject.source_image.value | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high' }}{% endif %}<dl class="provenance-list"><div><dt>Institución</dt><dd>{{ metaobject.institution.value }}</dd></div><div><dt>Objeto</dt><dd>{{ metaobject.object_number.value }}</dd></div><div><dt>Derechos</dt><dd>{{ metaobject.rights_status.value }}</dd></div></dl><div class="rte">{{ metaobject.adaptation_notes.value | metafield_tag }}</div>{% if metaobject.source_url.value %}<a class="button button--secondary" href="{{ metaobject.source_url.value }}" target="_blank" rel="noopener">Fuente institucional</a>{% endif %}</div></div></section>
+<section data-misca-view-event="source_artwork_viewed" data-handle="{{ metaobject.system.handle | escape }}" data-title="{{ metaobject.title.value | escape }}">
+  <div class="v22-artwork-hero">
+    <div class="v22-artwork-copy">
+      <p class="eyebrow">Archivo Abierto · obra fuente</p>
+      <h1>{{ metaobject.title.value }}</h1>
+      <p class="lede">{{ metaobject.creator.value }} · {{ metaobject.date_text.value }}</p>
+      <p class="v22-route-note">La fuente y la adaptación se muestran por separado. Una composición MISCA nunca sustituye la obra histórica ni su procedencia.</p>
+    </div>
+    <div class="v22-artwork-visuals">
+      <article class="v22-artwork-panel">
+        <div class="v22-artwork-panel__media">
+          {% if metaobject.source_image.value %}
+            {{ metaobject.source_image.value | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '540, 750, 1100, 1400', sizes: '(min-width: 990px) 32vw, 100vw', alt: metaobject.title.value }}
+          {% else %}
+            <p class="v22-artwork-panel__empty">La imagen de la obra fuente todavía no está cargada en Shopify. La ficha conserva la referencia institucional y no la reemplaza con un mockup.</p>
+          {% endif %}
+        </div>
+        <div class="v22-artwork-panel__label">01 · Obra fuente</div>
+      </article>
+      <article class="v22-artwork-panel">
+        <div class="v22-artwork-panel__media">{% render 'misca-universe-fallback', handle: metaobject.system.handle, alt: metaobject.title.value, loading: 'eager' %}</div>
+        <div class="v22-artwork-panel__label">02 · Contexto / adaptación conceptual MISCA</div>
+      </article>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="page-width v22-provenance-shell">
+      <div><p class="eyebrow">Procedencia</p><h2>La historia de la imagen permanece visible.</h2><p>Archivo Abierto solo tiene sentido si la prenda puede señalar de dónde viene la obra, qué derechos permiten trabajar con ella y qué decisiones pertenecen a la adaptación.</p></div>
+      <div>
+        <dl class="provenance-list">
+          <div><dt>Institución</dt><dd>{{ metaobject.institution.value }}</dd></div>
+          <div><dt>Objeto</dt><dd>{{ metaobject.object_number.value }}</dd></div>
+          <div><dt>Derechos</dt><dd>{{ metaobject.rights_status.value }}</dd></div>
+        </dl>
+        <div class="rte">{{ metaobject.adaptation_notes.value | metafield_tag }}</div>
+        {% if metaobject.source_url.value %}<a class="button button--secondary" href="{{ metaobject.source_url.value }}" target="_blank" rel="noopener">Abrir fuente institucional</a>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
 {% schema %}{"name":"Obra fuente","settings":[]}{% endschema %}

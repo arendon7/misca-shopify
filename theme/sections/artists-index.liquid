@@ -1,2 +1,52 @@
-<section class="section"><div class="page-width"><header class="section-heading"><div><p class="eyebrow">Artistas</p><h1>{{ page.title | default: section.settings.heading }}</h1></div><div class="section-intro rte">{{ section.settings.text }}</div></header><div class="list-grid">{% assign artist_entries = metaobjects.artist.values %}{% for artist in artist_entries %}<a class="artist-tile" href="{{ artist.system.url }}"><div class="artist-tile__media">{% if artist.hero_image.value %}{{ artist.hero_image.value | image_url: width: 900 | image_tag: loading: 'lazy' }}{% else %}{% render 'misca-universe-fallback', handle: artist.system.handle, alt: artist.name.value %}{% endif %}</div><div class="artist-tile__body"><p class="eyebrow">{{ artist.type.value }}</p><h3>{{ artist.name.value }}</h3><p>{{ artist.discipline.value }}</p></div></a>{% else %}<p class="empty-state">Los artistas activos aparecerán aquí.</p>{% endfor %}</div></div></section>
-{% schema %}{"name":"Índice de artistas","settings":[{"type":"text","id":"heading","label":"Título fallback","default":"Artistas"},{"type":"richtext","id":"text","label":"Texto","default":"<p>Personas, universos creativos y archivos históricos alrededor de los que construimos prendas.</p>"}]}{% endschema %}
+{% assign artist_entries = metaobjects.artist.values %}
+<section class="section">
+  <div class="page-width">
+    <header class="section-heading">
+      <div class="v22-route-intro"><p class="eyebrow">Artistas de la Casa</p><h1>{{ page.title | default: section.settings.heading }}</h1></div>
+      <div class="section-intro rte">{{ section.settings.text }}</div>
+    </header>
+
+    <div class="v22-artists-active">
+      <div class="section-heading"><div><p class="eyebrow">Disponible ahora</p><h2>Colecciones que ya llegaron a producto.</h2></div><p class="section-intro">Aquí una voz creativa ya tiene una colección vinculada. Lo demás permanece visible como archivo de estudio, no como surtido.</p></div>
+      <div class="v22-artist-feature-grid">
+        {% assign active_count = 0 %}
+        {% for artist in artist_entries %}
+          {% if artist.primary_collection.value != blank %}
+            {% assign active_count = active_count | plus: 1 %}
+            <a class="v22-artist-tile" href="{{ artist.system.url }}">
+              <div class="v22-artist-tile__media">{% if artist.hero_image.value %}{{ artist.hero_image.value | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '540, 750, 1000, 1200', sizes: '(min-width: 990px) 38vw, 100vw', alt: artist.name.value }}{% else %}{% render 'misca-universe-fallback', handle: artist.system.handle, alt: artist.name.value %}{% endif %}</div>
+              <div class="v22-artist-tile__copy"><span class="v22-artist-status">Colección activa</span><p class="eyebrow">{{ artist.type.value }}</p><h2>{{ artist.name.value }}</h2><p>{{ artist.discipline.value }}</p><span class="v22-story-card__link">Entrar al universo →</span></div>
+            </a>
+          {% endif %}
+        {% endfor %}
+        {% if active_count == 0 %}<p class="empty-state">Las colecciones activas aparecerán aquí cuando un artista tenga producto vinculado.</p>{% endif %}
+      </div>
+    </div>
+
+    <div class="v22-artists-study">
+      <div class="section-heading"><div><p class="eyebrow">Archivo creativo</p><h2>Universos en estudio.</h2></div><p class="section-intro">Una dirección visual puede existir antes de convertirse en camiseta. Estar aquí no significa disponibilidad, stock ni fecha de lanzamiento.</p></div>
+      <div class="v22-study-grid">
+        {% assign study_count = 0 %}
+        {% for artist in artist_entries %}
+          {% if artist.primary_collection.value == blank %}
+            {% assign study_count = study_count | plus: 1 %}
+            <a class="artist-tile" href="{{ artist.system.url }}">
+              <div class="artist-tile__media">{% if artist.hero_image.value %}{{ artist.hero_image.value | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 23vw, 50vw', alt: artist.name.value }}{% else %}{% render 'misca-universe-fallback', handle: artist.system.handle, alt: artist.name.value %}{% endif %}</div>
+              <div class="artist-tile__body"><span class="v22-artist-status">En estudio</span><p class="eyebrow">{{ artist.type.value }}</p><h3>{{ artist.name.value }}</h3><p>{{ artist.discipline.value }}</p></div>
+            </a>
+          {% endif %}
+        {% endfor %}
+        {% if study_count == 0 %}<p class="empty-state">No hay universos adicionales en estudio.</p>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Índice de artistas",
+  "settings":[
+    {"type":"text","id":"heading","label":"Título fallback","default":"Cada colección empieza con una voz."},
+    {"type":"richtext","id":"text","label":"Texto","default":"<p>Algunas voces ya tienen producto. Otras viven todavía como universos de estudio. MISCA distingue las dos cosas para no confundir exploración creativa con inventario.</p>"}
+  ]
+}
+{% endschema %}

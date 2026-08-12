@@ -6,6 +6,7 @@ on:
       - 'theme/**'
       - 'docs/SHOPIFY_COMMERCE_READINESS_V1.md'
       - 'docs/VISUAL_ASSET_INVENTORY_V2.md'
+      - 'docs/V22_EDITORIAL_SYSTEM.md'
       - '.github/workflows/**'
   push:
     branches: [main]
@@ -13,6 +14,7 @@ on:
       - 'theme/**'
       - 'docs/SHOPIFY_COMMERCE_READINESS_V1.md'
       - 'docs/VISUAL_ASSET_INVENTORY_V2.md'
+      - 'docs/V22_EDITORIAL_SYSTEM.md'
       - '.github/workflows/**'
 
 permissions:
@@ -52,7 +54,7 @@ jobs:
           grep -q 'if commerce_ready' theme/sections/main-product.liquid
           grep -q 'custom.commerce_status' theme/snippets/product-card.liquid
           grep -q 'enforce_commerce_readiness' theme/config/settings_schema.json
-          grep -q 'theme_version":"0.3.0"' theme/config/settings_schema.json
+          grep -q 'theme_version":"0.4.0"' theme/config/settings_schema.json
           grep -q 'commerce-readiness.css' theme/layout/theme.liquid
           grep -q 'commerceReady' theme/assets/theme.js
           grep -q 'misca:commerce-blocked' theme/assets/theme.js
@@ -88,3 +90,23 @@ jobs:
           grep -q 'MiscaVisualAssets' theme/layout/theme.liquid
           grep -q 'visual-fallbacks.js' theme/layout/theme.liquid
           grep -q 'EXACT_CAMPAIGN_FILES_PENDING_IMPORT' docs/VISUAL_ASSET_INVENTORY_V2.md
+
+      - name: Editorial V22 guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f docs/V22_EDITORIAL_SYSTEM.md
+          test -f theme/assets/editorial-v22.css
+          test -f theme/snippets/misca-editorial-fallback.liquid
+          test -f theme/sections/main-quality.liquid
+          test -f theme/templates/page.quality.json
+          grep -q 'editorial-v22.css' theme/layout/theme.liquid
+          grep -q 'v22-story-card--lead' theme/sections/main-blog.liquid
+          grep -q 'misca-editorial-fallback' theme/sections/main-article.liquid
+          grep -q 'Una división simple del trabajo' theme/sections/main-creators.liquid
+          grep -q 'Seis cosas que deben dejar de ser hipótesis' theme/sections/main-quality.liquid
+          grep -q 'Colección activa' theme/sections/artists-index.liquid
+          grep -q 'Universo en estudio' theme/sections/main-artist.liquid
+          grep -q 'Obra fuente' theme/sections/main-artwork.liquid
+          grep -q 'la-fuerza-del-agua' theme/sections/main-list-collections.liquid
+          grep -q 'collection_origin' theme/sections/main-collection.liquid

@@ -17,6 +17,25 @@
       {% endif %}
     </div>
 
+    {% liquid
+      assign collection_origin = ''
+      assign collection_context = ''
+      case collection.handle
+        when 'entre-grietas'
+          assign collection_origin = 'Alma Ríos · Artista de la Casa'
+          assign collection_context = 'Crecimiento, concreto y espacio negativo. La colección traduce una voz original a una prenda sin reducirla a un estampado aislado.'
+        when 'la-fuerza-del-agua'
+          assign collection_origin = 'Archivo Abierto · Katsushika Hokusai'
+          assign collection_context = 'Una obra histórica con procedencia visible. La adaptación decide escala, posición y relación con la prenda sin borrar su fuente.'
+      endcase
+    %}
+    {% if collection_origin != blank %}
+      <div class="v22-collection-context">
+        <strong>{{ collection_origin }}</strong>
+        <p>{{ collection_context }}</p>
+      </div>
+    {% endif %}
+
     <div class="collection-toolbar">
       <span>{{ collection.products_count }} productos</span>
       <form>

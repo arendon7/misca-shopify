@@ -1,26 +1,73 @@
-<section class="creators-hero section">
-  <div class="page-width">
-    <p class="eyebrow">{{ section.settings.eyebrow }}</p>
-    <h1>{{ section.settings.heading }}</h1>
-    <div class="lede rte">{{ section.settings.text }}</div>
-    <div class="steps-grid">
-      {% for block in section.blocks %}
-        <article class="step-card" {{ block.shopify_attributes }}>
-          <span class="step-card__number">0{{ forloop.index }}</span>
-          <h2>{{ block.settings.heading }}</h2>
-          <div class="rte">{{ block.settings.text }}</div>
-        </article>
-      {% endfor %}
+<section>
+  <div class="v22-creators-hero">
+    <div class="v22-creators-hero__copy">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1>{{ section.settings.heading }}</h1>
+      <div class="lede rte">{{ section.settings.text }}</div>
+      <p class="v22-route-note">Empezamos pequeño: una idea central, pocas prendas y una operación que pueda medirse antes de escalar.</p>
+    </div>
+    <div class="v22-creators-hero__visual">
+      {% render 'misca-editorial-fallback', key: 'creators', label: 'Universos creativos MISCA', loading: 'eager', eager: true %}
     </div>
   </div>
+
+  <div class="section">
+    <div class="page-width">
+      <header class="section-heading">
+        <div><p class="eyebrow">Una división simple del trabajo</p><h2>Tu obra sigue siendo tuya. La operación deja de ser tu problema.</h2></div>
+        <p class="section-intro">La colaboración funciona cuando cada parte sabe qué debe decidir, entregar y sostener antes del lanzamiento.</p>
+      </header>
+      <div class="v22-role-grid">
+        <article class="v22-role-card">
+          <p class="eyebrow">El creador</p>
+          <h3>Voz, obra y comunidad.</h3>
+          <ul><li>Define la obra y el criterio visual.</li><li>Aprueba la colección y sus adaptaciones.</li><li>Comunica el lanzamiento a su audiencia.</li><li>Participa en las decisiones creativas clave.</li></ul>
+        </article>
+        <article class="v22-role-card v22-role-card--dark">
+          <p class="eyebrow">MISCA</p>
+          <h3>Producto, tienda y operación.</h3>
+          <ul><li>Desarrolla prenda, técnica y muestra.</li><li>Produce y prepara el pedido.</li><li>Cobra, empaca, envía y atiende.</li><li>Reporta ventas y liquida la comisión acordada.</li></ul>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="page-width">
+      <header class="section-heading"><div><p class="eyebrow">Cómo funciona</p><h2>De una idea a una colección vendible.</h2></div><p class="section-intro">No empezamos desarrollando una plataforma compleja. Empezamos demostrando que una colección puede gustar, producirse y entregarse bien.</p></header>
+      <div class="steps-grid">
+        {% for block in section.blocks %}
+          <article class="step-card" {{ block.shopify_attributes }}>
+            <span class="step-card__number">0{{ forloop.index }}</span>
+            <h3>{{ block.settings.heading }}</h3>
+            <div class="rte">{{ block.settings.text }}</div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="page-width v22-start-model">
+      <div><p class="eyebrow">Modelo de arranque</p><h2>Menos referencias. Más aprendizaje.</h2><p class="lede">Cada primera colección debe ser lo bastante pequeña para corregir rápido y lo bastante completa para sentirse como una marca real.</p></div>
+      <div class="v22-start-model__facts">
+        <div><strong>1</strong><span>concepto central por colección</span></div>
+        <div><strong>1–3</strong><span>prendas iniciales</span></div>
+        <div><strong>Bajo pedido</strong><span>preventa, producción bajo pedido o lote corto</span></div>
+        <div><strong>Antes de lanzar</strong><span>comisión, base liquidable y responsabilidades claras</span></div>
+      </div>
+    </div>
+  </div>
+
+  {% if page.content != blank %}<div class="section"><div class="page-width article-prose rte">{{ page.content }}</div></div>{% endif %}
 </section>
 {% schema %}
 {
   "name":"Para creadores",
   "settings":[
     {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Para creadores"},
-    {"type":"text","id":"heading","label":"Título","default":"Tu obra. Una colección. Todo lo demás resuelto."},
-    {"type":"richtext","id":"text","label":"Texto","default":"<p>El creador diseña y promociona; la plataforma desarrolla producto, produce, cobra, empaca, envía, atiende y liquida.</p>"}
+    {"type":"text","id":"heading","label":"Título","default":"Tu obra. Una colección. Nuestra operación."},
+    {"type":"richtext","id":"text","label":"Texto","default":"<p>Tú diseñas y movilizas tu comunidad. MISCA convierte esa idea en producto, tienda y operación para que pueda venderse sin que tengas que montar todo desde cero.</p>"}
   ],
   "blocks":[
     {
@@ -28,7 +75,7 @@
       "name":"Paso",
       "settings":[
         {"type":"text","id":"heading","label":"Título","default":"Curamos."},
-        {"type":"richtext","id":"text","label":"Texto","default":"<p>Seleccionamos artistas y obras con potencial real de producto.</p>"}
+        {"type":"richtext","id":"text","label":"Texto","default":"<p>Elegimos una idea con potencial real de colección y definimos qué vale la pena convertir en producto.</p>"}
       ]
     }
   ],

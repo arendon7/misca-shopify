@@ -1,2 +1,42 @@
-<section class="metaobject-hero" data-misca-view-event="artist_viewed" data-handle="{{ metaobject.system.handle | escape }}" data-title="{{ metaobject.name.value | escape }}"><div class="metaobject-hero__copy"><p class="eyebrow">{{ metaobject.type.value }}</p><h1>{{ metaobject.name.value }}</h1><div class="lede">{{ metaobject.discipline.value }}</div>{% if metaobject.transparency_note.value != blank %}<p class="truth-notice">{{ metaobject.transparency_note.value }}</p>{% endif %}</div><div class="metaobject-hero__media">{% if metaobject.hero_image.value %}{{ metaobject.hero_image.value | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high' }}{% else %}{% render 'misca-universe-fallback', handle: metaobject.system.handle, alt: metaobject.name.value, loading: 'eager', hero: true %}{% endif %}</div></section><section class="section"><div class="page-width prose-grid"><div><p class="eyebrow">Historia</p><h2>{{ metaobject.tagline.value }}</h2></div><div class="rte">{{ metaobject.story.value | metafield_tag }}</div></div></section>{% assign artist_collection = metaobject.primary_collection.value %}{% if artist_collection != blank %}<section class="section"><div class="page-width"><header class="section-heading"><div><p class="eyebrow">Colección</p><h2>{{ artist_collection.title }}</h2></div></header><div class="product-grid">{% for card_product in artist_collection.products limit: 8 %}{% render 'product-card', product: card_product %}{% endfor %}</div></div></section>{% endif %}
+{% assign artist_collection = metaobject.primary_collection.value %}
+<section class="metaobject-hero" data-misca-view-event="artist_viewed" data-handle="{{ metaobject.system.handle | escape }}" data-title="{{ metaobject.name.value | escape }}">
+  <div class="metaobject-hero__copy">
+    <p class="eyebrow">{{ metaobject.type.value }}</p>
+    <h1>{{ metaobject.name.value }}</h1>
+    <div class="lede">{{ metaobject.discipline.value }}</div>
+    {% if metaobject.transparency_note.value != blank %}<p class="truth-notice">{{ metaobject.transparency_note.value }}</p>{% endif %}
+  </div>
+  <div class="metaobject-hero__media">
+    {% if metaobject.hero_image.value %}{{ metaobject.hero_image.value | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1500, 1800', sizes: '(min-width: 990px) 55vw, 100vw', alt: metaobject.name.value }}{% else %}{% render 'misca-universe-fallback', handle: metaobject.system.handle, alt: metaobject.name.value, loading: 'eager', hero: true %}{% endif %}
+  </div>
+</section>
+
+<div class="v22-artist-status-strip">
+  <div class="page-width">
+    {% if artist_collection != blank %}<strong>Colección activa · {{ artist_collection.title }}</strong><span>Este universo ya tiene producto vinculado.</span>{% else %}<strong>Universo en estudio</strong><span>No forma parte del surtido actual y no tiene fecha de lanzamiento publicada.</span>{% endif %}
+  </div>
+</div>
+
+<section class="section">
+  <div class="page-width prose-grid">
+    <div><p class="eyebrow">La voz</p><h2>{{ metaobject.tagline.value }}</h2></div>
+    <div class="rte">{{ metaobject.story.value | metafield_tag }}</div>
+  </div>
+</section>
+
+{% if artist_collection != blank %}
+  <section class="section">
+    <div class="page-width">
+      <header class="section-heading"><div><p class="eyebrow">Colección</p><h2>{{ artist_collection.title }}</h2></div><p class="section-intro">La colección es el punto donde este universo deja de ser solo dirección visual y empieza a resolverse como producto.</p></header>
+      <div class="product-grid">{% for card_product in artist_collection.products limit: 8 %}{% render 'product-card', product: card_product %}{% endfor %}</div>
+    </div>
+  </section>
+{% else %}
+  <section class="section">
+    <div class="page-width prose-grid">
+      <div><p class="eyebrow">Estado</p><h2>Explorar no significa producir.</h2></div>
+      <div><p class="lede">MISCA conserva universos creativos que todavía no han cruzado el gate de colección. Pueden orientar futuras piezas sin convertirse antes de tiempo en catálogo.</p><a class="button button--secondary" href="{{ routes.collections_url }}">Ver colecciones disponibles</a></div>
+    </div>
+  </section>
+{% endif %}
 {% schema %}{"name":"Artista","settings":[]}{% endschema %}

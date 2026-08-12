@@ -1,3 +1,64 @@
-<section class="section"><div class="page-width"><header class="section-heading"><div><p class="eyebrow">Historias</p><h1>{{ blog.title }}</h1></div><div class="section-intro rte">{{ section.settings.intro }}</div></header>
-{% paginate blog.articles by section.settings.articles_per_page %}<div class="blog-grid">{% for article in blog.articles %}<article class="article-card">{% if article.image %}<a class="article-card__media" href="{{ article.url }}">{{ article.image | image_url: width: 900 | image_tag: loading: 'lazy' }}</a>{% endif %}<div class="article-card__body"><p class="eyebrow">{{ article.published_at | date: '%d.%m.%Y' }}</p><h3><a href="{{ article.url }}">{{ article.title }}</a></h3><p>{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p></div></article>{% else %}<p class="empty-state">Las historias aparecerán aquí.</p>{% endfor %}</div>{{ paginate | default_pagination }}{% endpaginate %}</div></section>
-{% schema %}{"name":"Blog","settings":[{"type":"richtext","id":"intro","label":"Introducción","default":"<p>Procesos, artistas, obras y decisiones detrás de cada colección.</p>"},{"type":"range","id":"articles_per_page","label":"Artículos por página","min":3,"max":24,"step":3,"default":9}]}{% endschema %}
+<section class="section">
+  <div class="page-width">
+    <header class="section-heading">
+      <div class="v22-route-intro">
+        <p class="eyebrow">Historias</p>
+        <h1>{{ blog.title }}</h1>
+      </div>
+      <div class="section-intro rte">{{ section.settings.intro }}</div>
+    </header>
+
+    {% paginate blog.articles by section.settings.articles_per_page %}
+      <div class="v22-story-grid">
+        {% for article in blog.articles %}
+          {% liquid
+            assign signal = article.handle | append: ' ' | append: article.title | downcase
+            assign visual_key = 'stories'
+            if signal contains 'raiz' or signal contains 'grieta'
+              assign visual_key = 'raiz'
+            elsif signal contains 'ola' or signal contains 'hokusai' or signal contains 'agua'
+              assign visual_key = 'ola'
+            elsif signal contains 'calidad' or signal contains 'producto' or signal contains 'camiseta'
+              assign visual_key = 'quality'
+            elsif signal contains 'creador' or signal contains 'artista'
+              assign visual_key = 'creators'
+            elsif signal contains 'archivo' or signal contains 'procedencia'
+              assign visual_key = 'archive'
+            endif
+          %}
+          <article class="v22-story-card{% if forloop.first %} v22-story-card--lead{% endif %}">
+            <a class="v22-story-card__media" href="{{ article.url }}" aria-label="Leer {{ article.title | escape }}">
+              {% if article.image %}
+                {{ article.image | image_url: width: 1600 | image_tag: loading: 'lazy', widths: '540, 750, 1100, 1600', sizes: '(min-width: 990px) 58vw, 100vw', alt: article.image.alt | default: article.title }}
+              {% else %}
+                {% render 'misca-editorial-fallback', key: visual_key, label: article.title %}
+              {% endif %}
+            </a>
+            <div class="v22-story-card__body">
+              <p class="eyebrow">Historia {{ forloop.index | prepend: '0' }} · {{ article.published_at | date: '%d.%m.%Y' }}</p>
+              {% if forloop.first %}<h2><a href="{{ article.url }}">{{ article.title }}</a></h2>{% else %}<h3><a href="{{ article.url }}">{{ article.title }}</a></h3>{% endif %}
+              <p>{{ article.excerpt_or_content | strip_html | truncate: 190 }}</p>
+              <a class="v22-story-card__link" href="{{ article.url }}">Leer historia →</a>
+            </div>
+          </article>
+        {% else %}
+          <div class="empty-state">
+            <p class="eyebrow">Archivo editorial</p>
+            <h2>Las historias todavía no están publicadas.</h2>
+            <p>Cuando entren, esta página priorizará proceso, obra, producto y contexto; no noticias de relleno.</p>
+          </div>
+        {% endfor %}
+      </div>
+      {{ paginate | default_pagination }}
+    {% endpaginate %}
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Historias",
+  "settings":[
+    {"type":"richtext","id":"intro","label":"Introducción","default":"<p>La prenda empieza antes de la prenda. Aquí reunimos las voces, obras, adaptaciones y decisiones de producto que sostienen cada colección.</p>"},
+    {"type":"range","id":"articles_per_page","label":"Artículos por página","min":3,"max":24,"step":3,"default":9}
+  ]
+}
+{% endschema %}

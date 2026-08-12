@@ -1,0 +1,61 @@
+<section>
+  <div class="v22-quality-hero">
+    <div class="v22-quality-hero__copy">
+      <p class="eyebrow">Calidad y proceso</p>
+      <h1>{{ section.settings.heading }}</h1>
+      <div class="lede rte">{{ section.settings.intro }}</div>
+      <p class="v22-route-note">Una imagen puede explicar una intención. Solo una muestra física puede demostrar cómo se siente, cae, imprime, lava y envejece una prenda.</p>
+    </div>
+    <div class="v22-quality-hero__visual">
+      {% render 'misca-editorial-fallback', key: 'quality', label: 'Detalle conceptual de Raíz y Ola', loading: 'eager', eager: true %}
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="page-width">
+      <header class="section-heading"><div><p class="eyebrow">Antes de vender</p><h2>Seis cosas que deben dejar de ser hipótesis.</h2></div><p class="section-intro">La colección puede existir editorialmente antes de estar lista para compra. El producto no cruza ese límite hasta cerrar estas evidencias.</p></header>
+      <div class="v22-evidence-grid">
+        <article class="v22-evidence-card"><span>01 · Material</span><h3>La tela se toca.</h3><p>Composición, peso, mano y comportamiento deben venir de la prenda real, no de una descripción de catálogo sin comprobar.</p></article>
+        <article class="v22-evidence-card"><span>02 · Fit</span><h3>La talla se mide.</h3><p>Medidas reales, caída y guía de tallas se publican después de medir y probar el blank ganador.</p></article>
+        <article class="v22-evidence-card"><span>03 · Técnica</span><h3>El arte se imprime.</h3><p>La elección entre estampado, bordado u otra técnica se valida sobre la prenda y el diseño concretos.</p></article>
+        <article class="v22-evidence-card"><span>04 · Lavado</span><h3>La prueba continúa.</h3><p>Color, tacto, adhesión y deformación deben revisarse después del uso y del lavado, no solo al salir del taller.</p></article>
+        <article class="v22-evidence-card"><span>05 · Entrega</span><h3>La promesa se opera.</h3><p>Tiempos, cobertura, empaque y seguimiento deben poder cumplirse antes de aparecer como promesa comercial.</p></article>
+        <article class="v22-evidence-card"><span>06 · Cambios</span><h3>La regla se entiende.</h3><p>Condiciones, costos y responsables deben estar visibles antes del checkout para reducir fricción y reclamos.</p></article>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="page-width v22-truth-split">
+      <article class="v22-truth-panel">
+        <p class="eyebrow">Lo que sí mostramos ahora</p>
+        <h2>Dirección, obra y decisiones.</h2>
+        <p>Los estudios conceptuales sirven para evaluar composición, escala, lenguaje de colección y relación entre arte y prenda.</p>
+      </article>
+      <article class="v22-truth-panel v22-truth-panel--dark">
+        <p class="eyebrow">Lo que no fingimos</p>
+        <h2>La evidencia física.</h2>
+        <p>No usamos un mockup para afirmar gramaje, tacto, fit, durabilidad, inventario, tiempos de entrega o resultado final de impresión.</p>
+      </article>
+    </div>
+  </div>
+
+  {% if page.content != blank %}<div class="section"><div class="page-width article-prose rte">{{ page.content }}</div></div>{% endif %}
+
+  <div class="section">
+    <div class="page-width prose-grid">
+      <div><p class="eyebrow">El criterio</p><h2>La narrativa crea deseo. El producto tiene que sostenerlo.</h2></div>
+      <div><p class="lede">MISCA no gana nada publicando una pieza antes de tiempo. El objetivo del proceso es que la historia, la prenda y la operación digan lo mismo cuando llegue el momento de comprar.</p><a class="button button--secondary" href="{{ routes.collections_url }}">Ver colecciones</a></div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Calidad y proceso",
+  "settings":[
+    {"type":"text","id":"heading","label":"Título","default":"La historia no compensa una mala camiseta."},
+    {"type":"richtext","id":"intro","label":"Introducción","default":"<p>Fit, tela, impresión, lavado, empaque y entrega forman parte del producto. Antes de vender, cada promesa debe convertirse en evidencia.</p>"}
+  ],
+  "presets":[{"name":"Calidad y proceso"}]
+}
+{% endschema %}
