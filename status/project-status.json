@@ -4,18 +4,18 @@
     "name": "MISCA",
     "line": "Artist apparel platform",
     "market": "Colombia",
-    "storefrontRelease": "SHOPIFY-DEV-INTEGRATION-V4",
+    "storefrontRelease": "WEB-COMMERCE V10",
     "operatingSystemVersion": "V16",
-    "updatedAt": "2026-08-11T17:59:00-05:00"
+    "updatedAt": "2026-08-12T08:58:00-05:00"
   },
   "summary": {
     "codeCiControls": {"closed": 7, "total": 7, "status": "PASS"},
     "themeCheck": {"status": "PASS", "detail": "Official Shopify Theme Check passed on PR and main"},
-    "pages": {"status": "ACTIVE", "detail": "Storefront review preview at Pages root; project dashboard at /status/"},
+    "pages": {"status": "ACTIVE", "detail": "Storefront V10 at Pages root; project dashboard at /status/"},
     "shopifyRuntime": {"status": "BLOCKED_EXTERNAL", "detail": "Theme Access + .myshopify.com store domain"},
     "storefrontQa": {"closed": 0, "total": 40, "status": "PENDING"},
     "analyticsQa": {"closed": 0, "total": 12, "status": "PENDING"},
-    "productReady": {"status": "BLOCKED_PHYSICAL", "detail": "Physical garment, print, wash, fit, real COGS and real media remain gated"}
+    "productReady": {"status": "IN_PROGRESS", "detail": "Supplier research refreshed; direct quote/spec reconfirmation and first physical samples are now the active gate"}
   },
   "stages": [
     {"id":"architecture","name":"Commerce architecture","status":"PASS","detail":"Commerce-first hierarchy, Product/Variant commerce truth, metaobjects for creative context."},
@@ -24,47 +24,53 @@
     {"id":"hardening","name":"Production hardening","status":"PASS","detail":"Safe fallbacks, structured data, metadata, pagination and internal preflight."},
     {"id":"analytics","name":"Analytics instrumentation","status":"PASS_CODE","detail":"Shopify Customer Events ownership + 8 misca:* custom events. Real pixel QA still pending."},
     {"id":"github","name":"GitHub source + official Theme Check","status":"PASS","detail":"Dedicated repository, main canonical, official Theme Check green on PR and main."},
-    {"id":"pages_preview","name":"Visual storefront preview on GitHub Pages","status":"PASS","detail":"High-fidelity static review surface with Home, PLP, PDP, artists, Archivo Abierto, creators, stories, responsive nav and preview cart."},
+    {"id":"pages_preview","name":"Visual storefront preview on GitHub Pages","status":"PASS","detail":"V10 connects commerce preview, product-direction A/B and provisional workshop sheets to Product Ready."},
     {"id":"preview_pipeline","name":"Safe Shopify preview pipeline","status":"PASS_CODE","detail":"Unpublished pre/post role checks, strict push, evidence summary and no live-publish path."},
     {"id":"preview_bootstrap","name":"One-time MISCA Preview bootstrap","status":"PASS_CODE","detail":"Creates the first unpublished theme without needing a theme ID; returns ID and preview/editor URLs."},
-    {"id":"shopify_config","name":"Shopify runtime configuration","status":"BLOCKED_EXTERNAL","detail":"Configure SHOPIFY_CLI_THEME_TOKEN and SHOPIFY_FLAG_STORE in GitHub Actions."},
+    {"id":"supplier_research","name":"2026 blank + print supplier refresh","status":"PASS_RESEARCH","detail":"Current public evidence reviewed; historical T230/T265/X300 no longer authorize sample priority."},
+    {"id":"supplier_contact","name":"Supplier reconfirmation","status":"ACTIVE_GATE","detail":"Issue #18: confirm composition, gramaje, M, colors, sample price, stock/replenishment and print-test terms before purchase."},
+    {"id":"physical_samples","name":"First physical blank samples","status":"BLOCKED_DEPENDENCY","detail":"Authorize only after written quote/spec confirmation. Then weigh, measure, fit-test and wash."},
+    {"id":"print_tests","name":"Raíz + Ola print tests","status":"BLOCKED_DEPENDENCY","detail":"Raíz RC-SCR-01 vs RC-DTF-01; Ola OLA-DTG-01 vs OLA-DTF-01 after blank selection."},
+    {"id":"shopify_config","name":"Shopify runtime configuration","status":"BLOCKED_EXTERNAL","detail":"Parallel blocker: configure SHOPIFY_CLI_THEME_TOKEN and SHOPIFY_FLAG_STORE in GitHub Actions."},
     {"id":"shopify_preview","name":"First persistent Shopify preview","status":"BLOCKED_DEPENDENCY","detail":"Run Bootstrap Shopify preview theme after runtime configuration."},
     {"id":"storefront_qa","name":"Storefront QA","status":"BLOCKED_DEPENDENCY","detail":"40 checks across Home, PLP, PDP, cart, search, mobile, accessibility and runtime behavior."},
     {"id":"analytics_qa","name":"Analytics QA","status":"BLOCKED_DEPENDENCY","detail":"12 checks covering standard Customer Events and misca:* custom events."},
-    {"id":"product_ready","name":"Product Ready — Raíz + Ola","status":"BLOCKED_PHYSICAL","detail":"Blank, fit, print, wash, factual specs, real COGS, photography and sellable inventory must be validated physically."},
+    {"id":"product_ready","name":"Product Ready — Raíz + Ola","status":"IN_PROGRESS","detail":"Supplier sourcing active. Blank, fit, print, wash, factual specs, real COGS, photography and sellable inventory still require physical evidence."},
     {"id":"launch","name":"Controlled launch","status":"NOT_READY","detail":"Requires Product Ready + real preview QA + E2E commerce + analytics QA."}
   ],
   "nextGate": {
-    "name": "SHOPIFY CONFIG",
-    "status": "BLOCKED_EXTERNAL",
+    "name": "PHYSICAL SAMPLE SOURCING",
+    "status": "ACTIVE_GATE",
     "actions": [
-      "Use the Pages storefront preview for visual/content review while Shopify runtime remains unconnected.",
-      "Prefer private repository visibility during build.",
-      "Configure GitHub Actions secret SHOPIFY_CLI_THEME_TOKEN.",
-      "Configure GitHub Actions secret SHOPIFY_FLAG_STORE with the .myshopify.com domain.",
-      "Run Bootstrap Shopify preview theme once.",
-      "Copy the returned theme ID into SHOPIFY_PREVIEW_THEME_ID.",
-      "Run the normal Deploy Shopify preview theme workflow and start QA."
+      "Contact Wholesale VAB: confirm 250gr/320gr composition, M, Marfil/Ivory, Navy, sample price and stock.",
+      "Contact West Basic: confirm Peruana Premium 310gr and Elite Doblepunto composition, M, colors and sample price.",
+      "Contact Paquete Completo: quote one physical 250gr/300gr sample without committing to production MOQ.",
+      "Quote RC-SCR-01 vs RC-DTF-01 with a Medellin printer accepting MISCA-supplied blanks.",
+      "Quote OLA-DTG-01 vs OLA-DTF-01; prioritize a real DTG specialist for the DTG side.",
+      "Authorize samples only after written spec + price + availability evidence.",
+      "Keep Shopify Config running as a parallel external blocker; do not wait on it to progress Product Ready."
     ]
   },
   "qa": [
     {"name":"Storefront integration QA","done":0,"total":40,"status":"PENDING"},
     {"name":"Analytics QA","done":0,"total":12,"status":"PENDING"},
     {"name":"Official Theme Check","done":1,"total":1,"status":"PASS"},
-    {"name":"GitHub Pages storefront build","done":1,"total":1,"status":"PASS"}
+    {"name":"GitHub Pages storefront build","done":1,"total":1,"status":"PASS"},
+    {"name":"Supplier research refresh","done":1,"total":1,"status":"PASS_RESEARCH"},
+    {"name":"Supplier direct reconfirmation","done":0,"total":5,"status":"ACTIVE_GATE"}
   ],
   "timeline": [
     {"date":"2026-08-11","title":"GitHub baseline imported","detail":"PR #1 merged; main became canonical after CI."},
-    {"date":"2026-08-11","title":"Official Theme Check fixed and closed","detail":"First run found 2 theme_info schema errors; both were fixed, then PR and main passed."},
-    {"date":"2026-08-11","title":"Preview deployment hardened","detail":"PR #3 added unpublished target verification before and after strict push."},
-    {"date":"2026-08-11","title":"Preview bootstrap added","detail":"PR #4 removed the initial theme-ID dependency; first preview now needs only store + Theme Access."},
-    {"date":"2026-08-11","title":"Project dashboard added","detail":"GitHub Pages initially exposed the operational status dashboard."},
-    {"date":"2026-08-11","title":"Storefront becomes Pages root","detail":"PR #6 replaced the root dashboard with a navigable MISCA storefront preview; dashboard moved to /status/."}
+    {"date":"2026-08-11","title":"Preview pipeline hardened","detail":"Theme Check, unpublished preview controls and one-time bootstrap closed at code level."},
+    {"date":"2026-08-11","title":"Storefront becomes Pages root","detail":"Navigable MISCA storefront preview; dashboard moved to /status/."},
+    {"date":"2026-08-12","title":"WEB-COMMERCE V10","detail":"Raíz/Ola now include product-direction comparison and provisional workshop sheets tied to physical test IDs."},
+    {"date":"2026-08-12","title":"Supplier shortlist refreshed","detail":"Current 2026 evidence reviewed for Medellín blanks and print partners; direct reconfirmation is now Issue #18."}
   ],
   "links": {
     "repository": "https://github.com/arendon7/misca-shopify",
     "actions": "https://github.com/arendon7/misca-shopify/actions",
     "previewIssue": "https://github.com/arendon7/misca-shopify/issues/2",
+    "physicalSourcingIssue": "https://github.com/arendon7/misca-shopify/issues/18",
     "pages": "https://arendon7.github.io/misca-shopify/",
     "statusDashboard": "https://arendon7.github.io/misca-shopify/status/"
   }
