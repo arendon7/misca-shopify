@@ -51,7 +51,7 @@ jobs:
           grep -q 'v2.js' preview/site/index.html
           grep -q 'v3.js' preview/site/index.html
           grep -q 'v4.js' preview/site/index.html
-          grep -q 'Estudio visual' preview/site/assets/raiz-campaign-study.svg
+          grep -q 'estudio visual' preview/site/assets/raiz-campaign-study.svg
           grep -q 'ESTUDIO CONCEPTUAL' preview/site/assets/ola-garment-study.svg
 
       - name: Build storefront preview + status artifact
