@@ -15,6 +15,7 @@
   const setText = (el, text) => {
     if (el && el.textContent !== text) el.textContent = text;
   };
+  const brandLayerActive = () => !!document.querySelector('script[src="./v18.js"],script[src="./v19.js"]');
 
   function ensureSkipLink() {
     if (document.querySelector('.v16-skip-link')) return;
@@ -62,7 +63,7 @@
       proof.dataset.v17 = '1';
       proof.innerHTML = '<span>2 piezas</span><span>Tallas S–XL</span><span>Producción local</span><span>Colecciones pequeñas</span>';
     }
-    setText(document.querySelector('.v15-section-head > p'), 'Dos piezas para comprar primero. Artistas, archivo e historias amplían el universo sin distraer del producto.');
+    if (!brandLayerActive()) setText(document.querySelector('.v15-section-head > p'), 'Dos piezas para comprar primero. Artistas, archivo e historias amplían el universo sin distraer del producto.');
   }
 
   function polishCards() {
@@ -79,8 +80,10 @@
     const r = route();
     if (r !== '/prendas' && r !== '/nuevo') return;
     const hero = app.querySelector('.page-hero');
-    if (r === '/prendas') setText(hero?.querySelector('h1'), 'Prendas');
-    setText(hero?.querySelector('.lede'), 'Dos piezas activas. Entra al producto para ver campaña, talla, historia y detalles de compra.');
+    if (!brandLayerActive()) {
+      if (r === '/prendas') setText(hero?.querySelector('h1'), 'Prendas');
+      setText(hero?.querySelector('.lede'), 'Dos piezas activas. Entra al producto para ver campaña, talla, historia y detalles de compra.');
+    }
     const summary = app.querySelector('.v15-plp-summary');
     if (summary && summary.dataset.v17 !== '1') {
       summary.dataset.v17 = '1';
@@ -96,7 +99,7 @@
     if (!page || !buybox) return;
 
     page.querySelector('.buy-status')?.setAttribute('aria-live','polite');
-    setText(buybox.querySelector('.preview-note'), 'Vista previa de lanzamiento. La venta pública se habilitará después de aprobar muestra, fit y operación.');
+    if (!brandLayerActive()) setText(buybox.querySelector('.preview-note'), 'Vista previa de lanzamiento. La venta pública se habilitará después de aprobar muestra, fit y operación.');
 
     const add = buybox.querySelector('.add-cart');
     const purchaseLine = buybox.querySelector('.v15-purchase-line');
