@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" role="img" aria-labelledby="title desc">
+<title id="title">Raíz de concreto — estudio visual de campaña</title>
+<desc id="desc">Composición conceptual en tonos marfil, concreto, negro y verde musgo. No representa fotografía final de producto.</desc>
+<rect width="1600" height="1200" fill="#e9e2d5"/>
+<rect x="0" y="0" width="1600" height="78" fill="#171814"/>
+<text x="54" y="52" font-family="Arial,Helvetica,sans-serif" font-size="24" letter-spacing="8" fill="#f2eee6">MISCA / ESTUDIO VISUAL</text>
+<rect x="118" y="190" width="930" height="760" rx="4" fill="#d1cbc0"/>
+<path d="M90 1010 C260 870 330 760 415 610 C485 488 560 438 660 345" fill="none" stroke="#1c1f1b" stroke-width="18"/>
+<path d="M110 1050 C315 930 375 795 505 700 C595 635 705 600 840 438" fill="none" stroke="#262a24" stroke-width="10"/>
+<path d="M250 990 C370 820 430 760 520 665 M420 780 C360 680 332 595 300 520 M575 625 C705 550 785 470 895 348" fill="none" stroke="#2a2d27" stroke-width="7"/>
+<path d="M695 365 C765 280 840 260 914 268 C862 325 827 372 802 438 C760 424 723 398 695 365Z" fill="#69775b"/>
+<path d="M838 350 C900 286 976 278 1052 300 C980 342 931 389 900 455 C871 427 850 392 838 350Z" fill="#879575"/>
+<rect x="1110" y="190" width="364" height="760" fill="#f4efe6"/>
+<text x="1150" y="290" font-family="Arial,Helvetica,sans-serif" font-size="22" letter-spacing="5" fill="#6c685f">ALMA RÍOS</text>
+<text x="1150" y="392" font-family="Georgia,serif" font-size="84" fill="#171814">Raíz</text>
+<text x="1150" y="470" font-family="Georgia,serif" font-size="84" fill="#171814">de concreto</text>
+<line x1="1150" x2="1418" y1="535" y2="535" stroke="#aaa398"/>
+<text x="1150" y="600" font-family="Arial,Helvetica,sans-serif" font-size="25" fill="#4c4b45">Entre grietas / 01</text>
+<text x="1150" y="670" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#777168">Estudio de dirección visual.</text>
+<text x="1150" y="704" font-family="Arial,Helvetica,sans-serif" font-size="20" fill="#777168">No fotografía de producto.</text>
+<text x="118" y="1088" font-family="Georgia,serif" font-size="54" fill="#171814">Incluso el concreto deja espacio para crecer.</text>
+<text x="118" y="1140" font-family="Arial,Helvetica,sans-serif" font-size="18" letter-spacing="3" fill="#6d685f">MARFIL · NEGRO · MUSGO · ESCALA / VACÍO / BORDE</text>
+</svg>
