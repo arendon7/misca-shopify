@@ -1,0 +1,56 @@
+/* MISCA Pages Preview V2 — editorial/commercial refinement */
+:root{--v2-ink:#10100f;--v2-paper:#f3efe6;--v2-paper-2:#e8e1d3;--v2-accent:#4d5b45;--v2-line:rgba(16,16,15,.14)}
+body{background:var(--v2-paper)}
+.site-header{backdrop-filter:blur(16px);background:rgba(243,239,230,.88);border-bottom:1px solid var(--v2-line)}
+.wordmark{letter-spacing:.12em;font-weight:700}
+.dev-banner{letter-spacing:.09em;text-transform:uppercase;font-size:10px}
+.hero{min-height:calc(100svh - 100px);align-items:stretch;border-bottom:1px solid var(--v2-line)}
+.hero-copy{display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:7vw}
+.hero-copy h1{max-width:7ch;font-size:clamp(64px,9.4vw,150px);line-height:.84;letter-spacing:-.065em;margin:.14em 0 .25em}
+.hero-copy .lede{max-width:610px;font-size:clamp(18px,1.5vw,25px)}
+.hero-art{position:relative;overflow:hidden;background:#172019}
+.hero-art:before,.hero-art:after{content:"";position:absolute;border-radius:50%;filter:blur(0);opacity:.95}
+.hero-art:before{width:120%;height:75%;left:-24%;bottom:-18%;border:10vw solid #c8cbb5;transform:rotate(-14deg)}
+.hero-art:after{width:60%;height:115%;right:-18%;top:-18%;border:5vw solid #50604a;transform:rotate(25deg)}
+.hero-art .art-field{position:absolute;inset:0;background:radial-gradient(circle at 65% 34%,rgba(255,255,255,.16),transparent 25%),linear-gradient(145deg,transparent 50%,rgba(0,0,0,.18));mix-blend-mode:screen}
+.section{padding-top:clamp(70px,9vw,150px);padding-bottom:clamp(70px,9vw,150px)}
+.section.compact{padding-top:clamp(48px,6vw,90px);padding-bottom:clamp(48px,6vw,90px)}
+.section-heading h2,.story-copy h2,.archive-band h2{font-size:clamp(44px,6vw,96px);letter-spacing:-.055em;line-height:.94;max-width:10ch}
+.display{font-size:clamp(32px,4.8vw,76px);line-height:.98;letter-spacing:-.05em}
+.product-grid,.collection-grid{gap:24px}
+.product-card{transition:transform .35s ease}.product-card:hover{transform:translateY(-4px)}
+.product-media{aspect-ratio:4/5;background:#dfd8cc;position:relative;overflow:hidden}
+.product-media:after{content:"";position:absolute;inset:auto 0 0;height:34%;background:linear-gradient(transparent,rgba(0,0,0,.07));pointer-events:none}
+.product-info{padding-top:15px}.product-info h3{font-size:clamp(22px,2vw,32px);letter-spacing:-.03em}.product-info p{max-width:34ch}
+.badge{border-radius:999px;padding:7px 10px;background:rgba(243,239,230,.9);backdrop-filter:blur(8px)}
+.artist-card{min-height:360px;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;transition:transform .35s ease,filter .35s ease;overflow:hidden;position:relative}
+.artist-card:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,rgba(0,0,0,.25));opacity:.35}
+.artist-card>*{position:relative;z-index:1}.artist-card:hover{transform:translateY(-5px);filter:saturate(1.06)}
+.archive-band{background:#111612;color:#ece9df}.archive-band .eyebrow,.archive-band .muted{color:#b9bdb0}
+.process-grid{border-top:1px solid var(--v2-line)}.process-step{padding-top:30px;border-top:0}.process-step .num{font-size:12px;letter-spacing:.1em}
+.page-hero{padding-top:clamp(110px,14vw,190px);padding-bottom:clamp(70px,8vw,120px)}
+.page-hero h1{font-size:clamp(56px,8vw,122px);letter-spacing:-.06em;line-height:.88;max-width:11ch}
+.filter-row{position:sticky;top:70px;z-index:12;background:rgba(243,239,230,.94);backdrop-filter:blur(12px);border-block:1px solid var(--v2-line);padding:15px 0;margin-bottom:35px}
+.product-page{align-items:start}.buybox{position:sticky;top:100px}.buybox h1{font-size:clamp(50px,6vw,92px);letter-spacing:-.06em;line-height:.9;margin:.08em 0 .18em}.price{font-size:24px}
+.preview-note{border-left:2px solid var(--v2-accent);padding-left:14px;background:transparent}
+.sizes{gap:8px}.size{min-width:58px;height:52px;border-radius:0}.size.is-active{background:#111;color:#fff}
+.add-cart{min-height:56px;font-size:15px}
+.accordions details{border-top:1px solid var(--v2-line)}.accordions details:last-child{border-bottom:1px solid var(--v2-line)}.accordions summary{padding:19px 0;font-weight:600}
+.story-split{min-height:80svh}.story-copy{display:flex;flex-direction:column;justify-content:center;padding:8vw}.story-visual{min-height:70svh}
+.provenance{background:#181b18;color:#eee}.provenance .fact{border-color:rgba(255,255,255,.18)}
+.newsletter{border-top:1px solid var(--v2-line);border-bottom:1px solid var(--v2-line);padding:42px 0}
+.site-footer{padding-top:80px}
+/* New V2 editorial modules */
+.v2-kicker{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#6f6a62}
+.v2-editorial{padding:0 0 clamp(80px,10vw,160px)}
+.v2-editorial .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,6vw,100px);align-items:center}
+.v2-editorial-copy h2{font-size:clamp(48px,6vw,96px);line-height:.92;letter-spacing:-.055em;margin:.14em 0 .32em}.v2-editorial-copy p{font-size:clamp(17px,1.35vw,22px);line-height:1.55;max-width:32em}
+.v2-poster{aspect-ratio:4/5;background:#d4d0c1;position:relative;overflow:hidden}.v2-poster:before{content:"";position:absolute;width:95%;height:72%;border:8vw solid #253128;border-radius:50%;left:-28%;bottom:-15%;transform:rotate(-22deg)}.v2-poster:after{content:"ENTRE GRIE\u000aTAS";white-space:pre;position:absolute;right:6%;top:8%;font-size:clamp(32px,5vw,76px);font-weight:700;line-height:.78;letter-spacing:-.06em;color:#f2efe7;text-align:right}
+.v2-proof{background:#d9d2c6;padding:clamp(70px,9vw,140px) 0}.v2-proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(16,16,15,.18);border:1px solid rgba(16,16,15,.18)}.v2-proof-item{background:#d9d2c6;padding:30px;min-height:220px}.v2-proof-item strong{display:block;font-size:clamp(34px,4vw,60px);letter-spacing:-.05em;margin-bottom:40px}.v2-proof-item p{max-width:24ch}
+.v2-chapter{padding:100px 0 40px}.v2-chapter .wrap{display:flex;justify-content:space-between;gap:30px;align-items:end}.v2-chapter h2{font-size:clamp(44px,6vw,92px);line-height:.9;letter-spacing:-.055em;max-width:9ch;margin:0}.v2-chapter p{max-width:35ch;margin:0}
+.v2-product-notes{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--v2-line);border-block:1px solid var(--v2-line)}.v2-product-note{background:var(--v2-paper);padding:34px 24px;min-height:190px}.v2-product-note small{display:block;text-transform:uppercase;letter-spacing:.1em;color:#777066;margin-bottom:28px}.v2-product-note strong{font-size:24px;letter-spacing:-.03em;display:block;margin-bottom:8px}
+.v2-archive-strip{display:grid;grid-template-columns:1.2fr .8fr;min-height:580px;background:#151a16;color:#efeee8}.v2-archive-art{position:relative;background:radial-gradient(circle at 40% 42%,#6c8490 0 5%,transparent 6%),linear-gradient(145deg,#273b42,#132326)}.v2-archive-art:after{content:"";position:absolute;inset:14% -15% -40% -15%;border:6vw solid #ced5d0;border-radius:50%;transform:rotate(-12deg);opacity:.8}.v2-archive-copy{padding:clamp(50px,7vw,100px);display:flex;flex-direction:column;justify-content:center}.v2-archive-copy h2{font-size:clamp(46px,5.5vw,84px);line-height:.9;letter-spacing:-.05em;margin:.15em 0 .3em}.v2-archive-copy p{max-width:31em}
+.v2-mobile-rail{display:none}
+@media(max-width:990px){.hero{grid-template-columns:1fr;min-height:auto}.hero-copy{min-height:66svh;padding:90px 22px 52px}.hero-art{min-height:58svh}.v2-editorial .wrap,.v2-archive-strip{grid-template-columns:1fr}.v2-poster{max-height:78svh}.v2-proof-grid,.v2-product-notes{grid-template-columns:1fr}.buybox{position:static}.story-split{grid-template-columns:1fr}.story-copy{padding:70px 22px}.v2-mobile-rail{display:flex;overflow:auto;gap:10px;padding:12px 18px;border-bottom:1px solid var(--v2-line);scrollbar-width:none}.v2-mobile-rail a{white-space:nowrap;border:1px solid var(--v2-line);padding:8px 12px;border-radius:999px;font-size:12px}.section-heading h2{max-width:12ch}}
+@media(max-width:600px){.hero-copy h1{font-size:60px}.page-hero h1{font-size:54px}.v2-editorial-copy h2,.v2-chapter h2{font-size:48px}.product-info{display:block}.product-info strong{display:block;margin-top:8px}.filter-row{overflow:auto;gap:24px;white-space:nowrap}.artist-card{min-height:300px}.v2-proof-item{min-height:170px}.desktop-nav{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
