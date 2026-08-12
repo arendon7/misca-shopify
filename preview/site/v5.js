@@ -1,0 +1,72 @@
+(() => {
+  const app = document.getElementById('app');
+  if (!app) return;
+
+  const HOKUSAI_IMAGE = 'https://collectionapi.metmuseum.org/api/collection/v1/iiif/45434/134438/main-image';
+  const HOKUSAI_PAGE = 'https://www.metmuseum.org/art/collection/search/45434';
+  const route = () => (location.hash || '#/').slice(1);
+
+  const home = `
+    <section class="v5-shell v5-section"><div class="v5-wrap">
+      <div class="v5-head"><div><p class="v5-kicker">Lanzamiento inicial</p><h2>Dos prendas bastan para explicar la marca.</h2></div><p>La preview deja de acumular capítulos y concentra la entrada comercial en Raíz y Ola: producto visible, universo conectado y contexto disponible sin bloquear la compra.</p></div>
+      <div class="v5-launch-grid">
+        <article class="v5-launch-card"><a href="#/producto/raiz-de-concreto"><img src="./assets/raiz-campaign-study.svg" alt="Estudio conceptual de campaña para Raíz de concreto"></a><div class="v5-launch-copy"><small>Alma Ríos · Entre grietas</small><h3>Raíz de concreto</h3><p>Una pieza original de la casa. La dirección visual trabaja marfil, concreto, negro y musgo; la fotografía final reemplazará este estudio cuando exista Product Ready.</p><div class="v5-launch-meta"><span>$119.900 COP · hipótesis</span><span>Estudio conceptual</span></div></div></article>
+        <article class="v5-launch-card"><a href="#/producto/ola-hokusai"><img src="./assets/ola-garment-study.svg" alt="Estudio conceptual de adaptación de Ola"></a><div class="v5-launch-copy"><small>Archivo Abierto · Hokusai</small><h3>Ola</h3><p>La segunda entrada demuestra otro modelo: una obra histórica concreta, su procedencia institucional y una adaptación documentada a la prenda.</p><div class="v5-launch-meta"><span>$139.900 COP · hipótesis</span><span>Fuente + adaptación</span></div></div></article>
+      </div>
+    </div></section>
+    <section class="v5-section dark"><div class="v5-wrap"><div class="v5-head"><div><p class="v5-kicker">Lo que permanece</p><h2>La tienda es estable. El universo cambia.</h2></div><p>La experiencia debe sentirse reconocible aunque cada artista tenga un lenguaje distinto. Por eso producto, talla, precio y compra mantienen una jerarquía constante.</p></div><div class="v5-principles"><article><small>01 · Producto</small><h3>Primero se entiende qué es.</h3><p>Prenda, color, precio y silueta antes de exigir contexto.</p></article><article><small>02 · Universo</small><h3>Después se descubre por qué existe.</h3><p>Artista, colección e historia agregan significado.</p></article><article><small>03 · Evidencia</small><h3>Los claims físicos se ganan.</h3><p>Fit, gramaje, técnica y fotos solo después de pruebas reales.</p></article><article><small>04 · Continuidad</small><h3>Siempre se puede volver a comprar.</h3><p>El relato nunca debe esconder talla, bolsa o checkout.</p></article></div></div></section>`;
+
+  const raiz = `
+    <section class="v5-shell v5-section"><div class="v5-wrap"><div class="v5-head"><div><p class="v5-kicker">Raíz de concreto</p><h2>Una idea original todavía tiene que convertirse en un buen producto.</h2></div><p>La campaña conceptual ya define tono y composición. El siguiente gate no es otra imagen: es blank, fit, impresión, lavado, costo y fotografía real.</p></div><div class="v5-source"><div class="v5-source-media"><img src="./assets/raiz-campaign-study.svg" alt="Estudio visual conceptual de Raíz de concreto"></div><div class="v5-source-copy"><div><small class="v5-kicker">Entre grietas / estudio visual</small><h3>Materia, vacío y borde.</h3><p>El lenguaje busca concreto, superficies minerales y vegetación contenida. No intenta simular la foto final ni autoriza claims de prenda.</p><div class="v5-facts"><div><small>Color hipótesis</small><strong>Marfil</strong></div><div><small>Acento</small><strong>Musgo</strong></div><div><small>Dossier</small><strong>AR-EC-RC</strong></div><div><small>Estado</small><strong>Conceptual</strong></div></div></div></div></div><div class="v5-trust"><div><strong>Talla explícita</strong><span>La experiencia no preselecciona una talla limpia.</span></div><div><strong>Fotos reales pendientes</strong><span>La muestra física debe reemplazar estos estudios.</span></div><div><strong>Checkout solo Shopify</strong><span>Pages sigue siendo una superficie de revisión.</span></div></div></div></section>`;
+
+  const ola = `
+    <section class="v5-shell v5-section"><div class="v5-wrap"><div class="v5-head"><div><p class="v5-kicker">Ola / Archivo Abierto</p><h2>La procedencia aparece junto al producto, no escondida al final.</h2></div><p>La obra original y la hipótesis de adaptación se muestran como dos cosas diferentes. Esa separación protege tanto la historia como la credibilidad del producto.</p></div><div class="v5-source"><div class="v5-source-media"><img src="${HOKUSAI_IMAGE}" alt="Under the Wave off Kanagawa, Katsushika Hokusai, The Metropolitan Museum of Art"></div><div class="v5-source-copy"><div><small class="v5-kicker">Fuente institucional</small><h3>Under the Wave off Kanagawa.</h3><p>La producción debe partir del archivo institucional exacto. La pieza de prenda visible en esta preview es una hipótesis de ubicación y continuidad, no una nueva obra “al estilo de Hokusai”.</p><div class="v5-facts"><div><small>Autor</small><strong>Katsushika Hokusai</strong></div><div><small>Fecha</small><strong>ca. 1830–32</strong></div><div><small>Institución</small><strong>The Met</strong></div><div><small>Objeto</small><strong>JP1847</strong></div><div><small>Derechos</small><strong>Public Domain</strong></div><div><small>Dossier</small><strong>AA-HOK-LFDA-OLA</strong></div></div></div><a href="${HOKUSAI_PAGE}" target="_blank" rel="noopener">Ver ficha institucional ↗</a></div></div><div class="v5-trust"><div><strong>Fuente separada</strong><span>Obra histórica y adaptación se identifican por separado.</span></div><div><strong>Impresión pendiente</strong><span>DTG/DTF solo se decide después de pruebas físicas.</span></div><div><strong>Impacto no enlazado</strong><span>El programa permanece DRAFT hasta formalización.</span></div></div></div></section>`;
+
+  const archive = `
+    <section class="v5-shell v5-section"><div class="v5-wrap"><div class="v5-head"><div><p class="v5-kicker">Archivo Abierto</p><h2>Una colección histórica entra con expediente.</h2></div><p>La preview prioriza procedencia y estado. Solo Hokusai está siendo llevado al nivel de producto inicial; los demás universos permanecen en desarrollo.</p></div><div class="v5-index"><article><div><small>The Met · Public Domain</small><h3>Hokusai</h3><p>La fuerza del agua. Primera prueba completa de fuente institucional → adaptación → producto.</p></div><span class="status">Producto visible · Ola</span></article><article><div><small>Dominio público · desarrollo</small><h3>William Morris</h3><p>Naturaleza repetida. Superficie, ritmo y continuidad antes que rectángulo frontal.</p></div><span class="status">Desarrollo</span></article><article><div><small>The Met · Public Domain</small><h3>Van Gogh</h3><p>El paisaje se mueve. Pincelada y flujo como posible estructura alrededor de la prenda.</p></div><span class="status">Archivo / no venta</span></article><article><div><small>NGA / AIC · PD / CC0</small><h3>Monet</h3><p>Jardines de luz. Agua, puente y vegetación desde recorte, escala y espacio negativo.</p></div><span class="status">Archivo / no venta</span></article></div></div></section>`;
+
+  const artists = `
+    <section class="v5-shell v5-section"><div class="v5-wrap"><div class="v5-head"><div><p class="v5-kicker">Sistema de artistas</p><h2>Original, histórico y externo no son la misma relación.</h2></div><p>La tienda necesita hacer visible de dónde viene cada universo. Los Artistas de la Casa son construcciones originales del estudio; Archivo Abierto trabaja con autores históricos; artistas externos llegarán después de validar operación.</p></div><div class="v5-principles"><article><small>Casa</small><h3>Universos originales.</h3><p>Identidades creativas desarrolladas por MISCA con transparencia expresa.</p></article><article><small>Archivo</small><h3>Autores históricos.</h3><p>Fuente, derechos y obra concreta documentados.</p></article><article><small>Externos</small><h3>Curaduría futura.</h3><p>Solo después de probar ventas, producción y liquidación.</p></article><article><small>Regla</small><h3>Producto antes de expansión.</h3><p>No abrimos marketplace ni catálogo masivo antes de validar.</p></article></div></div></section>`;
+
+  const collections = `
+    <section class="v5-shell v5-section"><div class="v5-wrap"><div class="v5-head"><div><p class="v5-kicker">Colecciones</p><h2>Pocas activas. Muchas ideas pueden esperar.</h2></div><p>La web deja de presentar desarrollo como disponibilidad. Entre grietas y La fuerza del agua son las dos colecciones con hipótesis de producto visibles en esta etapa.</p></div><div class="v5-index"><article><div><small>Alma Ríos</small><h3>Entre grietas</h3><p>Lo que crece también cuenta historias.</p></div><span class="status">Visible · Raíz</span></article><article><div><small>Archivo Abierto / Hokusai</small><h3>La fuerza del agua</h3><p>Todo cambia alrededor de lo que permanece.</p></div><span class="status">Visible · Ola</span></article><article><div><small>Simón Bestiario</small><h3>Animales del ruido</h3><p>Universo de personajes en desarrollo, sin producto publicado.</p></div><span class="status">Desarrollo</span></article><article><div><small>William Morris</small><h3>Naturaleza repetida</h3><p>Archivo histórico en desarrollo, todavía sin prenda activa.</p></div><span class="status">Desarrollo</span></article></div></div></section>`;
+
+  const stories = `
+    <section class="v5-shell v5-section"><div class="v5-wrap"><div class="v5-head"><div><p class="v5-kicker">Historias</p><h2>Contenido que ayuda a entender la prenda.</h2></div><p>Historias se concentra en decisiones reales de diseño y producción, no en llenar un blog.</p></div><div class="v5-story-grid"><article class="v5-story-lead"><small class="v5-kicker">Historia 01</small><h3>Una imagen no basta.</h3><p>Qué cambia cuando un archivo plano empieza a responder al cuerpo, costuras, caída, impresión y escala de una camiseta.</p></article><div class="v5-story-list"><article><small>02 · Archivo Abierto</small><h4>Cómo entra Hokusai.</h4><p>Fuente institucional, derechos y adaptación sin recrear una obra nueva.</p></article><article><small>03 · Producto</small><h4>Qué significa Product Ready.</h4><p>Por qué fit, gramaje, técnica y fotos esperan evidencia física.</p></article><article><small>04 · Taller</small><h4>Del estudio a producción.</h4><p>Pruebas de impresión, wash tests, costos y decisiones de calidad.</p></article></div></div></div></section>`;
+
+  const creators = `
+    <section class="v5-shell v5-section dark"><div class="v5-wrap"><div class="v5-head"><div><p class="v5-kicker">Para creadores</p><h2>El creador diseña y promociona. MISCA sostiene la operación.</h2></div><p>La propuesta se mantiene deliberadamente simple: colección curada, producción local, Shopify, pagos, empaque, envío y liquidación. Sin software propio antes de validar comercialmente.</p></div><div class="v5-principles"><article><small>01</small><h3>Diseño</h3><p>Obra, universo y participación promocional.</p></article><article><small>02</small><h3>Producto</h3><p>Adaptación, prueba, producción y calidad local.</p></article><article><small>03</small><h3>Comercio</h3><p>Web, cobro, atención, empaque y envío.</p></article><article><small>04</small><h3>Liquidación</h3><p>Comisión sobre una base contractual clara y verificable.</p></article></div></div></section>`;
+
+  function moduleFor(r) {
+    if (r === '/' || r === '') return home;
+    if (r === '/producto/raiz-de-concreto' || r === '/coleccion/entre-grietas') return raiz;
+    if (r === '/producto/ola-hokusai' || r === '/coleccion/la-fuerza-del-agua') return ola;
+    if (r === '/archivo' || r.startsWith('/archivo/')) return archive;
+    if (r === '/artistas' || r.startsWith('/artista/')) return artists;
+    if (r === '/colecciones') return collections;
+    if (r === '/historias') return stories;
+    if (r === '/creadores') return creators;
+    return '';
+  }
+
+  function enhance() {
+    const r = route();
+    document.body.dataset.v5Consolidated = 'true';
+    app.querySelectorAll('[data-v5-module]').forEach(el => el.remove());
+    document.querySelectorAll('.v5-route-note').forEach(el => el.remove());
+    const html = moduleFor(r);
+    if (html) app.insertAdjacentHTML('beforeend', `<div data-v5-module>${html}</div>`);
+    const note = document.createElement('div');
+    note.className = 'v5-route-note';
+    note.innerHTML = '<span>MISCA · preview V5 consolidada</span><span>Estudios conceptuales y claims físicos permanecen sujetos a Product Ready</span>';
+    document.getElementById('siteHeader')?.insertAdjacentElement('afterend', note);
+  }
+
+  const observer = new MutationObserver(() => {
+    const r = route();
+    if (!app.querySelector('[data-v5-module]') && moduleFor(r)) setTimeout(enhance,0);
+  });
+  observer.observe(app,{childList:true});
+  window.addEventListener('hashchange',() => setTimeout(enhance,0));
+  setTimeout(enhance,0);
+})();
