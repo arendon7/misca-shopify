@@ -21,13 +21,14 @@
         productTitle: card.dataset.productTitle || '',
         artistHandle: card.dataset.artistHandle || '',
         collectionHandle: card.dataset.collectionHandle || '',
+        commerceStatus: card.dataset.commerceStatus || 'draft',
         surface: card.dataset.surface || '',
       });
     }
 
     if (event.target.closest('[data-size-guide-open]')) {
       const root = event.target.closest('[data-product-root]');
-      publish('size_guide_opened', { productHandle: root?.dataset.productHandle || '' });
+      publish('size_guide_opened', { productHandle: root?.dataset.productHandle || '', commerceStatus: root?.dataset.commerceStatus || 'draft' });
     }
 
     if (event.target.closest('[data-cart-open]')) publish('cart_drawer_opened', {});
@@ -40,6 +41,8 @@
   });
 
   document.addEventListener('misca:variant-selected', (event) => publish('size_selected', event.detail || {}));
+  document.addEventListener('misca:commerce-blocked', (event) => publish('commerce_blocked', event.detail || {}));
+  document.addEventListener('misca:add-to-cart', (event) => publish('add_to_cart', event.detail || {}));
 
   const viewTargets = document.querySelectorAll('[data-misca-view-event]');
   if ('IntersectionObserver' in window && viewTargets.length) {
@@ -49,7 +52,7 @@
         publishedViews.add(entry.target);
         const el = entry.target;
         publish(el.dataset.miscaViewEvent, {
-          handle: el.dataset.handle || '', title: el.dataset.title || '', productHandle: el.dataset.productHandle || '', artistHandle: el.dataset.artistHandle || '', artworkHandle: el.dataset.artworkHandle || '',
+          handle: el.dataset.handle || '', title: el.dataset.title || '', productHandle: el.dataset.productHandle || '', artistHandle: el.dataset.artistHandle || '', artworkHandle: el.dataset.artworkHandle || '', commerceStatus: el.dataset.commerceStatus || '',
         });
       });
     }, { threshold: 0.35 });
