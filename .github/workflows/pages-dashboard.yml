@@ -36,6 +36,7 @@ jobs:
           test -f preview/site/v10.css
           test -f preview/site/v11.css
           test -f preview/site/v12.css
+          test -f preview/site/v13.css
           test -f preview/site/app.js
           test -f preview/site/fixes.js
           test -f preview/site/v5.js
@@ -46,6 +47,17 @@ jobs:
           test -f preview/site/v10.js
           test -f preview/site/v11.js
           test -f preview/site/v12.js
+          test -f preview/site/v13.js
+          test -f preview/site/assets/universes/alma-rios-entre-grietas.svg
+          test -f preview/site/assets/universes/tomas-muro-muros-que-hablan.svg
+          test -f preview/site/assets/universes/nina-cobalto-frecuencia.svg
+          test -f preview/site/assets/universes/simon-bestiario-animales-del-ruido.svg
+          test -f preview/site/assets/universes/vera-montana-ciudad-vertical.svg
+          test -f preview/site/assets/universes/hokusai-la-fuerza-del-agua.svg
+          test -f preview/site/assets/universes/william-morris-naturaleza-repetida.svg
+          test -f preview/site/assets/universes/alphonse-mucha-las-estaciones.svg
+          test -f preview/site/assets/universes/van-gogh-el-paisaje-se-mueve.svg
+          test -f preview/site/assets/universes/monet-jardines-de-luz.svg
           node --check preview/site/app.js
           node --check preview/site/fixes.js
           node --check preview/site/v5.js
@@ -56,11 +68,12 @@ jobs:
           node --check preview/site/v10.js
           node --check preview/site/v11.js
           node --check preview/site/v12.js
+          node --check preview/site/v13.js
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
-          grep -q 'v12.css' preview/site/index.html
-          grep -q 'v12.js' preview/site/index.html
-          grep -q 'WEB-COMMERCE V12' preview/site/index.html
+          grep -q 'v13.css' preview/site/index.html
+          grep -q 'v13.js' preview/site/index.html
+          grep -q 'WEB-COMMERCE V13' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
           ! grep -q 'v4.css' preview/site/index.html
@@ -73,13 +86,15 @@ jobs:
           grep -q 'Dirección A' preview/site/v9.js
           grep -q 'data-v10-workshop-spec' preview/site/v10.js
           grep -q 'data-asset-slot' preview/site/v11.js
-          grep -q 'data-v12-campaign-hero' preview/site/v12.js
           grep -q '10 universos / 2 en lanzamiento' preview/site/v12.js
-          grep -q 'mucha' preview/site/v12.js
-          grep -q 'Una imagen no basta' preview/site/v12.js
-          grep -q 'La fuente permanece visible' preview/site/v12.js
-          grep -q 'raiz-campaign-study.svg' preview/site/v12.js
-          grep -q 'ola-garment-study.svg' preview/site/v12.js
+          grep -q 'static-master-v1' preview/site/v13.js
+          grep -q 'assets/universes/alma-rios-entre-grietas.svg' preview/site/v13.js
+          grep -q 'assets/universes/hokusai-la-fuerza-del-agua.svg' preview/site/v13.js
+          grep -q 'assets/universes/alphonse-mucha-las-estaciones.svg' preview/site/v13.js
+          grep -q 'Biblioteca visual V1' preview/site/v13.js
+          grep -q 'MISCA · DIRECCIÓN VISUAL DE ESTUDIO' preview/site/assets/universes/alma-rios-entre-grietas.svg
+          grep -q 'THE MET · JP1847' preview/site/assets/universes/hokusai-la-fuerza-del-agua.svg
+          grep -q 'AIC · CC0' preview/site/assets/universes/alphonse-mucha-las-estaciones.svg
 
       - name: Build storefront preview + status artifact
         shell: bash
@@ -105,7 +120,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'WEB-COMMERCE V12',
+              'previewVersion': 'WEB-COMMERCE V13',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
