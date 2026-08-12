@@ -5,6 +5,8 @@
   const route = () => (location.hash || '#/').slice(1);
   const activeHandles = new Set(['raiz-de-concreto','ola-hokusai']);
   const developmentRoutes = new Set(['/producto/guardian-del-silencio','/producto/ladron-de-fresas']);
+  const customerLayerActive = () => !!document.querySelector('script[src="./v17.js"],script[src="./v18.js"],script[src="./v19.js"]');
+  const setText = (el, text) => { if (el && el.textContent !== text) el.textContent = text; };
   let lastSizeGuideTrigger = null;
 
   function cleanHome() {
@@ -45,11 +47,12 @@
       if (assortmentRoute && !active) card.classList.add('v7-cro-hidden');
 
       const meta = card.querySelector('.v6-card-meta span:first-child');
-      if (meta) meta.textContent = active ? 'Estudio conceptual' : 'En desarrollo';
+      const metaLabel = active ? (customerLayerActive() ? 'Lanzamiento 01' : 'Estudio conceptual') : 'En desarrollo';
+      setText(meta, metaLabel);
 
       const primary = card.querySelector('.v6-card-link');
       const title = card.querySelector('.product-info h3')?.textContent?.trim();
-      if (primary && title) primary.textContent = `Ver ${title}`;
+      if (primary && title) setText(primary, `Ver ${title}`);
     });
 
     if (assortmentRoute) {
@@ -69,9 +72,9 @@
     const add = page?.querySelector('.add-cart');
     if (!add || page.classList.contains('v7-development-pdp')) return;
     const selected = page.querySelector('.sizes .size[aria-pressed="true"],.sizes .size.is-v6-selected')?.dataset.size || '';
-    add.textContent = selected ? `Agregar a bolsa · ${selected}` : 'Elegir talla';
-    const sticky = document.querySelector('.v6-mobile-buybar button');
-    if (sticky) sticky.textContent = selected ? `Agregar a bolsa · ${selected}` : 'Elegir talla';
+    const label = selected ? `Agregar a bolsa · ${selected}` : 'Elegir talla';
+    setText(add, label);
+    setText(document.querySelector('.v6-mobile-buybar button'), label);
   }
 
   function addGalleryProgress(page) {
@@ -98,8 +101,7 @@
         if (d < distance) { distance = d; best = i; }
       });
       progress.querySelectorAll('.v7-gallery-dot').forEach((dot,i)=>dot.classList.toggle('is-active',i===best));
-      const count = progress.querySelector('.v7-gallery-count');
-      if (count) count.textContent = `${String(best+1).padStart(2,'0')} / ${String(cells.length).padStart(2,'0')}`;
+      setText(progress.querySelector('.v7-gallery-count'), `${String(best+1).padStart(2,'0')} / ${String(cells.length).padStart(2,'0')}`);
     };
     gallery.addEventListener('scroll', () => {
       if (!ticking) { ticking = true; requestAnimationFrame(update); }
@@ -117,7 +119,7 @@
       page.classList.add('v7-development-pdp');
       const add = page.querySelector('.add-cart');
       if (add) {
-        add.textContent = 'En desarrollo';
+        setText(add, 'En desarrollo');
         add.disabled = true;
         add.setAttribute('aria-disabled','true');
       }
