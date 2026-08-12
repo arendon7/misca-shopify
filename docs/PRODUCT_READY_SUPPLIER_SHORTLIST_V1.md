@@ -2,134 +2,113 @@
 
 Fecha: 2026-08-12
 Mercado: Medellín / Colombia
-Estado: RESEARCH_COMPLETE · CONTACT_PENDING
+Estado: PRIMARY_HYPOTHESIS_DEFINED · FRESHNESS_CONFIRMATION_PENDING
 
-## Objetivo
+## Corrección de jerarquía
 
-Conseguir y validar físicamente blanks y técnicas de impresión para Raíz de concreto y Ola sin autorizar compras por datos históricos no reconfirmados.
+El catálogo/proveedor compartido previamente por el usuario es la **referencia técnica primaria** para el desarrollo inicial de blanks. La investigación web posterior funciona como benchmark/challenger y alternativa de negociación; no sustituye esa base.
 
-## Regla de control
+La freshness gate sigue vigente: una referencia histórica puede definir qué queremos probar, pero no autoriza compra hasta reconfirmar precio, stock, composición, gramaje y disponibilidad actuales.
 
-Ninguna referencia histórica (T230/T265/X300 ni precios antiguos) autoriza compra. Cada candidato debe reconfirmar por contacto directo: composición, gramaje real, talla M, colores, precio unitario/muestra, disponibilidad inmediata, mínimos, reposición y tolerancias de medidas.
+## Hipótesis primaria del proveedor compartido
 
-## Shortlist de blanks
+Orden histórico de preferencia:
 
-### BLK-01 · Wholesale VAB — prioridad A
-- Medellín.
-- Camiseta Regular Premium 250gr: precio público observado COP 53.000.
-- Camiseta Oversized Heavyweight 320gr: precio público observado COP 56.000.
-- Sitio declara algodón peruano 250gr y 320gr para camisetas regular/oversized/boxyfit.
-- Mínimo publicado sin estampado: 6 unidades por referencia y color.
-- Sitio declara opción de solicitar muestra antes de producir.
-- Fit, colores Marfil/Navy y composición exacta por referencia: RECONFIRMAR.
-- Uso propuesto: muestra de blank y posible proveedor de producción si pasa fit/wash/costo.
+1. **T265 Pima / Antipilling — hipótesis master**
+   - 100% algodón peinado según catálogo histórico compartido.
+   - 265 g nominales.
+   - Es la referencia principal para validar una camiseta con cuerpo, buena superficie de impresión y percepción premium sin saltar directamente a 300 g.
+   - Colores históricos considerados: Marfil, Negro, Navy, Verde botella, Gris oscuro.
 
-Fuentes públicas revisadas:
-- https://wholesalevab.com/
-- https://wholesalevab.com/collections/camisetas-regular-oversized
-- https://wholesalevab.com/pages/sobre-nosotros
+2. **T230 Pima / Antipilling — challenger más ligero**
+   - 100% algodón según catálogo histórico.
+   - 230 g nominales.
+   - Útil para comparar caída, comodidad y costo contra T265.
 
-### BLK-02 · West Basic — prioridad A
-- Medellín; puntos físicos y venta de blanks para personalización.
-- Camiseta Peruana Premium 310gr: precio público observado COP 55.000.
-- Camiseta Élite Peruana Doblepunto: COP 44.000.
-- Camiseta Algodón Platinum 330gr Semi-Oversize: COP 45.000.
-- Qatar 260gr NO se prioriza como master: el sitio declara mezcla de algodón importado, poliéster y spandex.
-- Composición exacta de Peruana Premium 310gr y colores/tallas: RECONFIRMAR.
-- Uso propuesto: muestra inmediata local y benchmark de blank alto gramaje.
+3. **Exclusive Oversized 300 GM / X300 — challenger de fit y peso**
+   - 100% algodón peruano según catálogo histórico.
+   - 300 g nominales.
+   - Útil para decidir si el producto necesita más estructura; no autoriza todavía afirmar fit oversized en PDP.
 
-Fuentes públicas revisadas:
-- https://westbasic.com/
-- https://westbasic.com/collections/blanks-para-personalizacion
-- https://westbasic.com/pages/mayoristas
+4. **T220/230 histórico — pausado**
+   - Existe riesgo de mezcla de gramajes/referencias históricas.
+   - No comprar hasta aclarar especificación actual.
 
-### BLK-03 · Paquete Completo Medellín — prioridad B producción
-- Medellín, producción local.
-- Sitio publica camisetas algodón 100% en 200gr, 250gr y 300gr; regular, boxy y oversize.
-- Declara muestra física previa a producción.
-- Para inventario de camisetas publica mínimo de 50 unidades.
-- Uso propuesto: candidato fuerte para producción/paquete completo después de validar blank y costos; no primera compra automática de muestras.
-- Precio, MOQ específico de muestra y disponibilidad por talla/color: RECONFIRMAR.
+No se prioriza 150 g ni mezclas poliéster como base master de MISCA.
 
-Fuentes públicas revisadas:
-- https://paquetecompleto.com.co/
-- https://paquetecompleto.com.co/fabrica-de-camisetas/
+## Qué ya está claro
 
-### BLK-04 · Peruvian Fashion Tex — reserva de materia prima
-- Proveedor de telas peruanas con presencia publicada en Medellín.
-- Útil solo si los blanks existentes fallan y se justifica ruta de confección propia.
-- NO activar ahora: MISCA sigue evitando patronaje/confección custom hasta agotar blanks comerciales viables.
+MISCA no está buscando “cualquier camiseta”. La zona objetivo para el primer desarrollo es aproximadamente **230–300 g**, con T265 como punto central de comparación histórica.
 
-Fuente pública revisada:
-- https://peruvianfashiontex.com/telas-peruanas-al-por-mayor-en-medellin-colombia/
+El experimento físico no debe reabrir esa estrategia; debe responder:
+- ¿T265 actual conserva composición/calidad/fit esperados?
+- ¿T230 mejora comodidad sin perder percepción de producto?
+- ¿X300 aporta suficiente valor para justificar mayor peso/costo?
+- ¿qué blank recibe mejor RC-SCR-01 / RC-DTF-01 / OLA-DTG-01 / OLA-DTF-01?
+
+## Compra histórica de muestra — referencia, no autorización
+
+Plan histórico registrado:
+- T230 Pima: 2 × M Marfil.
+- T265: 6 unidades aproximadas: 2 M Marfil + Negro + Navy + Verde botella + Gris.
+- X300: 1 × M Marfil.
+
+Presupuesto histórico aproximado: COP 255.000 + envío.
+
+Ese monto sirve como provenance del plan anterior. **No es orden de compra actual.**
+
+## Freshness confirmation requerida al proveedor original
+
+Antes de comprar:
+- confirmar que T265, T230 y X300 siguen existiendo bajo la misma referencia;
+- composición actual;
+- gramaje nominal y tolerancia;
+- talla M y tabla de medidas actual;
+- colores Marfil/Crema y Navy;
+- precio por muestra y por 6/12/30/50 unidades;
+- stock y reposición;
+- política de defectos;
+- posibilidad de blank sin marquilla/relabel;
+- lead time.
+
+Si la respuesta actual confirma la ficha histórica, el orden de compra de muestra prioriza T265 y mantiene T230/X300 como challengers.
+
+## Benchmarks externos — secundarios
+
+### Wholesale VAB
+Publica opciones 250 g / 320 g y muestras. Útil para comparar precio/fit/disponibilidad si el proveedor principal falla freshness, stock o costo.
+
+### West Basic
+Publica opciones alrededor de 310–330 g y blanks locales en Medellín. Útil como benchmark de estructura/peso y compra local rápida.
+
+### Paquete Completo
+Publica 200/250/300 g y producción integrada. Útil como alternativa de producción, especialmente si ofrece muestra económicamente viable.
+
+Estas referencias **no desplazan T265** sin evidencia física superior.
 
 ## Shortlist de impresión
 
-### PRT-01 · Funcrome / DTG Medellín — prioridad para Ola DTG
-- Medellín.
-- Perfil público declara serigrafía/screen, DTG, algodón pesado y producción a pequeña/gran escala.
-- Candidato para OLA-DTG-01 y comparación con screen si confirma muestra unitaria y archivo/color management.
-- Precio, pretratamiento, área máxima y lavado: RECONFIRMAR.
+### Funcrome / DTG Medellín
+Candidato para `OLA-DTG-01` si confirma blank externo, pretratamiento, área, archivo y muestra.
 
-Fuente pública revisada:
-- https://co.linkedin.com/company/estampados-funcrome-dtg-medell%C3%ADn
+### Publicidad Medellín
+Candidato para `RC-SCR-01` y `RC-DTF-01` si acepta blank aportado por MISCA y prueba comparativa.
 
-### PRT-02 · Publicidad Medellín — prioridad para Raíz screen/DTF
-- Medellín.
-- Publica DTF, serigrafía, vinilo, sublimación y bordado.
-- Pedido mínimo publicado: 6 camisetas personalizadas.
-- Candidato para RC-SCR-01 y RC-DTF-01 si aceptan blanks externos y muestra comparativa.
-- Precio por técnica, número de tintas, tamaño y curado: RECONFIRMAR.
+### MegaShop
+Challenger DTF para prototipo/control, no aprobación automática de producción.
 
-Fuente pública revisada:
-- https://publicidadmedellin.com/project/camisetas-personalizadas/
+### Paquete Completo
+Alternativa integrada si reduce complejidad sin degradar evidencia/calidad.
 
-### PRT-03 · MegaShop Medellín — DTF challenger
-- Medellín.
-- Publica DTF desde 1 unidad y área de impresión 40 × 28 cm.
-- Útil para prototipo rápido, no aprobado automáticamente para producción.
+## Gate de muestra
 
-Fuente pública revisada:
-- https://megashopmedellin.com/sitio/dtf/
-
-### PRT-04 · Paquete Completo — producción integrada
-- Publica screen printing, DTF, bordado y muestras físicas.
-- Útil para comparar solución integrada si los talleres separados aumentan complejidad/costo.
-
-## Orden de contacto
-
-1. Wholesale VAB — pedir muestra 250gr y/o 320gr en M; confirmar Ivory/Marfil y Navy.
-2. West Basic — confirmar Peruana Premium 310gr y Élite Doblepunto: composición, M, Marfil/Navy, disponibilidad.
-3. Paquete Completo — cotizar muestra física 250/300gr sin obligar MOQ 50 de producción.
-4. Funcrome — cotizar OLA-DTG-01 y requisitos de archivo/área/pretratamiento.
-5. Publicidad Medellín — cotizar RC-SCR-01 y RC-DTF-01 sobre blank aportado por MISCA.
-6. MegaShop — cotizar un DTF de control para comparar tacto/color, si acepta blank aportado.
-
-## Datos obligatorios por proveedor
-
-- Razón social / factura.
-- Referencia exacta.
-- Composición (% fibra).
-- Gramaje nominal y tolerancia.
-- Peso real de una M si lo pueden informar.
-- Tabla de medidas S/M/L/XL.
-- Tipo de fit declarado.
-- Colores disponibles: Marfil/Crema, Negro, Navy, Verde botella.
-- Stock actual por talla/color.
-- Precio muestra y precio 6/12/30/50/100 unidades.
-- Lead time de reposición.
-- Política de cambios por defectos.
-- Posibilidad de blanks sin marquilla / relabel.
-- Para impresión: técnica, área máxima, base blanca/pretratamiento, curado, cantidad mínima, costo muestra, repetibilidad, archivo requerido.
-
-## Gate de compra de muestra
-
-Autorizar una muestra solo si:
-1. composición y gramaje quedan confirmados por escrito;
-2. talla M y color requerido están disponibles;
-3. precio de muestra + envío es conocido;
-4. el proveedor acepta que MISCA mida/pese/lave/estampe la muestra;
-5. no exige producción mínima antes de evaluar la muestra.
+Autorizar muestra solo cuando el proveedor original o challenger elegido confirme por escrito:
+1. referencia y composición;
+2. gramaje;
+3. talla/color;
+4. precio y envío;
+5. disponibilidad;
+6. permiso/viabilidad para medir, lavar y estampar.
 
 ## Gate de blank ganador
 
@@ -138,20 +117,10 @@ No existe blank ganador hasta completar:
 - medidas reales;
 - fit sobre cuerpos de prueba;
 - lavado 1/5/10;
-- compatibilidad con impresión;
+- compatibilidad de impresión;
 - COGS real;
-- disponibilidad/reposición suficiente.
+- disponibilidad/reposición.
 
-## Primera hipótesis de compra — NO AUTORIZADA AÚN
+## Secuencia actual
 
-Comparar inicialmente:
-- Wholesale VAB 250gr (regular/boxy según fit real).
-- Wholesale VAB 320gr oversized o boxy.
-- West Basic Peruana Premium 310gr.
-- Paquete Completo 250gr o 300gr solo si permite muestra física económicamente razonable.
-
-No comprar Qatar 260gr como master de MISCA mientras su mezcla algodón/poliéster/spandex no encaje con la estrategia de algodón premium.
-
-## Estado
-
-RESEARCH_COMPLETE → CONTACT_PENDING → QUOTE_CONFIRMED → SAMPLE_AUTHORIZED → SAMPLE_RECEIVED → FIT/WASH → PRINT_TEST → BLANK_WINNER.
+PRIMARY_HYPOTHESIS_DEFINED → ORIGINAL_SUPPLIER_RECONFIRMATION → SAMPLE_AUTHORIZED → SAMPLE_RECEIVED → FIT/WASH → PRINT_TEST → BLANK_WINNER.
