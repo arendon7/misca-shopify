@@ -8,6 +8,27 @@
     ['artCrop', 'Obra / crop'],
   ];
 
+  function buildFrame(src, key, label, productTitle, index) {
+    const figure = document.createElement('figure');
+    figure.className = 'product-gallery__item product-gallery__item--concept';
+    figure.dataset.conceptFrame = key;
+
+    const image = document.createElement('img');
+    image.src = src;
+    image.alt = `${label} conceptual de ${productTitle}`;
+    image.loading = index === 0 ? 'eager' : 'lazy';
+    if (index === 0) image.fetchPriority = 'high';
+
+    const caption = document.createElement('figcaption');
+    const status = document.createElement('span');
+    status.textContent = 'Estudio conceptual';
+    const title = document.createElement('strong');
+    title.textContent = label;
+    caption.append(status, title);
+    figure.append(image, caption);
+    return figure;
+  }
+
   function hydrateProductGallery() {
     const root = document.querySelector('[data-product-root]');
     if (!root) return;
@@ -18,14 +39,13 @@
     const assets = registry.products?.[root.dataset.productHandle];
     if (!assets) return;
 
-    gallery.innerHTML = frames.map(([key, label], index) => {
+    const fragment = document.createDocumentFragment();
+    frames.forEach(([key, label], index) => {
       const src = assets[key];
-      if (!src) return '';
-      return `<figure class="product-gallery__item product-gallery__item--concept" data-concept-frame="${key}">
-        <img src="${src}" alt="${label} conceptual de ${root.dataset.productTitle || ''}" ${index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'}>
-        <figcaption><span>Estudio conceptual</span><strong>${label}</strong></figcaption>
-      </figure>`;
-    }).join('');
+      if (src) fragment.append(buildFrame(src, key, label, root.dataset.productTitle || '', index));
+    });
+    if (!fragment.childNodes.length) return;
+    gallery.replaceChildren(fragment);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hydrateProductGallery, { once: true });
