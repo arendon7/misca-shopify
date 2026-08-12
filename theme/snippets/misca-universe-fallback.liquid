@@ -52,7 +52,7 @@
   endcase
 %}
 {% if asset_name != blank %}
-  <img class="misca-universe-fallback" src="{{ asset_name | asset_url }}" alt="{{ alt | escape }}" loading="{{ loading | default: 'lazy' }}">
+  <img class="misca-universe-fallback" src="{{ asset_name | asset_url }}" width="1200" height="1500" alt="{{ alt | escape }}" loading="{{ loading | default: 'lazy' }}">
 {% else %}
   <div class="media-placeholder{% if hero %} media-placeholder--hero{% endif %}"></div>
 {% endif %}
