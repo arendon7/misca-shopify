@@ -28,32 +28,10 @@ jobs:
           set -euo pipefail
           test -f preview/site/index.html
           test -f preview/site/styles.css
-          test -f preview/site/v5.css
-          test -f preview/site/v6.css
-          test -f preview/site/v7.css
-          test -f preview/site/v8.css
-          test -f preview/site/v9.css
-          test -f preview/site/v10.css
-          test -f preview/site/v11.css
-          test -f preview/site/v12.css
-          test -f preview/site/v13.css
-          test -f preview/site/v14.css
-          test -f preview/site/v15.css
-          test -f preview/site/v16.css
+          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17; do test -f "preview/site/v${v}.css"; done
           test -f preview/site/app.js
           test -f preview/site/fixes.js
-          test -f preview/site/v5.js
-          test -f preview/site/v6.js
-          test -f preview/site/v7.js
-          test -f preview/site/v8.js
-          test -f preview/site/v9.js
-          test -f preview/site/v10.js
-          test -f preview/site/v11.js
-          test -f preview/site/v12.js
-          test -f preview/site/v13.js
-          test -f preview/site/v14.js
-          test -f preview/site/v15.js
-          test -f preview/site/v16.js
+          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17; do test -f "preview/site/v${v}.js"; done
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/raiz/$f.svg"; done
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/ola/$f.svg"; done
           test -f preview/site/assets/universes/alma-rios-entre-grietas.svg
@@ -66,33 +44,24 @@ jobs:
           test -f preview/site/assets/universes/alphonse-mucha-las-estaciones.svg
           test -f preview/site/assets/universes/van-gogh-el-paisaje-se-mueve.svg
           test -f preview/site/assets/universes/monet-jardines-de-luz.svg
+
           node --check preview/site/app.js
           node --check preview/site/fixes.js
-          node --check preview/site/v5.js
-          node --check preview/site/v6.js
-          node --check preview/site/v7.js
-          node --check preview/site/v8.js
-          node --check preview/site/v9.js
-          node --check preview/site/v10.js
-          node --check preview/site/v11.js
-          node --check preview/site/v12.js
-          node --check preview/site/v13.js
-          node --check preview/site/v14.js
-          node --check preview/site/v15.js
-          node --check preview/site/v16.js
+          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17; do node --check "preview/site/v${v}.js"; done
+
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
-          grep -q 'v15.css' preview/site/index.html
-          grep -q 'v15.js' preview/site/index.html
-          grep -q 'v16.css' preview/site/index.html
-          grep -q 'v16.js' preview/site/index.html
-          grep -q 'WEB-COMMERCE V16' preview/site/index.html
+          grep -q 'v17.css' preview/site/index.html
+          grep -q 'v17.js' preview/site/index.html
+          grep -q 'WEB-COMMERCE V17' preview/site/index.html
+          ! grep -q '<script src="./v16.js"></script>' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
           ! grep -q 'v4.css' preview/site/index.html
           ! grep -q 'v2.js' preview/site/index.html
           ! grep -q 'v3.js' preview/site/index.html
           ! grep -q 'v4.js' preview/site/index.html
+
           grep -q 'v6-mobile-buybar' preview/site/v6.js
           grep -q 'activeHandles' preview/site/v7.js
           grep -q 'garmentSVG' preview/site/v8.js
@@ -103,15 +72,15 @@ jobs:
           grep -q 'static-master-v1' preview/site/v13.js
           grep -q 'Campaña conceptual' preview/site/v14.js
           grep -q 'Dos prendas. Ninguna distracción.' preview/site/v15.js
-          grep -q 'Decisiones que no necesita ver el comprador.' preview/site/v15.js
-          grep -q 'Talla requerida' preview/site/v15.js
           grep -q 'v15-development-open' preview/site/v15.css
-          grep -q 'repairNewRoute' preview/site/v16.js
-          grep -q 'No encontramos coincidencias.' preview/site/v16.js
-          grep -q 'v16-cart-empty-state' preview/site/v16.js
-          grep -q 'aria-current' preview/site/v16.js
-          grep -q 'prefers-reduced-motion' preview/site/v16.css
-          grep -q 'v16-search-discovery' preview/site/v16.css
+          grep -q 'guardProductRoute' preview/site/v17.js
+          grep -q 'v16-search-discovery' preview/site/v17.js
+          grep -q 'v16-cart-empty-state' preview/site/v17.js
+          grep -q 'developmentHandles' preview/site/v17.js
+          grep -q 'No encontramos esta pieza.' preview/site/v17.js
+          grep -q 'v14-pdp-boundary{display:none' preview/site/v17.css
+          grep -q 'Hecho desde Medellín' preview/site/index.html
+
           grep -q 'raiz/cover.svg' preview/site/v14.js
           grep -q 'ola/cover.svg' preview/site/v14.js
           grep -q 'RC-SCR-01 / RC-DTF-01' preview/site/assets/products/raiz/spec-card.svg
@@ -144,7 +113,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'WEB-COMMERCE V16',
+              'previewVersion': 'WEB-COMMERCE V17',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
