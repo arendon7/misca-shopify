@@ -1,9 +1,23 @@
+{% liquid
+  assign cart_commerce_ready = true
+  if settings.enforce_commerce_readiness
+    for item in cart.items
+      assign item_status = item.product.metafields.custom.commerce_status.value | default: 'draft'
+      unless item_status == 'ready'
+        assign cart_commerce_ready = false
+      endunless
+    endfor
+  endif
+%}
 <section class="section">
   <div class="page-width">
     <p class="eyebrow">Compra</p><h1>Tu bolsa</h1>
     {% if cart.empty? %}
       <p class="empty-state">Tu bolsa está vacía.</p><a class="button" href="{{ routes.all_products_collection_url }}">Ver prendas</a>
     {% else %}
+      {% unless cart_commerce_ready %}
+        <div class="commerce-readiness commerce-readiness--validation"><strong>Compra temporalmente bloqueada</strong><span>Una pieza de esta bolsa ya no está autorizada para venta pública. Elimínala o vuelve a revisar el producto antes de continuar.</span></div>
+      {% endunless %}
       <form action="{{ routes.cart_url }}" method="post">
         {% for item in cart.items %}
           <div class="cart-page__line">
@@ -12,7 +26,7 @@
             <span>{{ item.final_line_price | money }}</span>
           </div>
         {% endfor %}
-        <div class="cart-page__summary"><div class="cart-drawer__total"><span>Subtotal</span><strong>{{ cart.total_price | money }}</strong></div><button class="button button--full" name="checkout" type="submit">Finalizar compra</button><button class="button button--secondary button--full" name="update" type="submit">Actualizar bolsa</button></div>
+        <div class="cart-page__summary"><div class="cart-drawer__total"><span>Subtotal</span><strong>{{ cart.total_price | money }}</strong></div><button class="button button--full" name="checkout" type="submit" {% unless cart_commerce_ready %}disabled{% endunless %}>Finalizar compra</button><button class="button button--secondary button--full" name="update" type="submit">Actualizar bolsa</button></div>
       </form>
     {% endif %}
   </div>
