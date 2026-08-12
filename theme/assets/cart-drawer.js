@@ -15,6 +15,10 @@
     if (el) el.textContent = message || '';
   }
 
+  function commerceLocked() {
+    return drawer()?.dataset.cartCommerceReady === 'false';
+  }
+
   function openCart() {
     const el = drawer();
     if (!el) return;
@@ -37,7 +41,7 @@
   function renderCart(cart) {
     document.querySelectorAll('[data-cart-count]').forEach((el) => el.textContent = cart.item_count);
     document.querySelectorAll('[data-cart-total]').forEach((el) => el.textContent = formatMoney(cart.total_price));
-    document.querySelectorAll('[data-cart-checkout]').forEach((el) => el.disabled = cart.item_count === 0);
+    document.querySelectorAll('[data-cart-checkout]').forEach((el) => el.disabled = cart.item_count === 0 || commerceLocked());
 
     const list = document.querySelector('[data-cart-items]');
     if (!list) return;
@@ -123,6 +127,13 @@
   document.addEventListener('submit', async (event) => {
     const form = event.target.closest('[data-product-form]');
     if (!form) return;
+    const root = form.closest('[data-product-root]');
+    if (root?.dataset.commerceReady !== 'true') {
+      event.preventDefault();
+      const status = root?.querySelector('[data-product-status]');
+      if (status) status.textContent = 'Esta pieza todavía no está habilitada para compra.';
+      return;
+    }
     const idInput = form.querySelector('[data-variant-id]');
     if (!idInput?.value) return;
     event.preventDefault();
@@ -136,9 +147,9 @@
       const body = await response.json();
       if (!response.ok) throw new Error(body.description || 'No pudimos agregar este producto.');
       setStatus(''); renderCart(await getCart()); openCart();
-      document.dispatchEvent(new CustomEvent('misca:add-to-cart', { detail: { variantId: idInput.value } }));
+      document.dispatchEvent(new CustomEvent('misca:add-to-cart', { detail: { variantId: idInput.value, productHandle: root?.dataset.productHandle || '' } }));
     } catch (error) {
-      const status = form.closest('[data-product-root]')?.querySelector('[data-product-status]');
+      const status = root?.querySelector('[data-product-status]');
       if (status) status.textContent = error.message;
     } finally {
       button.disabled = false;
