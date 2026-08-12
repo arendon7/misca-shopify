@@ -18,6 +18,9 @@
   const image = (src, alt, cls = '') => `<img class="${cls}" src="${src}" alt="${alt}" loading="lazy">`;
   const hide = el => { if (el) el.classList.add('v15-customer-hidden'); };
   const sectionWith = text => [...app.querySelectorAll('section')].find(s => s.textContent.includes(text));
+  const customerLayerActive = () => !!document.querySelector('script[src="./v17.js"],script[src="./v18.js"],script[src="./v19.js"]');
+  const setText = (el, text) => { if (el && el.textContent !== text) el.textContent = text; };
+  const setHtml = (el, html) => { if (el && el.innerHTML !== html) el.innerHTML = html; };
 
   function removeLegacyNote() {
     document.querySelectorAll('.v5-route-note').forEach(el => el.remove());
@@ -65,10 +68,10 @@
     const universes = app.querySelector('.v12-home-universes');
     if (universes) {
       universes.classList.add('v15-universe-index');
-      const h2 = universes.querySelector('h2');
-      const copy = universes.querySelector('.v12-section-kicker > p:last-child');
-      if (h2) h2.textContent = 'Diez universos. Dos productos hoy.';
-      if (copy) copy.textContent = 'La marca puede crecer sin convertir cada idea en inventario. Explora el archivo creativo después de entrar por Raíz u Ola.';
+      if (!customerLayerActive()) {
+        setText(universes.querySelector('h2'), 'Diez universos. Dos productos hoy.');
+        setText(universes.querySelector('.v12-section-kicker > p:last-child'), 'La marca puede crecer sin convertir cada idea en inventario. Explora el archivo creativo después de entrar por Raíz u Ola.');
+      }
       if (!document.querySelector('.v15-archive-feature')) {
         universes.insertAdjacentHTML('afterend', `<section class="section v15-archive-feature"><div class="wrap v15-archive-feature__grid">
           <div class="v15-archive-feature__visual">${image('./assets/universes/hokusai-la-fuerza-del-agua.svg','Master visual conceptual de La fuerza del agua')}</div>
@@ -94,7 +97,7 @@
       if (actions) {
         const primary = actions.querySelector('.v6-card-link');
         const secondary = actions.querySelector('.v6-card-size');
-        if (primary) primary.textContent = `Ver ${p.title}`;
+        if (primary) setText(primary, `Ver ${p.title}`);
         secondary?.remove();
       }
       const info = card.querySelector('.product-info');
@@ -123,7 +126,7 @@
     ];
     return frames.map(([label, src], i) => `<figure class="gallery-cell v15-gallery-cell" data-v15-frame="${i + 1}">
       ${image(src, `${label} conceptual de ${p.title}`)}
-      <figcaption><span>${String(i + 1).padStart(2, '0')} / ${String(frames.length).padStart(2, '0')}</span><strong>${label}</strong></figcaption>
+      <figcaption><span>${String(i + 1).padStart(2, '0')} / ${String(frames.length).padStart(2,'0')}</span><strong>${label}</strong></figcaption>
     </figure>`).join('');
   }
 
@@ -170,8 +173,7 @@
 
     const state = buybox.querySelector('.v6-pdp-meta > div:nth-child(3)');
     hide(state);
-    const note = buybox.querySelector('.preview-note');
-    if (note) note.textContent = 'Vista de desarrollo · precio hipótesis · datos físicos pendientes de Product Ready.';
+    if (!customerLayerActive()) setText(buybox.querySelector('.preview-note'), 'Vista de desarrollo · precio hipótesis · datos físicos pendientes de Product Ready.');
 
     const add = buybox.querySelector('.add-cart');
     if (add && !buybox.querySelector('.v15-purchase-line')) {
@@ -179,7 +181,7 @@
     }
 
     const boundary = app.querySelector('.v14-pdp-boundary');
-    if (boundary) boundary.innerHTML = '<strong>Campaña conceptual.</strong> Las fotografías finales reemplazarán estas vistas después de blank, impresión, lavado y aprobación física.';
+    setHtml(boundary, '<strong>Campaña conceptual.</strong> Las fotografías finales reemplazarán estas vistas después de blank, impresión, lavado y aprobación física.');
 
     addDevelopmentDrawer(page, p);
   }

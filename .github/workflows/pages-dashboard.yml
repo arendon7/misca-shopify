@@ -28,10 +28,10 @@ jobs:
           set -euo pipefail
           test -f preview/site/index.html
           test -f preview/site/styles.css
-          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do test -f "preview/site/v${v}.css"; done
+          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do test -f "preview/site/v${v}.css"; done
           test -f preview/site/app.js
           test -f preview/site/fixes.js
-          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do test -f "preview/site/v${v}.js"; done
+          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do test -f "preview/site/v${v}.js"; done
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/raiz/$f.svg"; done
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/ola/$f.svg"; done
           test -f preview/site/assets/universes/alma-rios-entre-grietas.svg
@@ -47,13 +47,13 @@ jobs:
 
           node --check preview/site/app.js
           node --check preview/site/fixes.js
-          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do node --check "preview/site/v${v}.js"; done
+          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do node --check "preview/site/v${v}.js"; done
 
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
-          grep -q 'v18.css' preview/site/index.html
-          grep -q 'v18.js' preview/site/index.html
-          grep -q 'WEB-COMMERCE V18' preview/site/index.html
+          grep -q 'v19.css' preview/site/index.html
+          grep -q 'v19.js' preview/site/index.html
+          grep -q 'WEB-COMMERCE V19' preview/site/index.html
           ! grep -q '<script src="./v16.js"></script>' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
@@ -64,6 +64,8 @@ jobs:
 
           grep -q 'v6-mobile-buybar' preview/site/v6.js
           grep -q 'activeHandles' preview/site/v7.js
+          grep -q 'customerLayerActive' preview/site/v7.js
+          grep -q 'setText(add, label)' preview/site/v7.js
           grep -q 'garmentSVG' preview/site/v8.js
           grep -q 'Dirección A' preview/site/v9.js
           grep -q 'data-v10-workshop-spec' preview/site/v10.js
@@ -72,7 +74,10 @@ jobs:
           grep -q 'static-master-v1' preview/site/v13.js
           grep -q 'Campaña conceptual' preview/site/v14.js
           grep -q 'Dos prendas. Ninguna distracción.' preview/site/v15.js
+          grep -q 'customerLayerActive' preview/site/v15.js
+          grep -q 'setHtml(boundary' preview/site/v15.js
           grep -q 'v15-development-open' preview/site/v15.css
+          grep -q 'brandLayerActive' preview/site/v17.js
           grep -q 'guardProductRoute' preview/site/v17.js
           grep -q 'developmentHandles' preview/site/v17.js
           grep -q 'No encontramos esta pieza.' preview/site/v17.js
@@ -84,6 +89,12 @@ jobs:
           grep -q 'La ficha final tiene que responder lo importante.' preview/site/v18.js
           grep -q 'v15-development-access{display:none}' preview/site/v18.css
           grep -q 'v18-story-grid' preview/site/v18.css
+
+          grep -q 'v19-choice-helper' preview/site/v19.js
+          grep -q 'v19-plp-compare' preview/site/v19.js
+          grep -q 'v19-buy-proof' preview/site/v19.js
+          grep -q 'v19-preview-note' preview/site/v19.css
+          grep -q 'v16-overlay-open .v6-mobile-buybar' preview/site/v19.css
 
           grep -q 'raiz/cover.svg' preview/site/v14.js
           grep -q 'ola/cover.svg' preview/site/v14.js
@@ -117,7 +128,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'WEB-COMMERCE V18',
+              'previewVersion': 'WEB-COMMERCE V19',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
