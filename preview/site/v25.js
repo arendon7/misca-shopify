@@ -5,7 +5,9 @@
   const G = './assets/generated/v25/';
   const photos = {
     raiz: `${G}raiz-campaign.webp`,
-    ola: `${G}ola-campaign.webp`
+    ola: `${G}ola-campaign.webp`,
+    alma: `${G}alma-studio.webp`,
+    creators: `${G}creators-studio.webp`
   };
   const route = () => (location.hash || '#/').slice(1).split('?')[0];
 
@@ -56,6 +58,11 @@
     swapImage(editorial?.querySelector('img'), photos.raiz, 'Raíz de concreto · campaña conceptual');
     label(editorial);
 
+    const editorialSection = app.querySelector('.v23-editorial-split');
+    if (editorialSection && !app.querySelector('.v25-home-process')) {
+      editorialSection.insertAdjacentHTML('afterend', `<section class="v25-home-process"><figure><img src="${photos.alma}" alt="Alma Ríos · estudio creativo conceptual" loading="lazy"><span class="v25-concept-label">Escena editorial conceptual</span></figure><div><p class="v23-kicker">Detrás de la colección</p><h2>La obra también necesita mesa de trabajo.</h2><p>Antes de llegar a la prenda hay bocetos, decisiones, pruebas de composición y criterio. La artista no es un nombre junto al producto: es el origen de la colección.</p><a class="v23-button is-secondary" href="#/artistas">Conocer a Alma Ríos</a></div></section>`);
+    }
+
     const archiveVisual = app.querySelector('.v23-dark-story__visual');
     if (archiveVisual) {
       const targets = archiveVisual.querySelectorAll('img');
@@ -71,6 +78,10 @@
     const feature = app.querySelector('.v23-artist-feature > div:first-child');
     swapImage(feature?.querySelector('img'), photos.raiz, 'Raíz de concreto · campaña conceptual');
     label(feature);
+    const featureBlock = app.querySelector('.v23-artist-feature');
+    if (featureBlock && !app.querySelector('.v25-artist-process')) {
+      featureBlock.insertAdjacentHTML('afterend', `<figure class="v25-artist-process"><img src="${photos.alma}" alt="Alma Ríos · proceso creativo conceptual" loading="lazy"><figcaption>Alma Ríos · escena editorial de proceso</figcaption><span class="v25-concept-label">Escena editorial conceptual</span></figure>`);
+    }
   }
 
   function collections() {
@@ -99,6 +110,22 @@
     const cards = app.querySelectorAll('.v23-story-card');
     swapImage(cards[0]?.querySelector('img'), photos.raiz, 'Raíz de concreto · campaña conceptual');
     swapImage(cards[1]?.querySelector('img'), photos.ola, 'Ola · campaña conceptual');
+    const systemMosaic = cards[2]?.querySelector('.v23-story-card__mosaic');
+    if (systemMosaic) {
+      const imgs = systemMosaic.querySelectorAll('img');
+      swapImage(imgs[0], photos.creators, 'MISCA · escena conceptual de estudio y operación');
+      systemMosaic.classList.add('v25-story-studio');
+      label(systemMosaic, 'Escena editorial conceptual');
+    }
+  }
+
+  function creators() {
+    const collage = app.querySelector('.v23-creators-collage');
+    if (!collage) return;
+    const imgs = collage.querySelectorAll('img');
+    swapImage(imgs[0], photos.creators, 'MISCA · estudio conceptual con creadores');
+    collage.classList.add('v25-creators-studio');
+    label(collage, 'Escena editorial conceptual · modelo de servicio');
   }
 
   function archive() {
@@ -134,6 +161,7 @@
     else if (r === '/artistas') artists();
     else if (r === '/colecciones') collections();
     else if (r === '/historias') stories();
+    else if (r === '/creadores') creators();
     else if (r === '/archivo') archive();
     else if (r === '/coleccion/entre-grietas' || r === '/coleccion/la-fuerza-del-agua') collectionDetail(r);
     else if (r === '/producto/raiz-de-concreto' || r === '/producto/ola-hokusai') pdp(r);
