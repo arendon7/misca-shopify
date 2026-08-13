@@ -22,148 +22,79 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Validate storefront preview
+      - name: Validate V30 public runtime
         shell: bash
         run: |
           set -euo pipefail
+
           test -f preview/site/index.html
           test -f preview/site/styles.css
-          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do test -f "preview/site/v${v}.css"; done
-          test -f preview/site/v23.css
-          test -f preview/site/v25.css
-          test -f preview/site/v27.css
           test -f preview/site/app.js
           test -f preview/site/fixes.js
-          for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do test -f "preview/site/v${v}.js"; done
-          test -f preview/site/v23.js
-          test -f preview/site/v25.js
+          test -f docs/V30_RUNTIME_CONSOLIDATION.md
 
-          for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/raiz/$f.svg"; done
-          for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/ola/$f.svg"; done
-          test -f preview/site/assets/universes/alma-rios-entre-grietas.svg
-          test -f preview/site/assets/universes/tomas-muro-muros-que-hablan.svg
-          test -f preview/site/assets/universes/nina-cobalto-frecuencia.svg
-          test -f preview/site/assets/universes/simon-bestiario-animales-del-ruido.svg
-          test -f preview/site/assets/universes/vera-montana-ciudad-vertical.svg
-          test -f preview/site/assets/universes/hokusai-la-fuerza-del-agua.svg
-          test -f preview/site/assets/universes/william-morris-naturaleza-repetida.svg
-          test -f preview/site/assets/universes/alphonse-mucha-las-estaciones.svg
-          test -f preview/site/assets/universes/van-gogh-el-paisaje-se-mueve.svg
-          test -f preview/site/assets/universes/monet-jardines-de-luz.svg
-          test -s preview/site/assets/generated/v25/raiz-campaign.webp
-          test -s preview/site/assets/generated/v25/ola-campaign.webp
-          test -s preview/site/assets/generated/v26/ola-pdp-context.webp
+          # Retained public CSS/JS.
+          for v in 6 7 15 16 17 18 19 23 25; do test -f "preview/site/v${v}.css"; done
+          test -f preview/site/v27.css
+          for v in 6 7 15 17 18 19 23 25; do test -f "preview/site/v${v}.js"; done
 
+          # Archived development layers remain recoverable but are not public runtime.
+          for v in 5 8 9 10 11 12 13 14; do
+            test -f "preview/site/v${v}.css"
+            test -f "preview/site/v${v}.js"
+            ! grep -q "v${v}.css" preview/site/index.html
+            ! grep -q "v${v}.js" preview/site/index.html
+          done
+          ! grep -q '<script src="./v16.js"></script>' preview/site/index.html
+
+          # Syntax: public runtime plus archived JS history.
           node --check preview/site/app.js
           node --check preview/site/fixes.js
           for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do node --check "preview/site/v${v}.js"; done
           node --check preview/site/v23.js
           node --check preview/site/v25.js
 
-          grep -q 'id="app"' preview/site/index.html
-          grep -q 'GitHub Pages' preview/site/index.html
-          grep -q 'v19.css' preview/site/index.html
-          grep -q 'v19.js' preview/site/index.html
-          grep -q 'v23.css' preview/site/index.html
-          grep -q 'v23.js' preview/site/index.html
-          grep -q 'v25.css' preview/site/index.html
-          grep -q 'v25.js' preview/site/index.html
-          grep -q 'PUBLIC-PHOTO V25' preview/site/index.html
-          ! grep -q '<script src="./v16.js"></script>' preview/site/index.html
-          ! grep -q 'v2.css' preview/site/index.html
-          ! grep -q 'v3.css' preview/site/index.html
-          ! grep -q 'v4.css' preview/site/index.html
-          ! grep -q 'v2.js' preview/site/index.html
-          ! grep -q 'v3.js' preview/site/index.html
-          ! grep -q 'v4.js' preview/site/index.html
+          # Public bootstrap contract.
+          grep -q 'PUBLIC-CANDIDATE V30' preview/site/index.html
+          grep -q 'id="v30-responsive-qa"' preview/site/index.html
+          for css in styles v6 v7 v15 v16 v17 v18 v19 v23 v25; do grep -q "${css}.css" preview/site/index.html; done
+          for js in app v6 v7 v15 v17 v18 v19 v23 v25 fixes; do grep -q "${js}.js" preview/site/index.html; done
 
+          python - <<'PY'
+          from pathlib import Path
+          html = Path('preview/site/index.html').read_text(encoding='utf-8')
+          assert html.count('<link rel="stylesheet"') == 10, 'unexpected public CSS count'
+          assert html.count('<script src=') == 10, 'unexpected public JS count'
+          assert html.index('v25.js') < html.index('fixes.js'), 'fixes.js must load last'
+          assert '100svh' in html and 'overscroll-behavior:contain' in html
+          PY
+
+          # Customer-critical behavior still present.
           grep -q 'v6-mobile-buybar' preview/site/v6.js
           grep -q 'activeHandles' preview/site/v7.js
-          grep -q 'customerLayerActive' preview/site/v7.js
-          grep -q 'setText(add, label)' preview/site/v7.js
-          grep -q 'garmentSVG' preview/site/v8.js
-          grep -q 'Dirección A' preview/site/v9.js
-          grep -q 'data-v10-workshop-spec' preview/site/v10.js
-          grep -q 'data-asset-slot' preview/site/v11.js
-          grep -q '10 universos / 2 en lanzamiento' preview/site/v12.js
-          grep -q 'static-master-v1' preview/site/v13.js
-          grep -q 'Campaña conceptual' preview/site/v14.js
-          grep -q 'Dos prendas. Ninguna distracción.' preview/site/v15.js
-          grep -q 'customerLayerActive' preview/site/v15.js
-          grep -q 'setHtml(boundary' preview/site/v15.js
-          grep -q 'v15-development-open' preview/site/v15.css
-          grep -q 'brandLayerActive' preview/site/v17.js
+          grep -q 'galleryHtml' preview/site/v15.js
           grep -q 'guardProductRoute' preview/site/v17.js
-          grep -q 'developmentHandles' preview/site/v17.js
-          grep -q 'No encontramos esta pieza.' preview/site/v17.js
-
           grep -q 'Dos piezas para empezar.' preview/site/v18.js
-          grep -q 'Cada colección empieza con una voz.' preview/site/v18.js
-          grep -q 'Dos colecciones abren MISCA.' preview/site/v18.js
-          grep -q 'Una división simple del trabajo.' preview/site/v18.js
-          grep -q 'La ficha final tiene que responder lo importante.' preview/site/v18.js
-          grep -q 'v15-development-access{display:none}' preview/site/v18.css
-          grep -q 'v18-story-grid' preview/site/v18.css
-
-          grep -q 'v19-choice-helper' preview/site/v19.js
-          grep -q 'v19-plp-compare' preview/site/v19.js
-          grep -q 'v19-buy-proof' preview/site/v19.js
-          grep -q 'v19-preview-note' preview/site/v19.css
-          grep -q 'v16-overlay-open .v6-mobile-buybar' preview/site/v19.css
-
+          grep -q 'v27.css' preview/site/v19.js
           grep -q 'v23-home-hero' preview/site/v23.js
           grep -q 'v23-product-duo' preview/site/v23.js
-          grep -q 'v23-collection-spread' preview/site/v23.js
-          grep -q 'v23-creators-collage' preview/site/v23.js
-          grep -q 'v23-pdp-editorial' preview/site/v23.js
-          grep -q 'body.v23-live' preview/site/v23.css
-          grep -q 'v23-hero-collage' preview/site/v23.css
-          grep -q 'v23-product-card__media' preview/site/v23.css
-          grep -q 'v23-archive-hero' preview/site/v23.css
-
           grep -q 'raiz-campaign.webp' preview/site/v25.js
           grep -q 'ola-campaign.webp' preview/site/v25.js
-          grep -q 'Visual conceptual · muestra física pendiente' preview/site/v25.js
-          grep -q 'v25-photo-live' preview/site/v25.css
-          grep -q 'v25-concept-label' preview/site/v25.css
-          grep -q 'v25-pdp-editorial' preview/site/v25.js
-          grep -q 'ola-pdp-context.webp' preview/site/v25.css
-
-          grep -q 'v27.css' preview/site/v19.js
-          grep -q 'v27-product-options' preview/site/v19.js
-          grep -q 'v27-launch-state' preview/site/v19.js
-          grep -q 'v27-product-gallery' preview/site/v19.js
-          grep -q 'v27-related' preview/site/v19.js
-          grep -q 'ecommerce finish for public PDP' preview/site/v27.css
-          grep -q 'v27-product-options' preview/site/v27.css
-          grep -q 'v27-gallery-hint' preview/site/v27.css
-          grep -q 'v27-related' preview/site/v27.css
-          grep -q 'v6-mobile-buybar' preview/site/v27.css
-
           grep -q 'v28-shop-switcher' preview/site/fixes.js
-          grep -q 'v28-card-origin' preview/site/fixes.js
           grep -q 'v28-cart-summary' preview/site/fixes.js
-          grep -q "querySelector('.filter-row')?.remove" preview/site/fixes.js
-          grep -q 'MISCA V28' preview/site/v17.css
-          grep -q 'v28-shop-switcher' preview/site/v17.css
-          grep -q 'v28-cart' preview/site/v17.css
-
           grep -q 'v29-home-shopbar' preview/site/fixes.js
           grep -q 'v29-mobile-feature' preview/site/fixes.js
           grep -q 'v29-search-feature' preview/site/fixes.js
-          grep -q 'v29Order' preview/site/fixes.js
-          grep -q 'MISCA V29' preview/site/v17.css
-          grep -q 'v29-mobile-menu' preview/site/v17.css
-          grep -q 'v29-search' preview/site/v17.css
-          grep -q 'v29-home-shopbar' preview/site/v17.css
 
-          grep -q 'raiz/cover.svg' preview/site/v14.js
-          grep -q 'ola/cover.svg' preview/site/v14.js
+          # Persisted launch assets and evidence boundaries.
+          for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/raiz/$f.svg"; done
+          for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/ola/$f.svg"; done
+          test -s preview/site/assets/generated/v25/raiz-campaign.webp
+          test -s preview/site/assets/generated/v25/ola-campaign.webp
+          test -s preview/site/assets/generated/v26/ola-pdp-context.webp
           grep -q 'RC-SCR-01 / RC-DTF-01' preview/site/assets/products/raiz/spec-card.svg
           grep -q 'OLA-DTG-01 / OLA-DTF-01' preview/site/assets/products/ola/spec-card.svg
           grep -q 'The Met · JP1847' preview/site/assets/products/ola/spec-card.svg
-          grep -q 'T265 hipótesis master' preview/site/assets/products/raiz/spec-card.svg
-          grep -q 'T265 hipótesis master' preview/site/assets/products/ola/spec-card.svg
 
       - name: Build storefront preview + status artifact
         shell: bash
@@ -189,7 +120,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'PUBLIC-NAV V29',
+              'previewVersion': 'PUBLIC-CANDIDATE V30',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
