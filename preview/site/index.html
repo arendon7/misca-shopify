@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="./v25.css">
   <style id="v30-responsive-qa">
     html,body{max-width:100%;overflow-x:hidden}
+    body.v31-overlay-open{overflow:hidden}
     .v29-mobile-menu,.v29-search .search-panel,.cart-drawer.v28-cart{max-height:100svh;overflow-y:auto;overscroll-behavior:contain}
     .v29-mobile-menu{padding-bottom:max(12px,env(safe-area-inset-bottom))!important}
     .v29-search .search-panel{padding-bottom:max(26px,env(safe-area-inset-bottom))}
@@ -99,5 +100,65 @@
   <script src="./v23.js"></script>
   <script src="./v25.js"></script>
   <script src="./fixes.js"></script>
+  <script id="v31-launch-audit">
+  (()=>{
+    const q=s=>document.querySelector(s);
+    const path=()=> (location.hash.slice(1)||'/').split('?')[0];
+    const ROOT='https://arendon7.github.io/misca-shopify/assets/generated/v25/';
+    const meta={
+      '/': ['MISCA — Arte que puedes llevar','Prendas construidas alrededor de artistas, obras e historias. Colecciones pequeñas desde Medellín, Colombia.','raiz-campaign.webp'],
+      '/nuevo':['MISCA — Nuevo','Las primeras dos piezas del lanzamiento MISCA: Raíz de concreto y Ola.','raiz-campaign.webp'],
+      '/prendas':['MISCA — Prendas','Raíz de concreto y Ola: las dos piezas que abren el lanzamiento MISCA.','raiz-campaign.webp'],
+      '/producto/raiz-de-concreto':['Raíz de concreto — MISCA','Raíz de concreto, de Alma Ríos y la colección Entre grietas. Visuales conceptuales hasta Product Ready.','raiz-campaign.webp'],
+      '/producto/ola-hokusai':['Ola — MISCA','Ola, adaptación MISCA desde Hokusai y Archivo Abierto, con procedencia visible. Visuales conceptuales hasta Product Ready.','ola-campaign.webp'],
+      '/artistas':['Artistas — MISCA','Artistas de la Casa y Archivo Abierto: las voces y obras detrás de las colecciones MISCA.','raiz-campaign.webp'],
+      '/colecciones':['Colecciones — MISCA','Entre grietas y La fuerza del agua: los dos universos que abren MISCA.','raiz-campaign.webp'],
+      '/historias':['Historias — MISCA','Historias sobre obra, adaptación, producto y proceso detrás de las prendas MISCA.','raiz-campaign.webp'],
+      '/archivo':['Archivo Abierto — MISCA','Obras históricas con fuente, derechos y procedencia visibles antes de su adaptación a prenda.','ola-campaign.webp'],
+      '/creadores':['Para creadores — MISCA','El creador diseña y promociona; MISCA desarrolla producto, cobra, produce, empaca y envía.','creators-studio.webp'],
+      '/calidad':['Calidad y proceso — MISCA','Material, fit, técnica, lavado y operación deben probarse antes de convertirse en promesas de producto.','raiz-campaign.webp']
+    };
+    const set=(selector,value)=>{const el=q(selector);if(el&&value)el.setAttribute('content',value)};
+    function syncMeta(){
+      const p=path();let m=meta[p];
+      if(!m&&p.startsWith('/coleccion/'))m=['Colección — MISCA','Colecciones pequeñas construidas alrededor de una obra, una voz y una razón clara para existir.',p.includes('fuerza-del-agua')?'ola-campaign.webp':'raiz-campaign.webp'];
+      if(!m&&p.startsWith('/artista/'))m=['Artista — MISCA','Conoce el universo creativo detrás de una colección MISCA.','raiz-campaign.webp'];
+      if(!m&&p.startsWith('/archivo/'))m=['Archivo Abierto — MISCA','Fuente, derechos y contexto visibles para cada obra histórica del Archivo Abierto.','ola-campaign.webp'];
+      if(!m)m=['MISCA — Arte que puedes llevar','Prendas construidas alrededor de artistas, obras e historias.','raiz-campaign.webp'];
+      document.title=m[0];set('meta[name="description"]',m[1]);set('meta[property="og:title"]',m[0]);set('meta[property="og:description"]',m[1]);set('meta[property="og:image"]',ROOT+m[2]);set('meta[name="twitter:title"]',m[0]);set('meta[name="twitter:description"]',m[1]);set('meta[name="twitter:image"]',ROOT+m[2]);
+    }
+    const menu=q('#mobileMenu'),cart=q('#cartDrawer'),search=q('#searchOverlay');
+    const menuBtn=q('#menuButton'),cartBtn=q('#cartButton'),searchBtn=q('#searchButton');
+    const main=q('#app'),header=q('#siteHeader'),footer=q('.site-footer');
+    let restore=null;
+    const opened=el=>!!el?.classList.contains('open');
+    const focusables=el=>[...(el?.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex="-1"])')||[])].filter(n=>n.offsetParent!==null);
+    function activePanel(){return opened(search)?search:opened(cart)?cart:opened(menu)?menu:null}
+    function imageHints(){document.querySelectorAll('.v29-mobile-products img,.v29-search-feature img').forEach(img=>{img.loading='lazy';img.decoding='async'});}
+    function navState(){
+      const p=path();let active=p;if(p.startsWith('/producto/'))active='/prendas';else if(p.startsWith('/coleccion/'))active='/colecciones';else if(p.startsWith('/artista/'))active='/artistas';
+      document.querySelectorAll('.desktop-nav a,.mobile-menu nav a').forEach(a=>{const on=a.getAttribute('href')===`#${active}`;if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+    }
+    function sync(){
+      const mo=opened(menu),co=opened(cart),so=opened(search),any=mo||co||so;
+      menu?.setAttribute('aria-hidden',String(!mo));cart?.setAttribute('aria-hidden',String(!co));search?.setAttribute('aria-hidden',String(!so));
+      menuBtn?.setAttribute('aria-expanded',String(mo));cartBtn?.setAttribute('aria-expanded',String(co));searchBtn?.setAttribute('aria-expanded',String(so));
+      document.body.classList.toggle('v31-overlay-open',any);if(main)main.inert=any;if(header)header.inert=any;if(footer)footer.inert=any;
+      const count=Number(q('#cartCount')?.textContent||0);if(cartBtn)cartBtn.setAttribute('aria-label',`Abrir bolsa de compra, ${count} ${count===1?'pieza':'piezas'}`);q('#cartCount')?.setAttribute('aria-hidden','true');
+      navState();imageHints();
+    }
+    [[menuBtn,menu,q('#menuClose')],[cartBtn,cart,q('#cartClose')],[searchBtn,search,q('#searchInput')]].forEach(([trigger,panel,target])=>trigger?.addEventListener('click',()=>{restore=trigger;setTimeout(()=>{sync();(target||focusables(panel)[0])?.focus();},30)}));
+    [q('#menuClose'),q('#cartClose'),q('#searchClose'),q('#drawerBackdrop')].forEach(el=>el?.addEventListener('click',()=>setTimeout(()=>{sync();const r=restore;restore=null;r?.focus();},0)));
+    search?.addEventListener('click',e=>{if(e.target===search)setTimeout(()=>{sync();const r=restore;restore=null;r?.focus();},0)});
+    menu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{restore=null;setTimeout(sync,0)}));
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape')setTimeout(()=>{sync();const r=restore;restore=null;r?.focus();},0);
+      if(e.key!=='Tab')return;const panel=activePanel();if(!panel)return;const nodes=focusables(panel);if(!nodes.length)return;const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+    });
+    [menu,cart,search].forEach(el=>el&&new MutationObserver(()=>requestAnimationFrame(sync)).observe(el,{attributes:true,attributeFilter:['class'],childList:true,subtree:true}));
+    window.addEventListener('hashchange',()=>{restore=null;setTimeout(()=>{syncMeta();sync();main?.focus({preventScroll:true});},120)});
+    syncMeta();sync();setTimeout(sync,360);setTimeout(sync,760);
+  })();
+  </script>
 </body>
 </html>
