@@ -5,8 +5,20 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#101010">
   <meta name="description" content="MISCA: prendas construidas alrededor de artistas, obras e historias. Colecciones pequeñas desde Medellín, Colombia.">
-  <meta name="misca-preview-version" content="PUBLIC-CANDIDATE V30">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="misca-preview-version" content="PUBLIC-LAUNCH-AUDIT V31">
+  <meta property="og:site_name" content="MISCA">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:title" content="MISCA — Arte que puedes llevar">
+  <meta property="og:description" content="Prendas construidas alrededor de artistas, obras e historias. Colecciones pequeñas desde Medellín, Colombia.">
+  <meta property="og:image" content="https://arendon7.github.io/misca-shopify/assets/generated/v25/raiz-campaign.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MISCA — Arte que puedes llevar">
+  <meta name="twitter:description" content="Prendas construidas alrededor de artistas, obras e historias.">
+  <meta name="twitter:image" content="https://arendon7.github.io/misca-shopify/assets/generated/v25/raiz-campaign.webp">
   <title>MISCA — Arte que puedes llevar</title>
+  <link rel="preload" as="image" type="image/webp" href="./assets/generated/v25/raiz-campaign.webp" fetchpriority="high">
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./v6.css">
   <link rel="stylesheet" href="./v7.css">
@@ -31,7 +43,7 @@
 <body>
   <div class="dev-banner"><a href="./status/">Vista de desarrollo · GitHub Pages · Estado técnico</a></div>
   <header class="site-header" id="siteHeader">
-    <button class="menu-button" id="menuButton" aria-label="Abrir menú">Menú</button>
+    <button class="menu-button" id="menuButton" aria-label="Abrir menú" aria-controls="mobileMenu" aria-expanded="false">Menú</button>
     <a class="wordmark" href="#/">MISCA</a>
     <nav class="desktop-nav" aria-label="Navegación principal">
       <a href="#/nuevo">Nuevo</a>
@@ -42,12 +54,12 @@
       <a href="#/creadores">Para creadores</a>
     </nav>
     <div class="header-actions">
-      <button id="searchButton" class="text-button" aria-label="Buscar">Buscar</button>
-      <button id="cartButton" class="text-button" aria-label="Abrir bolsa">Bolsa <span id="cartCount">0</span></button>
+      <button id="searchButton" class="text-button" aria-label="Buscar" aria-controls="searchOverlay" aria-expanded="false">Buscar</button>
+      <button id="cartButton" class="text-button" aria-label="Abrir bolsa" aria-controls="cartDrawer" aria-expanded="false">Bolsa <span id="cartCount">0</span></button>
     </div>
   </header>
 
-  <aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <aside class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú principal MISCA">
     <div class="mobile-menu-head"><strong>MISCA</strong><button id="menuClose">Cerrar</button></div>
     <nav>
       <a href="#/nuevo">Nuevo</a><a href="#/artistas">Artistas</a><a href="#/colecciones">Colecciones</a>
@@ -66,14 +78,14 @@
   </footer>
 
   <div class="drawer-backdrop" id="drawerBackdrop"></div>
-  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Bolsa">
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Bolsa" role="dialog" aria-modal="true">
     <div class="drawer-head"><h2>Tu bolsa</h2><button id="cartClose">Cerrar</button></div>
     <div id="cartItems"></div>
     <div class="drawer-footer"><div class="subtotal"><span>Subtotal</span><strong id="cartTotal">$0</strong></div><button class="button full" id="checkoutPreview">Continuar al checkout</button><p class="micro">Vista de prueba: esta página no procesa pagos.</p></div>
   </aside>
 
-  <div class="search-overlay" id="searchOverlay" aria-hidden="true">
-    <div class="search-panel"><div class="drawer-head"><h2>Buscar en MISCA</h2><button id="searchClose">Cerrar</button></div><input id="searchInput" type="search" placeholder="Prendas, artistas, colecciones…" autocomplete="off"><div id="searchResults"></div></div>
+  <div class="search-overlay" id="searchOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Buscar en MISCA">
+    <div class="search-panel"><div class="drawer-head"><h2>Buscar en MISCA</h2><button id="searchClose">Cerrar</button></div><input id="searchInput" type="search" placeholder="Prendas, artistas, colecciones…" autocomplete="off"><div id="searchResults" aria-live="polite"></div></div>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
