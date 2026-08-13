@@ -9,6 +9,15 @@
   };
   const setText = (el, text) => { if (el && el.textContent !== text) el.textContent = text; };
 
+  function ensureV27Styles() {
+    if (document.querySelector('link[data-misca-v27]')) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = './v27.css';
+    link.dataset.miscaV27 = 'commerce-finish';
+    document.head.appendChild(link);
+  }
+
   function homeConversion() {
     if (route() !== '/') return;
     const shop = app.querySelector('.v15-shop-window');
@@ -39,7 +48,12 @@
     const p = products[handle];
     const page = app.querySelector('.product-page');
     const buybox = page?.querySelector('.buybox');
+    const gallery = page?.querySelector('.product-gallery');
     if (!page || !buybox) return;
+
+    page.classList.add('v27-product-page');
+    buybox.classList.add('v27-buybox');
+    gallery?.classList.add('v27-product-gallery');
 
     const variantTitle = buybox.querySelector('.variant-title span:first-child');
     setText(variantTitle, 'Elige tu talla');
@@ -51,7 +65,21 @@
 
     const selected = buybox.querySelector('.sizes .size.active,.sizes .size.is-v6-selected,.sizes .size[aria-pressed="true"]');
     const status = buybox.querySelector('.buy-status');
+    if (status) status.setAttribute('aria-live', 'polite');
     if (!selected && status && /elige|selecciona/i.test(status.textContent)) setText(status, 'Selecciona una talla para agregar a la bolsa.');
+
+    const price = buybox.querySelector('.price');
+    if (price && !buybox.querySelector('.v27-product-options')) {
+      const swatchClass = handle === 'raiz-de-concreto' ? 'is-marfil' : 'is-navy';
+      price.insertAdjacentHTML('afterend', `<div class="v27-product-options">
+        <div class="v27-option"><span>Color de esta edición</span><strong><i class="v27-swatch ${swatchClass}" aria-hidden="true"></i>${p.color}</strong></div>
+        <div class="v27-option"><span>Origen</span><strong>${p.origin}</strong></div>
+      </div><div class="v27-launch-state"><i aria-hidden="true"></i><div><strong>Lanzamiento en preparación</strong><span>Compra pública al aprobar muestra física y operación.</span></div></div>`);
+    }
+
+    if (gallery && !gallery.querySelector('.v27-gallery-hint')) {
+      gallery.insertAdjacentHTML('afterbegin', '<div class="v27-gallery-hint"><span>01—05</span><strong>Cinco vistas</strong><small>Desliza en móvil</small></div>');
+    }
 
     const add = buybox.querySelector('.add-cart');
     const purchaseLine = buybox.querySelector('.v15-purchase-line');
@@ -67,12 +95,14 @@
     const preview = buybox.querySelector('.preview-note');
     if (preview) {
       preview.classList.add('v19-preview-note');
-      setText(preview, 'Vista previa de lanzamiento. La compra pública se habilitará cuando la muestra física y la operación estén aprobadas.');
+      setText(preview, 'Las imágenes son conceptuales. Material, fit, impresión y disponibilidad se confirmarán con la muestra física antes de habilitar compra.');
       if (proof && preview.dataset.v19Positioned !== '1') {
         proof.insertAdjacentElement('afterend', preview);
         preview.dataset.v19Positioned = '1';
       }
     }
+
+    buybox.querySelector('.accordions')?.classList.add('v27-accordions');
 
     const origin = buybox.querySelector('.v18-product-origin');
     if (origin && !origin.querySelector('.v19-product-price-link')) {
@@ -80,10 +110,17 @@
     }
 
     const related = [...app.querySelectorAll('section')].find(section => section.textContent.includes('También en MISCA') && section.querySelector('.product-grid'));
-    if (related && related.dataset.v19 !== '1') {
-      related.dataset.v19 = '1';
-      setText(related.querySelector('.eyebrow'), 'La otra pieza del lanzamiento');
-      setText(related.querySelector('h2'), handle === 'raiz-de-concreto' ? 'También puedes entrar por Ola.' : 'También puedes entrar por Raíz.');
+    if (related) {
+      related.classList.add('v27-related');
+      if (related.dataset.v19 !== '1') {
+        related.dataset.v19 = '1';
+        setText(related.querySelector('.eyebrow'), 'La otra pieza del lanzamiento');
+        setText(related.querySelector('h2'), handle === 'raiz-de-concreto' ? 'También puedes entrar por Ola.' : 'También puedes entrar por Raíz.');
+      }
+      const heading = related.querySelector('.section-heading');
+      if (heading && !related.querySelector('.v27-related-note')) {
+        heading.insertAdjacentHTML('afterend', `<p class="v27-related-note">${handle === 'raiz-de-concreto' ? 'Una entrada desde Archivo Abierto, con procedencia visible.' : 'Una entrada desde una voz original de la Casa.'}</p>`);
+      }
     }
   }
 
@@ -102,6 +139,7 @@
   }
 
   function enhance() {
+    ensureV27Styles();
     homeConversion();
     plpConversion();
     pdpConversion();
