@@ -148,6 +148,15 @@ jobs:
           grep -q 'v28-shop-switcher' preview/site/v17.css
           grep -q 'v28-cart' preview/site/v17.css
 
+          grep -q 'v29-home-shopbar' preview/site/fixes.js
+          grep -q 'v29-mobile-feature' preview/site/fixes.js
+          grep -q 'v29-search-feature' preview/site/fixes.js
+          grep -q 'v29Order' preview/site/fixes.js
+          grep -q 'MISCA V29' preview/site/v17.css
+          grep -q 'v29-mobile-menu' preview/site/v17.css
+          grep -q 'v29-search' preview/site/v17.css
+          grep -q 'v29-home-shopbar' preview/site/v17.css
+
           grep -q 'raiz/cover.svg' preview/site/v14.js
           grep -q 'ola/cover.svg' preview/site/v14.js
           grep -q 'RC-SCR-01 / RC-DTF-01' preview/site/assets/products/raiz/spec-card.svg
@@ -180,7 +189,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'PUBLIC-SHOP V28',
+              'previewVersion': 'PUBLIC-NAV V29',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
