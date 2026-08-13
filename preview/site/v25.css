@@ -23,8 +23,8 @@ body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell,body:has(.pro
 body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell>*,body:has(.product-page .shirt.ola) .product-gallery .gallery-cell>*{opacity:0!important;pointer-events:none}
 body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell::before,body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell::after,body:has(.product-page .shirt.ola) .product-gallery .gallery-cell::before,body:has(.product-page .shirt.ola) .product-gallery .gallery-cell::after{content:none!important}
 body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell:first-child,body:has(.product-page .shirt.ola) .product-gallery .gallery-cell:first-child{grid-column:1/-1;aspect-ratio:1.25/1}
-body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell:nth-child(1){background-image:url('./assets/generated/v26/raiz-pdp-main.webp')}
-body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell:nth-child(2){background-image:url('./assets/generated/v25/raiz-campaign.webp')}
+body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell:nth-child(1){background-image:url('./assets/generated/v25/raiz-campaign.webp')}
+body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell:nth-child(2){background-image:url('./assets/products/raiz/back.svg')}
 body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell:nth-child(3){background-image:url('./assets/products/raiz/detail.svg')}
 body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell:nth-child(4){background-image:url('./assets/products/raiz/context.svg')}
 body:has(.product-page .shirt.ola) .product-gallery .gallery-cell:nth-child(1){background-image:url('./assets/generated/v26/ola-pdp-context.webp')}
