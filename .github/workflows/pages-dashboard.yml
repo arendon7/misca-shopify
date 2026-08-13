@@ -31,6 +31,7 @@ jobs:
           for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do test -f "preview/site/v${v}.css"; done
           test -f preview/site/v23.css
           test -f preview/site/v25.css
+          test -f preview/site/v27.css
           test -f preview/site/app.js
           test -f preview/site/fixes.js
           for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do test -f "preview/site/v${v}.js"; done
@@ -51,6 +52,7 @@ jobs:
           test -f preview/site/assets/universes/monet-jardines-de-luz.svg
           test -s preview/site/assets/generated/v25/raiz-campaign.webp
           test -s preview/site/assets/generated/v25/ola-campaign.webp
+          test -s preview/site/assets/generated/v26/ola-pdp-context.webp
 
           node --check preview/site/app.js
           node --check preview/site/fixes.js
@@ -125,6 +127,18 @@ jobs:
           grep -q 'v25-photo-live' preview/site/v25.css
           grep -q 'v25-concept-label' preview/site/v25.css
           grep -q 'v25-pdp-editorial' preview/site/v25.js
+          grep -q 'ola-pdp-context.webp' preview/site/v25.css
+
+          grep -q 'v27.css' preview/site/v19.js
+          grep -q 'v27-product-options' preview/site/v19.js
+          grep -q 'v27-launch-state' preview/site/v19.js
+          grep -q 'v27-product-gallery' preview/site/v19.js
+          grep -q 'v27-related' preview/site/v19.js
+          grep -q 'ecommerce finish for public PDP' preview/site/v27.css
+          grep -q 'v27-product-options' preview/site/v27.css
+          grep -q 'v27-gallery-hint' preview/site/v27.css
+          grep -q 'v27-related' preview/site/v27.css
+          grep -q 'v6-mobile-buybar' preview/site/v27.css
 
           grep -q 'raiz/cover.svg' preview/site/v14.js
           grep -q 'ola/cover.svg' preview/site/v14.js
@@ -158,7 +172,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'PUBLIC-PHOTO V25',
+              'previewVersion': 'PUBLIC-COMMERCE V27',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
