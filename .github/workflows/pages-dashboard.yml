@@ -30,10 +30,13 @@ jobs:
           test -f preview/site/styles.css
           for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do test -f "preview/site/v${v}.css"; done
           test -f preview/site/v23.css
+          test -f preview/site/v25.css
           test -f preview/site/app.js
           test -f preview/site/fixes.js
           for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do test -f "preview/site/v${v}.js"; done
           test -f preview/site/v23.js
+          test -f preview/site/v25.js
+
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/raiz/$f.svg"; done
           for f in cover front back detail context art-crop spec-card; do test -f "preview/site/assets/products/ola/$f.svg"; done
           test -f preview/site/assets/universes/alma-rios-entre-grietas.svg
@@ -46,11 +49,14 @@ jobs:
           test -f preview/site/assets/universes/alphonse-mucha-las-estaciones.svg
           test -f preview/site/assets/universes/van-gogh-el-paisaje-se-mueve.svg
           test -f preview/site/assets/universes/monet-jardines-de-luz.svg
+          test -s preview/site/assets/generated/v25/raiz-campaign.webp
+          test -s preview/site/assets/generated/v25/ola-campaign.webp
 
           node --check preview/site/app.js
           node --check preview/site/fixes.js
           for v in 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19; do node --check "preview/site/v${v}.js"; done
           node --check preview/site/v23.js
+          node --check preview/site/v25.js
 
           grep -q 'id="app"' preview/site/index.html
           grep -q 'GitHub Pages' preview/site/index.html
@@ -58,7 +64,9 @@ jobs:
           grep -q 'v19.js' preview/site/index.html
           grep -q 'v23.css' preview/site/index.html
           grep -q 'v23.js' preview/site/index.html
-          grep -q 'PUBLIC-VISUAL V23' preview/site/index.html
+          grep -q 'v25.css' preview/site/index.html
+          grep -q 'v25.js' preview/site/index.html
+          grep -q 'PUBLIC-PHOTO V25' preview/site/index.html
           ! grep -q '<script src="./v16.js"></script>' preview/site/index.html
           ! grep -q 'v2.css' preview/site/index.html
           ! grep -q 'v3.css' preview/site/index.html
@@ -111,6 +119,13 @@ jobs:
           grep -q 'v23-product-card__media' preview/site/v23.css
           grep -q 'v23-archive-hero' preview/site/v23.css
 
+          grep -q 'raiz-campaign.webp' preview/site/v25.js
+          grep -q 'ola-campaign.webp' preview/site/v25.js
+          grep -q 'Visual conceptual · muestra física pendiente' preview/site/v25.js
+          grep -q 'v25-photo-live' preview/site/v25.css
+          grep -q 'v25-concept-label' preview/site/v25.css
+          grep -q 'v25-pdp-editorial' preview/site/v25.js
+
           grep -q 'raiz/cover.svg' preview/site/v14.js
           grep -q 'ola/cover.svg' preview/site/v14.js
           grep -q 'RC-SCR-01 / RC-DTF-01' preview/site/assets/products/raiz/spec-card.svg
@@ -143,7 +158,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'PUBLIC-VISUAL V23',
+              'previewVersion': 'PUBLIC-PHOTO V25',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           with open('_site/status/runtime.json', 'w', encoding='utf-8') as fh:
