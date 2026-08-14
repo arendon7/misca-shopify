@@ -22,14 +22,14 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Validate V35 design candidate
+      - name: Validate V36 visual finish
         shell: bash
         run: |
           set -euo pipefail
           test -f preview/site/index.html
           test -f preview/site/app.js
           test -f preview/site/fixes.js
-          test -f preview/site/v35-polish.css
+          test -f preview/site/finish.css
           test -f docs/V30_RUNTIME_CONSOLIDATION.md
           test -f docs/V31_LAUNCH_AUDIT.md
 
@@ -48,7 +48,7 @@ jobs:
           done
           ! grep -q '<script src="./v16.js"></script>' preview/site/index.html
 
-          grep -q 'PUBLIC-LAUNCH-AUDIT V31' preview/site/index.html
+          grep -q 'PUBLIC-DESIGN V36' preview/site/index.html
           grep -q 'noindex,nofollow' preview/site/index.html
           grep -q 'v31-launch-audit' preview/site/index.html
           grep -q 'aria-controls="mobileMenu"' preview/site/index.html
@@ -59,36 +59,37 @@ jobs:
           grep -q 'main.inert=any' preview/site/index.html
           grep -q 'function syncMeta' preview/site/index.html
           grep -q 'rel="preload" as="image"' preview/site/index.html
+          grep -q 'data-misca-v27="commerce-finish"' preview/site/index.html
+          grep -q 'data-misca-v35="editorial-finish"' preview/site/index.html
+          grep -q 'href="./finish.css"' preview/site/index.html
 
           python - <<'PY'
           from pathlib import Path
           html = Path('preview/site/index.html').read_text(encoding='utf-8')
-          assert html.count('<link rel="stylesheet"') == 10
+          assert html.count('<link rel="stylesheet"') == 13
           assert html.count('<script src=') == 10
           assert html.count('id="v31-launch-audit"') == 1
+          assert html.index('v25.css') < html.index('v27.css') < html.index('v35-polish.css') < html.index('finish.css')
           assert html.index('v25.js') < html.index('fixes.js') < html.index('v31-launch-audit')
           css = Path('preview/site/v27.css').read_text(encoding='utf-8')
           assert 'MISCA V35 — unified art direction' in css
           assert '--v35-gutter' in css
           assert 'body.v23-live .site-footer' in css
           assert 'body[data-v15-route="pdp"] .v27-product-page' in css
-          assert '@media(max-width:640px)' in css
           polish = Path('preview/site/v35-polish.css').read_text(encoding='utf-8')
           assert 'MISCA V35 — editorial composition finish' in polish
-          assert 'body[data-v23-route="home"]' in polish
-          assert '.v23-universe-card:nth-child(2)' in polish
-          assert 'body[data-v23-route="shop"]' in polish
-          assert '@media(max-width:640px)' in polish
+          finish = Path('preview/site/finish.css').read_text(encoding='utf-8')
+          assert 'MISCA V36 — first paint + resolution-aware art direction' in finish
+          assert 'background-size:auto 88%' in finish
+          assert '.v25-home-process figure' in finish
+          assert '@media(max-width:640px)' in finish
           PY
 
           grep -q 'v6-mobile-buybar' preview/site/v6.js
           grep -q 'activeHandles' preview/site/v7.js
           grep -q 'galleryHtml' preview/site/v15.js
           grep -q 'guardProductRoute' preview/site/v17.js
-          grep -q 'v27.css' preview/site/v19.js
-          grep -q 'v35-polish.css' preview/site/v19.js
-          grep -q 'v35-design-live' preview/site/v19.js
-          grep -q 'PUBLIC-DESIGN V35' preview/site/v19.js
+          grep -q 'PUBLIC-DESIGN V36' preview/site/v19.js
           grep -q 'v23-home-hero' preview/site/v23.js
           grep -q 'raiz-campaign.webp' preview/site/v25.js
           grep -q 'v28-shop-switcher' preview/site/fixes.js
@@ -127,7 +128,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'PUBLIC-DESIGN V35',
+              'previewVersion': 'PUBLIC-DESIGN V36',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           for target in ('_site/status/runtime.json','_site/preview-runtime.json'):
