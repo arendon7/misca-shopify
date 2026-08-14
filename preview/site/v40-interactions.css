@@ -1,0 +1,91 @@
+/* MISCA V40 — microinteractions + interface finish */
+:root{--v40-fast:160ms;--v40-mid:280ms;--v40-slow:460ms;--v40-ease:cubic-bezier(.22,1,.36,1);--v40-soft:cubic-bezier(.2,.75,.25,1)}
+
+/* Route arrival: one restrained entrance, then content stays still. */
+#app>:first-child{animation:v40-route-in var(--v40-slow) var(--v40-ease) both}
+@keyframes v40-route-in{from{opacity:.01;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* Header: the existing scroll state now behaves like a compact fashion header. */
+.v29-header{transition:height var(--v40-mid) var(--v40-ease),background var(--v40-mid) ease,box-shadow var(--v40-mid) ease,border-color var(--v40-mid) ease!important}
+@media(min-width:981px){
+  body.v25-photo-live .v29-header.is-scrolled{height:82px!important;grid-template-rows:44px 38px!important}
+  body.v25-photo-live .v29-header.is-scrolled .wordmark{font-size:25px!important;letter-spacing:.22em!important}
+  body.v25-photo-live .v29-header.is-scrolled .desktop-nav{gap:clamp(19px,1.8vw,31px)!important}
+  body.v25-photo-live .v29-header.is-scrolled .desktop-nav a{padding:7px 0 10px!important}
+}
+.v29-header .wordmark,.v29-header .desktop-nav,.v29-header .desktop-nav a{transition:font-size var(--v40-mid) var(--v40-ease),letter-spacing var(--v40-mid) ease,gap var(--v40-mid) var(--v40-ease),opacity var(--v40-fast) ease,color var(--v40-fast) ease!important}
+.v29-header .desktop-nav a:after{transform:scaleX(0);transform-origin:right;transition:transform var(--v40-mid) var(--v40-ease)}
+.v29-header .desktop-nav a[aria-current="page"]:after{transform:scaleX(1);transform-origin:left}
+.v29-header .text-button,.v29-header .menu-button{transition:opacity var(--v40-fast) ease,transform var(--v40-fast) var(--v40-ease)}
+.v29-header .text-button:active,.v29-header .menu-button:active{transform:translateY(1px)}
+
+/* Buttons and links: tactile but not bouncy. */
+.v23-button,.button,.v6-card-link,.add-cart{transition:background var(--v40-fast) ease,color var(--v40-fast) ease,border-color var(--v40-fast) ease,opacity var(--v40-fast) ease,transform var(--v40-fast) var(--v40-ease)!important}
+.v23-button:active,.button:active,.v6-card-link:active,.add-cart:active{transform:translateY(1px) scale(.995)!important}
+.link-arrow,.v19-product-price-link,.v28-card-cta b{transition:transform var(--v40-mid) var(--v40-ease),opacity var(--v40-fast) ease}
+
+/* Product and editorial media: image movement stays inside its frame. */
+.v23-product-card__media,.v23-universe-card>div,.v23-story-card>div:first-child,.v23-collection-spread__media,.v23-archive-hero__visual,.v23-artist-feature>div:first-child{overflow:hidden}
+.v23-product-card__media img,.v23-universe-card img,.v23-story-card>div:first-child img,.v23-collection-spread__media img,.v29-mobile-products img,.v29-search-feature img{transition:transform var(--v40-slow) var(--v40-ease),filter var(--v40-mid) ease}
+.v23-product-card,.v23-universe-card,.v23-story-card,.v39-editorial-live .v23-collection-spread__copy{transition:transform var(--v40-mid) var(--v40-ease),background var(--v40-mid) ease,color var(--v40-mid) ease,opacity var(--v40-mid) ease}
+
+@media(hover:hover) and (pointer:fine){
+  .v23-product-card:hover .v23-product-card__media img{transform:scale(1.018)}
+  .v23-product-card:hover .v28-card-cta b{transform:translateX(5px)}
+  .v23-universe-card:hover img{transform:scale(1.025)}
+  .v23-story-card:hover>div:first-child img{transform:scale(1.016)}
+  .v29-mobile-products a:hover img,.v29-search-feature a:hover img{transform:scale(1.025)}
+  .link-arrow:hover,.v19-product-price-link:hover{transform:translateX(4px)}
+}
+
+/* PDP: sizes, accordion and gallery feel deliberate. */
+.v27-buybox .size{transition:background var(--v40-fast) ease,color var(--v40-fast) ease,border-color var(--v40-fast) ease,transform var(--v40-fast) var(--v40-ease)!important}
+.v27-buybox .size:hover{transform:translateY(-1px)}
+.v27-buybox .size:active{transform:translateY(0) scale(.98)}
+.v27-accordions summary{transition:color var(--v40-fast) ease,opacity var(--v40-fast) ease}
+.v27-accordions summary:after{display:inline-block;transition:transform var(--v40-mid) var(--v40-ease)}
+.v27-accordions details[open] summary:after{transform:rotate(180deg)}
+.v27-product-gallery .gallery-cell{transition:filter var(--v40-mid) ease}
+.v27-launch-state i{animation:v40-status 2.4s ease-in-out infinite}
+@keyframes v40-status{0%,100%{opacity:.55}50%{opacity:1}}
+
+/* Drawers and overlays: depth and direction reinforce where the layer came from. */
+.drawer-backdrop{transition:opacity var(--v40-mid) ease,backdrop-filter var(--v40-mid) ease!important;backdrop-filter:blur(0)}
+.drawer-backdrop.open{backdrop-filter:blur(5px)}
+.cart-drawer.v28-cart{transition:transform .42s var(--v40-ease),box-shadow .42s ease!important;box-shadow:-18px 0 60px rgba(0,0,0,.08)}
+.cart-drawer.v28-cart.open{box-shadow:-32px 0 100px rgba(0,0,0,.24)}
+.v29-search{transition:opacity var(--v40-mid) ease,background var(--v40-mid) ease!important}
+.v29-search .search-panel{transform:translateX(28px);opacity:.96;transition:transform .42s var(--v40-ease),opacity .32s ease!important}
+.v29-search.open .search-panel{transform:none;opacity:1}
+.v29-mobile-menu{transition:transform .42s var(--v40-ease)!important}
+.v29-mobile-menu nav a{transition:padding-left var(--v40-mid) var(--v40-ease),color var(--v40-fast) ease,background var(--v40-fast) ease!important}
+.v29-mobile-menu nav a:after{transition:transform var(--v40-mid) var(--v40-ease),color var(--v40-fast) ease}
+.v29-mobile-menu nav a[aria-current="page"]{color:#fff!important}
+.v29-mobile-menu nav a[aria-current="page"]:after{color:#fff;transform:translateX(4px)}
+@media(hover:hover) and (pointer:fine){.v29-mobile-menu nav a:hover{padding-left:6px}.v29-mobile-menu nav a:hover:after{transform:translateX(5px)}}
+
+/* Search and cart feedback. */
+.v29-search #searchInput{transition:border-color var(--v40-fast) ease,color var(--v40-fast) ease}
+.v29-search #searchInput:focus{border-bottom-color:#111}
+.v29-search .search-result{transition:padding-left var(--v40-mid) var(--v40-ease),background var(--v40-fast) ease}
+@media(hover:hover) and (pointer:fine){.v29-search .search-result:hover{padding-left:8px}}
+.v28-cart .cart-line{transition:background var(--v40-fast) ease,opacity var(--v40-mid) ease}
+.v28-cart .qty button{transition:background var(--v40-fast) ease,color var(--v40-fast) ease,border-color var(--v40-fast) ease,transform var(--v40-fast) var(--v40-ease)}
+.v28-cart .qty button:active{transform:scale(.92)}
+.v28-cart #checkoutPreview:active{transform:translateY(1px)}
+
+/* Mobile product gallery: snap rather than loose horizontal movement where scrolling exists. */
+@media(max-width:980px){
+  .v27-product-gallery{scroll-snap-type:x proximity}
+  .v27-product-gallery .gallery-cell{scroll-snap-align:start}
+}
+
+/* One focus language across the product. */
+body.v23-live a:focus-visible,body.v23-live button:focus-visible,body.v23-live input:focus-visible,body.v23-live summary:focus-visible{outline:2px solid currentColor!important;outline-offset:4px!important}
+
+/* Motion is optional, never required to understand or operate the store. */
+@media(prefers-reduced-motion:reduce){
+  #app>:first-child{animation:none!important}
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .v29-search .search-panel,.v23-product-card__media img,.v23-universe-card img,.v23-story-card img{transform:none!important}
+}
