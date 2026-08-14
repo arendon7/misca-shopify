@@ -22,7 +22,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Validate V31 launch candidate
+      - name: Validate V35 design candidate
         shell: bash
         run: |
           set -euo pipefail
@@ -66,6 +66,12 @@ jobs:
           assert html.count('<script src=') == 10
           assert html.count('id="v31-launch-audit"') == 1
           assert html.index('v25.js') < html.index('fixes.js') < html.index('v31-launch-audit')
+          css = Path('preview/site/v27.css').read_text(encoding='utf-8')
+          assert 'MISCA V35 — unified art direction' in css
+          assert '--v35-gutter' in css
+          assert 'body.v23-live .site-footer' in css
+          assert 'body[data-v15-route="pdp"] .v27-product-page' in css
+          assert '@media(max-width:640px)' in css
           PY
 
           grep -q 'v6-mobile-buybar' preview/site/v6.js
@@ -111,7 +117,7 @@ jobs:
               'workflow': os.environ.get('GITHUB_WORKFLOW', ''),
               'refName': os.environ.get('GITHUB_REF_NAME', ''),
               'repository': os.environ.get('GITHUB_REPOSITORY', ''),
-              'previewVersion': 'PUBLIC-LAUNCH-AUDIT V31',
+              'previewVersion': 'PUBLIC-DESIGN V35',
               'builtAt': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
           }
           for target in ('_site/status/runtime.json','_site/preview-runtime.json'):
