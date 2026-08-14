@@ -26,7 +26,7 @@
     }
     document.body.classList.add('v35-design-live');
     const version = document.querySelector('meta[name="misca-preview-version"]');
-    if (version) version.setAttribute('content','PUBLIC-DESIGN V35');
+    if (version) version.setAttribute('content','PUBLIC-DESIGN V36');
   }
 
   function homeConversion() {
