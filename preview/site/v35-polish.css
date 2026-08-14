@@ -1,0 +1,105 @@
+/* MISCA V35 — editorial composition finish */
+
+/* quieter truth labels: visible, but not louder than the work */
+body.v23-live .v25-concept-label{left:10px;top:10px;max-width:calc(100% - 20px);padding:5px 7px;background:rgba(10,10,9,.68);font-size:6.5px;line-height:1.25;letter-spacing:.13em;backdrop-filter:blur(10px)}
+body.v23-live .v23-hero-frame figcaption{background:rgba(10,10,9,.62)!important;color:#f6f1e8!important;border:1px solid rgba(255,255,255,.08)}
+
+/* home: turn the launch into an editorial spread instead of two equal tiles */
+body[data-v23-route="home"] .v23-launch:not(.v23-launch--shop) .v23-product-duo{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:start;gap:clamp(18px,3vw,52px)}
+body[data-v23-route="home"] .v23-launch:not(.v23-launch--shop) .v23-product-card:nth-child(2){margin-top:clamp(48px,6vw,104px)}
+body[data-v23-route="home"] .v23-launch:not(.v23-launch--shop) .v23-product-card__body{padding-top:16px}
+body[data-v23-route="home"] .v23-launch:not(.v23-launch--shop) .v23-product-card__body h3{font-size:clamp(34px,3vw,50px)}
+
+/* principles become a thin editorial index rather than a promotional ribbon */
+body.v23-live .v23-marquee{position:relative;background:transparent}
+body.v23-live .v23-marquee span{min-height:50px;display:flex;align-items:center;justify-content:center;color:#625c53}
+
+/* in-study universes: magazine rhythm, still clearly non-purchasable */
+@media(min-width:981px){
+  body.v23-live .v23-universe-rail{align-items:start}
+  body.v23-live .v23-universe-card:nth-child(2),body.v23-live .v23-universe-card:nth-child(4){margin-top:clamp(34px,4vw,66px)}
+  body.v23-live .v23-universe-card:nth-child(1)>div,body.v23-live .v23-universe-card:nth-child(3)>div{aspect-ratio:4/5}
+  body.v23-live .v23-universe-card:nth-child(2)>div,body.v23-live .v23-universe-card:nth-child(4)>div{aspect-ratio:5/6}
+}
+
+/* dark editorial stories get stronger image hierarchy */
+body.v23-live .v23-dark-story{grid-template-columns:minmax(360px,.72fr) minmax(0,1.28fr)}
+body.v23-live .v23-dark-story__visual{grid-template-columns:minmax(0,1.28fr) minmax(0,.72fr)}
+body.v23-live .v23-dark-story__visual>*{min-width:0;overflow:hidden}
+body.v23-live .v23-dark-story__visual .v23-img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+body.v23-live .v23-dark-story__visual:hover .v23-img{transform:scale(1.012)}
+
+/* page intros: less billboard, more fashion editorial */
+body.v23-live .v23-page-intro h1{max-width:13ch;text-wrap:balance}
+body.v23-live .v23-page-intro .v23-lede{max-width:600px}
+body[data-v23-route="shop"] .v23-page-intro{padding-bottom:clamp(38px,4vw,58px)}
+body[data-v23-route="shop"] .v23-page-intro h1{max-width:11ch}
+
+/* PLP: flatter merchandising hierarchy */
+body[data-v23-route="shop"] .v28-shop-switcher{border-left:0!important;border-right:0!important;background:transparent!important}
+body[data-v23-route="shop"] .v28-shop-switcher__label{padding-left:0!important;color:#777168}
+body[data-v23-route="shop"] .v28-shop-switcher a:last-child{border-right:1px solid var(--v35-line)}
+body[data-v23-route="shop"] .v23-launch--shop{padding-top:18px!important}
+body[data-v23-route="shop"] .v23-product-card__media{aspect-ratio:3/4}
+
+/* collections: make the image/copy relationship feel authored */
+body.v23-live .v23-collection-spread__copy{justify-content:flex-end;padding-bottom:clamp(58px,7vw,110px)}
+body.v23-live .v23-collection-spread__copy>p:not(.v23-kicker){font-size:13px;line-height:1.75;max-width:470px}
+body.v23-live .v23-collection-spread__media{grid-template-columns:minmax(0,1.38fr) minmax(0,.62fr)}
+body.v23-live .v23-collection-spread.is-reverse .v23-collection-spread__media{grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr)}
+
+/* stories: one dominant lead, supporting pieces stay quieter */
+body.v23-live .v23-story-card.is-lead{grid-template-columns:minmax(0,1.36fr) minmax(340px,.64fr)}
+body.v23-live .v23-story-card:not(.is-lead){border-top:0}
+body.v23-live .v23-story-card:not(.is-lead)>div:last-child{min-height:280px}
+body.v23-live .v23-story-card p:not(.v23-kicker){font-size:13px;line-height:1.72}
+
+/* artists: the active artist reads first, studies read second */
+body[data-v23-route="artists"] .v23-artist-feature>div:first-child{min-height:640px}
+body[data-v23-route="artists"] .v25-artist-process{margin-top:clamp(40px,5vw,70px)}
+body[data-v23-route="artists"] .v23-section--soft{border-top:1px solid var(--v35-line)}
+
+/* creator/service page: more editorial breathing room */
+body[data-v23-route="creators"] .v23-creators-hero__copy{max-width:760px}
+body[data-v23-route="creators"] .v23-role-split>div{padding-block:clamp(64px,7vw,110px)}
+
+/* subtle interaction hierarchy */
+body.v23-live .v23-product-card,body.v23-live .v23-universe-card{outline:0}
+body.v23-live .v23-product-card__media .v23-img,body.v23-live .v23-universe-card .v23-img{transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .45s ease}
+body.v23-live .v23-product-card:hover .v23-product-card__media .v23-img{transform:scale(1.012)}
+body.v23-live .v23-product-card:hover .v23-primary{opacity:.08}
+body.v23-live .v23-product-card:hover .v23-secondary{opacity:1;transform:scale(1.012)}
+
+/* mobile is composed independently, not merely stacked */
+@media(max-width:980px){
+  body.v23-live .v23-dark-story{grid-template-columns:1fr}
+  body.v23-live .v23-dark-story__visual{grid-template-columns:1.2fr .8fr}
+  body.v23-live .v23-collection-spread__copy{justify-content:center;padding-bottom:clamp(46px,7vw,72px)}
+  body.v23-live .v23-story-card.is-lead{grid-template-columns:1fr}
+  body[data-v23-route="artists"] .v23-artist-feature>div:first-child{min-height:520px}
+}
+
+@media(max-width:640px){
+  body[data-v23-route="home"] .v23-launch:not(.v23-launch--shop) .v23-product-duo{display:block}
+  body[data-v23-route="home"] .v23-launch:not(.v23-launch--shop) .v23-product-card{display:block;margin:0 0 48px!important}
+  body[data-v23-route="home"] .v23-launch:not(.v23-launch--shop) .v23-product-card:nth-child(2){margin-left:24px!important;width:calc(100% - 24px)}
+  body[data-v23-route="home"] .v23-launch:not(.v23-launch--shop) .v23-product-card__media{aspect-ratio:4/5}
+  body.v23-live .v23-marquee{display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--v35-line)}
+  body.v23-live .v23-marquee::-webkit-scrollbar{display:none}
+  body.v23-live .v23-marquee span{flex:0 0 auto;min-width:58vw;border-bottom:0!important;border-right:1px solid var(--v35-line);padding:13px 18px}
+  body.v23-live .v23-dark-story__visual{grid-template-columns:1fr;min-height:0!important}
+  body.v23-live .v23-dark-story__visual>*{min-height:330px}
+  body.v23-live .v23-dark-story__visual>*:nth-child(2){min-height:230px}
+  body[data-v23-route="shop"] .v28-shop-switcher{margin-bottom:24px!important}
+  body[data-v23-route="shop"] .v28-shop-switcher__label{padding:12px 0!important}
+  body[data-v23-route="shop"] .v28-shop-switcher a:last-child{border-right:0}
+  body[data-v23-route="shop"] .v23-product-card__media{aspect-ratio:4/5}
+  body.v23-live .v23-collection-spread__media,body.v23-live .v23-collection-spread.is-reverse .v23-collection-spread__media{display:grid;grid-template-columns:1fr 1fr;min-height:0}
+  body.v23-live .v23-collection-spread__media .v23-img{min-height:330px}
+  body.v23-live .v23-collection-spread__media .v23-img:nth-child(2){min-height:230px;margin-top:100px}
+  body.v23-live .v23-story-card:not(.is-lead)>div:last-child{min-height:0}
+  body[data-v23-route="artists"] .v23-artist-feature>div:first-child{min-height:430px}
+  body.v23-live .v25-concept-label{font-size:6px;letter-spacing:.11em}
+}
+
+@media(prefers-reduced-motion:reduce){body.v23-live .v23-product-card__media .v23-img,body.v23-live .v23-universe-card .v23-img,body.v23-live .v23-dark-story__visual .v23-img{transition:none!important}}
