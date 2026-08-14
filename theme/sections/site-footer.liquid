@@ -1,7 +1,8 @@
 <footer class="site-footer">
   <div class="page-width footer-grid">
-    <div>
-      <div class="wordmark">{{ settings.brand_wordmark | default: shop.name }}</div>
+    <a class="footer-brand-v41" href="{{ routes.root_url }}" aria-label="{{ settings.brand_wordmark | default: shop.name }} · Inicio">{{ settings.brand_wordmark | default: shop.name }}</a>
+    <div class="footer-intro-v41">
+      <a class="wordmark" href="{{ routes.root_url }}">{{ settings.brand_wordmark | default: shop.name }}</a>
       <p class="muted">{{ section.settings.summary }}</p>
     </div>
     {% for block in section.blocks %}
@@ -16,6 +17,7 @@
         {% endif %}
       </div>
     {% endfor %}
+    <div class="footer-bottom-v41"><span>Hecho desde Medellín</span><span>Arte que puedes llevar.</span></div>
   </div>
 </footer>
 {% schema %}
