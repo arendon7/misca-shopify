@@ -54,7 +54,7 @@ jobs:
           grep -q 'if commerce_ready' theme/sections/main-product.liquid
           grep -q 'custom.commerce_status' theme/snippets/product-card.liquid
           grep -q 'enforce_commerce_readiness' theme/config/settings_schema.json
-          grep -q 'theme_version":"0.5.0"' theme/config/settings_schema.json
+          grep -q 'theme_version":"0.6.0"' theme/config/settings_schema.json
           grep -q 'commerce-readiness.css' theme/layout/theme.liquid
           grep -q 'commerceReady' theme/assets/theme.js
           grep -q 'misca:commerce-blocked' theme/assets/theme.js
@@ -129,3 +129,19 @@ jobs:
           grep -q 'default":"MISCA"' theme/config/settings_schema.json
           grep -q 'Visual conceptual' theme/snippets/product-card.liquid
           grep -q 'prefers-reduced-motion' theme/assets/theme-v41.css
+
+      - name: V42 Shopify production finish guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f theme/assets/theme-v42.css
+          grep -q 'theme-v42.css' theme/layout/theme.liquid
+          grep -q 'data-page-type="collection"' theme/assets/theme-v42.css
+          grep -q 'data-page-type="search"' theme/assets/theme-v42.css
+          grep -q 'data-page-type="cart"' theme/assets/theme-v42.css
+          grep -q 'v22-artist-tile' theme/assets/theme-v42.css
+          grep -q 'v22-story-card--lead' theme/assets/theme-v42.css
+          grep -q 'v22-creators-hero' theme/assets/theme-v42.css
+          grep -q 'aria-current="page"' theme/sections/site-header.liquid
+          grep -q 'Arte · prenda · historia · Medellín' theme/sections/header-group.json
+          grep -q 'prefers-reduced-motion' theme/assets/theme-v42.css
