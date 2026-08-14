@@ -10,12 +10,23 @@
   const setText = (el, text) => { if (el && el.textContent !== text) el.textContent = text; };
 
   function ensureV27Styles() {
-    if (document.querySelector('link[data-misca-v27]')) return;
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = './v27.css';
-    link.dataset.miscaV27 = 'commerce-finish';
-    document.head.appendChild(link);
+    if (!document.querySelector('link[data-misca-v27]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = './v27.css';
+      link.dataset.miscaV27 = 'commerce-finish';
+      document.head.appendChild(link);
+    }
+    if (!document.querySelector('link[data-misca-v35]')) {
+      const polish = document.createElement('link');
+      polish.rel = 'stylesheet';
+      polish.href = './v35-polish.css';
+      polish.dataset.miscaV35 = 'editorial-finish';
+      document.head.appendChild(polish);
+    }
+    document.body.classList.add('v35-design-live');
+    const version = document.querySelector('meta[name="misca-preview-version"]');
+    if (version) version.setAttribute('content','PUBLIC-DESIGN V35');
   }
 
   function homeConversion() {

@@ -29,6 +29,7 @@ jobs:
           test -f preview/site/index.html
           test -f preview/site/app.js
           test -f preview/site/fixes.js
+          test -f preview/site/v35-polish.css
           test -f docs/V30_RUNTIME_CONSOLIDATION.md
           test -f docs/V31_LAUNCH_AUDIT.md
 
@@ -72,6 +73,12 @@ jobs:
           assert 'body.v23-live .site-footer' in css
           assert 'body[data-v15-route="pdp"] .v27-product-page' in css
           assert '@media(max-width:640px)' in css
+          polish = Path('preview/site/v35-polish.css').read_text(encoding='utf-8')
+          assert 'MISCA V35 — editorial composition finish' in polish
+          assert 'body[data-v23-route="home"]' in polish
+          assert '.v23-universe-card:nth-child(2)' in polish
+          assert 'body[data-v23-route="shop"]' in polish
+          assert '@media(max-width:640px)' in polish
           PY
 
           grep -q 'v6-mobile-buybar' preview/site/v6.js
@@ -79,6 +86,9 @@ jobs:
           grep -q 'galleryHtml' preview/site/v15.js
           grep -q 'guardProductRoute' preview/site/v17.js
           grep -q 'v27.css' preview/site/v19.js
+          grep -q 'v35-polish.css' preview/site/v19.js
+          grep -q 'v35-design-live' preview/site/v19.js
+          grep -q 'PUBLIC-DESIGN V35' preview/site/v19.js
           grep -q 'v23-home-hero' preview/site/v23.js
           grep -q 'raiz-campaign.webp' preview/site/v25.js
           grep -q 'v28-shop-switcher' preview/site/fixes.js
