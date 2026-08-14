@@ -31,9 +31,16 @@
       editorial.dataset.miscaV39 = 'editorial-routes';
       document.head.appendChild(editorial);
     }
+    if (!document.querySelector('link[data-misca-v40]')) {
+      const interactions = document.createElement('link');
+      interactions.rel = 'stylesheet';
+      interactions.href = './v40-interactions.css';
+      interactions.dataset.miscaV40 = 'interaction-finish';
+      document.head.appendChild(interactions);
+    }
     document.body.classList.add('v35-design-live');
     const version = document.querySelector('meta[name="misca-preview-version"]');
-    if (version) version.setAttribute('content','PUBLIC-DESIGN V39');
+    if (version) version.setAttribute('content','PUBLIC-DESIGN V40');
   }
 
   function homeConversion() {
