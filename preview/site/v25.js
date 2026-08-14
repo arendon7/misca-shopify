@@ -2,12 +2,14 @@
   const app = document.getElementById('app');
   if (!app) return;
 
-  const G = './assets/generated/v25/';
+  const G25 = './assets/generated/v25/';
+  const G37 = './assets/generated/v37/';
   const photos = {
-    raiz: `${G}raiz-campaign.webp`,
-    ola: `${G}ola-campaign.webp`,
-    alma: `${G}alma-studio.webp`,
-    creators: `${G}creators-studio.webp`
+    raiz: `${G37}raiz-campaign.webp`,
+    raizPdp: `${G37}raiz-pdp.webp`,
+    ola: `${G37}ola-editorial.webp`,
+    alma: `${G25}alma-studio.webp`,
+    creators: `${G25}creators-studio.webp`
   };
   const route = () => (location.hash || '#/').slice(1).split('?')[0];
 
@@ -43,6 +45,15 @@
       swapImage(media?.querySelector('.v23-primary'), photos.ola, 'Ola · visual conceptual de campaña');
       label(media);
     }
+  }
+
+  function chromePhotos() {
+    document.querySelectorAll('.v29-mobile-products a,.v29-search-feature a').forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const img = link.querySelector('img');
+      if (href.includes('raiz-de-concreto')) swapImage(img, photos.raiz, 'Raíz de concreto · visual conceptual');
+      if (href.includes('ola-hokusai')) swapImage(img, photos.ola, 'Ola · visual conceptual');
+    });
   }
 
   function home() {
@@ -148,13 +159,13 @@
     const editorial = app.querySelector('.v23-pdp-editorial');
     if (!editorial) return;
     const firstFigure = editorial.querySelector('figure');
-    swapImage(firstFigure?.querySelector('img'), raiz ? photos.raiz : photos.ola, `${raiz ? 'Raíz de concreto' : 'Ola'} · visual conceptual de campaña`);
+    swapImage(firstFigure?.querySelector('img'), raiz ? photos.raizPdp : photos.ola, `${raiz ? 'Raíz de concreto' : 'Ola'} · visual conceptual de campaña`);
     label(firstFigure);
     editorial.classList.add('v25-pdp-editorial');
   }
 
   function apply() {
-    document.body.classList.add('v25-photo-live');
+    document.body.classList.add('v25-photo-live', 'v37-asset-live');
     const r = route();
     if (r === '/') home();
     else if (r === '/prendas' || r === '/nuevo') productCards();
@@ -165,12 +176,17 @@
     else if (r === '/archivo') archive();
     else if (r === '/coleccion/entre-grietas' || r === '/coleccion/la-fuerza-del-agua') collectionDetail(r);
     else if (r === '/producto/raiz-de-concreto' || r === '/producto/ola-hokusai') pdp(r);
+    chromePhotos();
   }
 
   function schedule() {
     window.setTimeout(apply, 260);
     window.setTimeout(apply, 520);
+    window.setTimeout(apply, 760);
   }
+
+  const searchResults = document.getElementById('searchResults');
+  if (searchResults) new MutationObserver(() => requestAnimationFrame(chromePhotos)).observe(searchResults, { childList:true, subtree:true });
 
   window.addEventListener('hashchange', schedule);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', schedule, { once: true });
