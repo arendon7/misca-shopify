@@ -6,6 +6,8 @@
   assign commerce_ready = true
   assign concept_primary = ''
   assign concept_secondary = ''
+  assign concept_primary_width = 1200
+  assign concept_primary_height = 1500
 
   if settings.enforce_commerce_readiness
     unless commerce_status == 'ready'
@@ -15,11 +17,15 @@
 
   case card_product.handle
     when 'raiz-de-concreto'
-      assign concept_primary = 'misca-raiz-cover.svg'
+      assign concept_primary = 'misca-v37-raiz-campaign.webp'
       assign concept_secondary = 'misca-raiz-context.svg'
+      assign concept_primary_width = 888
+      assign concept_primary_height = 740
     when 'ola-hokusai'
-      assign concept_primary = 'misca-ola-cover.svg'
+      assign concept_primary = 'misca-v37-ola-editorial.webp'
       assign concept_secondary = 'misca-ola-context.svg'
+      assign concept_primary_width = 908
+      assign concept_primary_height = 808
   endcase
 %}
 <article class="product-card" data-analytics-product-card data-product-handle="{{ card_product.handle | escape }}" data-product-title="{{ card_product.title | escape }}" data-artist-handle="{% if artist != blank %}{{ artist.system.handle | escape }}{% endif %}" data-collection-handle="{% if collection %}{{ collection.handle | escape }}{% endif %}" data-commerce-status="{{ commerce_status | escape }}" data-surface="{{ request.page_type | escape }}">
@@ -29,9 +35,9 @@
         {{ card_product.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 990px) 25vw, 50vw', alt: card_product.featured_image.alt | default: card_product.title, class: 'product-card__image product-card__image--primary' }}
         {% if secondary_image %}{{ secondary_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 990px) 25vw, 50vw', alt: secondary_image.alt | default: card_product.title, class: 'product-card__image product-card__image--secondary' }}{% endif %}
       {% elsif concept_primary != blank %}
-        <img class="product-card__image product-card__image--primary" src="{{ concept_primary | asset_url }}" width="1200" height="1500" alt="Campaña conceptual de {{ card_product.title | escape }}" loading="lazy">
+        <img class="product-card__image product-card__image--primary" src="{{ concept_primary | asset_url }}" width="{{ concept_primary_width }}" height="{{ concept_primary_height }}" alt="Visual conceptual de {{ card_product.title | escape }}" loading="lazy">
         <img class="product-card__image product-card__image--secondary" src="{{ concept_secondary | asset_url }}" width="1200" height="900" alt="Contexto conceptual de {{ card_product.title | escape }}" loading="lazy">
-        <span class="misca-concept-badge">Estudio conceptual</span>
+        <span class="misca-concept-badge">Visual conceptual</span>
       {% else %}
         <div class="media-placeholder" aria-hidden="true"></div>
       {% endif %}
