@@ -24,9 +24,16 @@
       polish.dataset.miscaV35 = 'editorial-finish';
       document.head.appendChild(polish);
     }
+    if (!document.querySelector('link[data-misca-v39]')) {
+      const editorial = document.createElement('link');
+      editorial.rel = 'stylesheet';
+      editorial.href = './v39-editorial.css';
+      editorial.dataset.miscaV39 = 'editorial-routes';
+      document.head.appendChild(editorial);
+    }
     document.body.classList.add('v35-design-live');
     const version = document.querySelector('meta[name="misca-preview-version"]');
-    if (version) version.setAttribute('content','PUBLIC-DESIGN V38');
+    if (version) version.setAttribute('content','PUBLIC-DESIGN V39');
   }
 
   function homeConversion() {
