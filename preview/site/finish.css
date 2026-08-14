@@ -45,6 +45,11 @@ body.v23-live .v23-hero-frame,body.v23-live .v23-product-card__media,body.v23-li
 body.v23-live a,body.v23-live button{-webkit-tap-highlight-color:transparent}
 body.v23-live .v23-button:focus-visible,body.v23-live .v23-product-card:focus-visible,body.v23-live .v23-universe-card:focus-visible{outline:2px solid currentColor;outline-offset:5px}
 
+/* MISCA V37 — upgraded conceptual photography. Physical product proof remains gated. */
+body:has(.product-page .shirt.raiz) .product-gallery .gallery-cell:nth-child(1){background-image:url('./assets/generated/v37/raiz-pdp.webp')!important}
+body:has(.product-page .shirt.ola) .product-gallery .gallery-cell:nth-child(2){background-image:url('./assets/generated/v37/ola-editorial.webp')!important}
+body.v37-asset-live .v23-hero-frame .v25-photo,body.v37-asset-live .v23-product-card__media .v25-photo{filter:saturate(.92) contrast(1.025)}
+
 @media(max-width:980px){
   body.v23-live .v25-home-process{grid-template-columns:1fr!important}
   body.v23-live .v25-home-process figure{width:calc(100% - 48px);margin:26px 24px 0!important;aspect-ratio:3.2/1!important}
